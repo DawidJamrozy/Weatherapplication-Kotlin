@@ -1,5 +1,4 @@
-package weather.synexoit.com.weatherapp
-
+package com.synexoit.weatherapp
 import org.junit.Test
 
 import org.junit.Assert.*

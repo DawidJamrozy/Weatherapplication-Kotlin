@@ -1,33 +1,142 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 27
+    buildToolsVersion '27.0.3'
+
     defaultConfig {
-        applicationId "weather.synexoit.com.weatherapp"
+        applicationId "com.synexoit.weatherapp"
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    kapt {
+        useBuildCache = true
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/rxjava.properties'
+    }
 }
+
+ext.multidex_version = '1.0.3'
+ext.jackson_version = '2.5.1'
+ext.support_library_version = '27.1.1'
+ext.retrofit_version = '2.2.0'
+ext.okhttp_version = '3.6.0'
+ext.dagger_version = '2.15'
+ext.icepick_version = '3.2.0'
+ext.room_version = '1.0.0'
+ext.lifecycle_version = '1.1.1'
+ext.parceler_version = '1.1.9'
+ext.glide_version = '4.4.0'
+ext.dart_version = '2.0.2'
+ext.henson_version = '2.0.2'
+ext.fragment_args_version = '3.0.2'
+ext.timber_version = "4.6.1"
+ext.junit_version = "4.12"
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation "com.android.support:multidex:$multidex_version"
+
+    // Support libraries
+    implementation "com.android.support:appcompat-v7:$support_library_version"
+    implementation "com.android.support:recyclerview-v7:$support_library_version"
+    implementation "com.android.support:design:$support_library_version"
+    implementation "com.android.support:cardview-v7:$support_library_version"
+
+    // Android state
+    implementation "frankiesardo:icepick:$icepick_version"
+    kapt "frankiesardo:icepick-processor:$icepick_version"
+
+    // Logging
+    implementation "com.jakewharton.timber:timber:$timber_version"
+
+    // Dagger
+    implementation "com.google.dagger:dagger:$dagger_version"
+    implementation "com.google.dagger:dagger-android:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
+    // JUnit
+    testImplementation "junit:junit:$junit_version"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-jackson:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava:$retrofit_version"
+
+    // RxJava
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.10'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+
+    // Room
+    implementation "android.arch.persistence.room:runtime:$room_version"
+    kapt "android.arch.persistence.room:compiler:$room_version"
+    annotationProcessor "android.arch.persistence.room:compiler:$room_version"
+    implementation "android.arch.persistence.room:rxjava2:$room_version"
+
+    // Lifecycle
+    implementation "android.arch.lifecycle:runtime:$lifecycle_version"
+    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
+    kapt "android.arch.lifecycle:compiler:$lifecycle_version"
+
+    // Okhttp
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+
+    // Jackson
+    implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-smile:$jackson_version"
+
+    // Keyboard visibility
+    implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.1.0'
+
+    // Glide
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
+
+    // Dart
+    implementation "com.f2prateek.dart:dart:$dart_version"
+    kapt "com.f2prateek.dart:dart-processor:$dart_version"
+
+    // Henson
+    implementation "com.f2prateek.dart:henson:$henson_version"
+    kapt "com.f2prateek.dart:henson-processor:$henson_version"
+
+    // Fragment Args
+    implementation "com.hannesdorfmann.fragmentargs:annotation:$fragment_args_version"
+    implementation "com.hannesdorfmann.fragmentargs:bundler-parceler:$fragment_args_version"
+    kapt "com.hannesdorfmann.fragmentargs:processor:$fragment_args_version"
+
+    // ConstraintLayout
+    implementation   'com.android.support.constraint:constraint-layout:1.0.2'
 }
