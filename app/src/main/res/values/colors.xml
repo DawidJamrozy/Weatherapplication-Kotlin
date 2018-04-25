@@ -2,5 +2,54 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#FF32ADFF</color>
+
+    <color name="black">#FF000000</color>
+    <color name="red">#FFFF3636</color>
+    <color name="white">#FFFFFF</color>
+    <color name="gray">#f1f0f0</color>
+    <color name="blue">#2e89ff</color>
+
+    <color name="white60">#99FFFFFF</color>
+    <item name="visible" type="id" />
+    <item name="masked" type="id" />
+
+    <!--Empik-->
+
+
+    <color name="bloodOrange">#f25609</color>
+    <color name="warmGrey">#999999</color>
+    <color name="whiteTwo">#d8d8d8</color>
+    <color name="whiteThree">#e5e5e5</color>
+    <color name="whiteFour">#eeeeee</color>
+    <color name="dustyOrange">#f7793b</color>
+    <color name="pinkishGrey">#c9c9c9</color>
+    <color name="pinkishGreyTwo">#cccccc</color>
+    <color name="pinkishGreyThree">#bfbfbf</color>
+    <color name="brownishGrey">#666666</color>
+    <color name="black_collage">#1B1B1B</color>
+    <color name="black_collage_text">#333333</color>
+
+    <color name="dustyOrangeDark">#e87238</color>
+    <color name="bloodOrangeDark">#e55209</color>
+    <color name="fb_blue">#365899</color>
+    <color name="fb_blue_dark">#294273</color>
+    <color name="google_red">#db4437</color>
+    <color name="google_red_dark">#b5382d</color>
+    <color name="photo_gift_gray">#B5B5B5</color>
+    <color name="whiteFive">#DCDCDC</color>
+    <color name="black40">#44000000</color>
+    <color name="black80">#80000000</color>
+
+    <color name="bloodOrange80">#CCf25609</color>
+    <color name="white95">#F2FFFFFF</color>
+    <color name="white20">#33ffffff</color>
+
+
+    <color name="blue_gradient_dark">#008ae6</color>
+    <color name="blue_gradient_medium">#FF32ADFF</color>
+    <color name="blue_gradient_medium_60">#9932ADFF</color>
+    <color name="blue_gradient_light">#0ab6e7</color>
+
+    <color name="tint_gray">#949494</color>
 </resources>
