@@ -10,7 +10,7 @@ import io.reactivex.disposables.Disposable
  */
 abstract class BaseViewModel : ViewModel() {
 
-    private val mCompositeDisposable: CompositeDisposable = CompositeDisposable()
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private val mErrorLiveData = MutableLiveData<Throwable>()
 
     protected open fun proceedWithError(throwable: Throwable) {
@@ -18,11 +18,11 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     override fun onCleared() {
-        mCompositeDisposable.clear()
+        compositeDisposable.clear()
     }
 
 	fun addDisposable(disposable: Disposable) {
-		mCompositeDisposable.add(disposable)
+        compositeDisposable.add(disposable)
 	}
 
     fun getErrorObserver() = mErrorLiveData

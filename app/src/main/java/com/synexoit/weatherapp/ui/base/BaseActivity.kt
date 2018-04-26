@@ -34,10 +34,8 @@ abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity() {
 		AndroidInjection.inject(this)
 		super.onCreate(savedInstanceState)
         Icepick.restoreInstanceState(this, savedInstanceState)
-        //TODO 25.04.2018 by Dawid Jamroży
-        //overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-		mBinding = DataBindingUtil.setContentView(this, getLayoutResId())
-		mBinding.setLifecycleOwner(this)
+        mBinding = DataBindingUtil.setContentView(this, getLayoutResId())
+        mBinding.setLifecycleOwner(this)
 
 		val sp = PreferenceManager.getDefaultSharedPreferences(baseContext)
 		setLanguage(sp.getString("language", "pl"))
@@ -62,12 +60,6 @@ abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity() {
 
 	open protected fun isDisplayingBackArrow(): Boolean {
 		return true
-	}
-
-	override fun finish() {
-		super.finish()
-		// //TODO 25.04.2018 by Dawid Jamroży
-        //overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
 	}
 
 	override fun onPostCreate(savedInstanceState: Bundle?) {

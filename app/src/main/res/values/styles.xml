@@ -16,7 +16,7 @@
 
 
     <style name="AppToolBar" parent="Widget.AppCompat.Toolbar">
-       <!-- <item name="android:background">@drawable/background_gradient_blue</item>-->
+        <item name="android:background">@color/blue_gradient_light</item>
         <item name="titleTextAppearance">@style/ToolbarTitleTextAppearance</item>
     </style>
 

@@ -23,5 +23,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.search.SearchActivity"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCDDJdiCzUPfK6bkOZq_DNBz8ZxDRcFzIM"/>
     </application>
 </manifest>

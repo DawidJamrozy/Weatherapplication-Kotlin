@@ -27,6 +27,7 @@
                 android:layout_height="40dp"
                 android:layout_gravity="start|center"
                 android:clickable="true"
+                android:background="@drawable/toolbar_arrow_ripple"
                 android:focusable="true"
                 android:padding="20dp"
                 android:scaleType="centerInside"/>

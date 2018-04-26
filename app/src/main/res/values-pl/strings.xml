@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">WeatherApp</string>
+
+
+    <!--activity search-->
+    <string name="fragment_search_toolbar_title">Wyszukaj</string>
+    <string name="search_city">Miasto...</string>
+
+</resources>

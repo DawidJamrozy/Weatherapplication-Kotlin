@@ -42,8 +42,8 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), Injectable {
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		mBinding = DataBindingUtil.inflate(inflater, getLayoutResId(), container, false)
-		mBinding.setLifecycleOwner(this)
+        mBinding = DataBindingUtil.inflate(inflater, getLayoutResId(), container, false)
+        mBinding.setLifecycleOwner(this)
 		return mBinding.root
 	}
 

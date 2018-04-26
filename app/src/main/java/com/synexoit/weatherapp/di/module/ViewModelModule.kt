@@ -1,16 +1,29 @@
 package com.synexoit.weatherapp.di.module
 
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProvider
+import com.synexoit.weatherapp.ui.main.MainViewModel
+import com.synexoit.weatherapp.ui.search.SearchViewModel
+import com.synexoit.weatherapp.util.ViewModelFactory
+import com.synexoit.weatherapp.util.ViewModelKey
+import dagger.Binds
 import dagger.Module
+import dagger.multibindings.IntoMap
 
 @Module
 abstract class ViewModelModule {
 
-   /* @Binds
+    @Binds
     @IntoMap
-    @ViewModelKey(AuthFragmentViewModel::class)
-    internal abstract fun bindAuthFragmentViewModel(viewModel: AuthFragmentViewModel): ViewModel
+    @ViewModelKey(MainViewModel::class)
+    internal abstract fun bindMainViewModel(viewModel: MainViewModel): ViewModel
 
     @Binds
-    abstract fun bindViewModelFactory(viewModelFactory: ViewModelFactory): ViewModelProvider.Factory*/
+    @IntoMap
+    @ViewModelKey(SearchViewModel::class)
+    internal abstract fun bindSearchViewModel(viewModel: SearchViewModel): ViewModel
+
+    @Binds
+    abstract fun bindViewModelFactory(viewModelFactory: ViewModelFactory): ViewModelProvider.Factory
 
 }
