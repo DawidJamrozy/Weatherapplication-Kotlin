@@ -85,8 +85,8 @@ abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity() {
 		}
 	}
 
-	protected fun showToast(text: String = "ERROR", stringId: Int? = null, time: Int = Toast.LENGTH_SHORT) {
-		val message = if (stringId == null) text else getString(stringId)
+	protected fun showToast(text: String? = "ERROR", stringId: Int? = null, time: Int = Toast.LENGTH_SHORT) {
+		val message = if (stringId != null) getString(stringId) else text ?: "ERROR"
 		SingleToast.show(this, message, time)
 	}
 

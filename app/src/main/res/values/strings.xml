@@ -5,5 +5,19 @@
     <!--activity search-->
     <string name="fragment_search_toolbar_title">Search</string>
     <string name="search_city">City...</string>
+    <string name="error_city_already_in_database">City is already in database</string>
 
+
+    <!--weather description-->
+    <string name="rain">Rain</string>
+    <string name="mist">Mist</string>
+    <string name="partly_cloudy_day">Partly cloudy day</string>
+    <string name="partly_cloudy_night">Partly cloudy night</string>
+    <string name="snow">Snow</string>
+    <string name="sleet">Sleet</string>
+    <string name="clear">Clear</string>
+    <string name="cloudy">Cloudy</string>
+    <string name="wind">Wind</string>
+    <string name="humidity">Humidity</string>
+    <string name="pressure">Pressure</string>
 </resources>

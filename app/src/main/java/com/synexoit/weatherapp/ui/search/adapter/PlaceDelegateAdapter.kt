@@ -17,7 +17,7 @@ class PlaceDelegateAdapter : BaseBindingAdapter<ItemPlaceBinding>() {
         holder.binding.item = item
 
         holder.itemView.setOnClickListener {
-            listener?.onItemClick(holder.adapterPosition)
+            listener?.onItemClick(position)
         }
     }
 }

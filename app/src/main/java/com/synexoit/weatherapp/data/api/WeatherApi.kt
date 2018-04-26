@@ -1,18 +1,9 @@
 package com.synexoit.weatherapp.data.api
 
-import com.synexoit.weatherapp.data.model.City
-import com.synexoit.weatherapp.data.model.CityPlace
-import com.synexoit.weatherapp.data.model.CityLatLng
-import com.synexoit.weatherapp.data.model.GeocodeCity
-import io.reactivex.Observable
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
-
 
 interface WeatherApi {
 
-
+/*
     @GET("{lat},{lng}?")
     fun getCity(@Path("lat") lat: String,
                 @Path("lng") lng: String,
@@ -36,7 +27,7 @@ interface WeatherApi {
                           @Query("location_type") locationType: String,
                           @Query("result_type") resultType: String,
                           @Query("language") lang: String,
-                          @Query("key") key: String): Observable<GeocodeCity>
+                          @Query("key") key: String): Observable<GeocodeCity>*/
 
 
 }
