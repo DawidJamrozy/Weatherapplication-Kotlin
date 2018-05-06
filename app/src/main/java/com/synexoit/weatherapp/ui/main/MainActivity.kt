@@ -4,13 +4,15 @@ import android.os.Bundle
 import com.f2prateek.dart.HensonNavigable
 import com.synexoit.weatherapp.R
 import com.synexoit.weatherapp.databinding.ActivityMainBinding
+import com.synexoit.weatherapp.di.Injectable
 import com.synexoit.weatherapp.ui.base.BaseActivity
+import com.synexoit.weatherapp.ui.base.BaseFragmentActivity
 import com.synexoit.weatherapp.ui.base.navigator.Navigator
 import com.synexoit.weatherapp.util.getViewModel
 import javax.inject.Inject
 
 @HensonNavigable
-class MainActivity : BaseActivity<ActivityMainBinding>() {
+class MainActivity : BaseFragmentActivity<ActivityMainBinding>(), Injectable {
 
     @Inject
     protected lateinit var navigator: Navigator
@@ -25,5 +27,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun getLayoutResId(): Int = R.layout.activity_main
 
     override fun getScreenTitle(): String = ""
+
+    override fun getContentResId(): Int = R.id.container
 
 }
