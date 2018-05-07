@@ -4,7 +4,7 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
-import com.synexoit.weatherapp.data.model.CityPlace
+import com.synexoit.weatherapp.data.entity.CityPlace
 import io.reactivex.Single
 
 @Dao

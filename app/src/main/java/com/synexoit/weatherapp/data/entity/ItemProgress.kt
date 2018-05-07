@@ -1,4 +1,4 @@
-package com.synexoit.weatherapp.data.model
+package com.synexoit.weatherapp.data.entity
 
 import com.synexoit.weatherapp.R
 import com.synexoit.weatherapp.util.ViewType

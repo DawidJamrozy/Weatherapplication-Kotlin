@@ -1,4 +1,4 @@
-package com.synexoit.weatherapp.data.model.darksky
+package com.synexoit.weatherapp.data.entity.darksky
 
 import android.os.Parcelable
 import com.synexoit.weatherapp.R

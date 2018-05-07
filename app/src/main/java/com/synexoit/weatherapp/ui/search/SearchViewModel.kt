@@ -2,8 +2,8 @@ package com.synexoit.weatherapp.ui.search
 
 import android.arch.lifecycle.MutableLiveData
 import com.synexoit.weatherapp.WeatherApplication
-import com.synexoit.weatherapp.data.model.CityPlace
-import com.synexoit.weatherapp.data.model.darksky.City
+import com.synexoit.weatherapp.data.entity.CityPlace
+import com.synexoit.weatherapp.data.entity.darksky.City
 import com.synexoit.weatherapp.data.repository.CityPlaceRepository
 import com.synexoit.weatherapp.data.repository.CityRepository
 import com.synexoit.weatherapp.data.repository.WeatherRepository
@@ -57,6 +57,9 @@ class SearchViewModel @Inject constructor(private val mCityPlaceRepository: City
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         {
+                            it.name = cityPlace.name
+                            it.placeId = cityPlace.id
+                            it.address = cityPlace.address
                             Timber.d("insertPlaceToDatabase: $it")
                             insertCityToDatabase(it)
                         },

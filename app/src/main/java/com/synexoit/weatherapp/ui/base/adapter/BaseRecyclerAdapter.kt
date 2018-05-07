@@ -3,7 +3,7 @@ package com.synexoit.weatherapp.ui.base.adapter
 import android.support.v4.util.SparseArrayCompat
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
-import com.synexoit.weatherapp.data.model.ItemProgress
+import com.synexoit.weatherapp.data.entity.ItemProgress
 import com.synexoit.weatherapp.util.OnItemClickListener
 import com.synexoit.weatherapp.util.ViewType
 import com.synexoit.weatherapp.util.ViewTypeDelegateInterface

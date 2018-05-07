@@ -1,4 +1,4 @@
-package com.synexoit.weatherapp.data.model.darksky
+package com.synexoit.weatherapp.data.entity.darksky
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.Ignore
@@ -11,16 +11,17 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 @Entity(tableName = "city")
-data class City(var name: String?,
-                var placeId: String?,
-                var addressDescription: String?,
-                var refreshDate: String?,
-                var sortPosition: Int?,
-                var latitude: Double?,
-                var longitude: Double?,
-                var timezone: String?,
+data class City(var name: String = "",
+                var placeId: String = "",
+                var address: String = "",
+                var addressDescription: String = "",
+                var refreshDate: String = "",
+                var sortPosition: Int = 0,
+                var latitude: Double = 0.0,
+                var longitude: Double = 0.0,
+                var timezone: String = "",
                 @PrimaryKey(autoGenerate = true)
-                var id: Long,
+                var id: Long = 0,
                 @Ignore
                 var currently: Currently?,
                 @Ignore
@@ -30,6 +31,6 @@ data class City(var name: String?,
 
     override fun getViewType(): Int = R.layout.item_city
 
-    constructor() : this("", "", "", "", 0, 0.0, 0.0, "", 0, null, null, null)
+    constructor() : this("", "", "", "", "",0, 0.0, 0.0, "", 0, null, null, null)
 
 }

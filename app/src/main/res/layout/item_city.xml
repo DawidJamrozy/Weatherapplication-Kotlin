@@ -5,7 +5,7 @@
 
         <variable
             name="item"
-            type="com.synexoit.weatherapp.data.model.darksky.City"/>
+            type="com.synexoit.weatherapp.data.entity.darksky.City"/>
     </data>
 
     <android.support.constraint.ConstraintLayout

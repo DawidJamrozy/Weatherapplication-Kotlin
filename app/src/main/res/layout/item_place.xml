@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.synexoit.weatherapp.data.model.CityPlace"/>
+            type="com.synexoit.weatherapp.data.entity.CityPlace"/>
     </data>
 
     <LinearLayout

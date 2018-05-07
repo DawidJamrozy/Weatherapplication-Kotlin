@@ -1,7 +1,7 @@
 package com.synexoit.weatherapp.data.repository
 
 import com.synexoit.weatherapp.data.db.AppDatabase
-import com.synexoit.weatherapp.data.model.CityPlace
+import com.synexoit.weatherapp.data.entity.CityPlace
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -1,6 +1,6 @@
 package com.synexoit.weatherapp.data.repository
 
-import com.synexoit.weatherapp.data.model.CityPlace
+import com.synexoit.weatherapp.data.entity.CityPlace
 import io.reactivex.Single
 
 interface CityPlaceRepository {

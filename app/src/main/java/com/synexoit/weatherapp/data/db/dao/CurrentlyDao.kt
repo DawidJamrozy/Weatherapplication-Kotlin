@@ -3,7 +3,7 @@ package com.synexoit.weatherapp.data.db.dao
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
-import com.synexoit.weatherapp.data.model.darksky.Currently
+import com.synexoit.weatherapp.data.entity.darksky.Currently
 import io.reactivex.Single
 
 /**

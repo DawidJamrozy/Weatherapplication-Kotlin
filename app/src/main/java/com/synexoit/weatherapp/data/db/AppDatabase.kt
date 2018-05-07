@@ -4,11 +4,11 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
 import com.synexoit.weatherapp.data.db.dao.*
-import com.synexoit.weatherapp.data.model.CityPlace
-import com.synexoit.weatherapp.data.model.darksky.City
-import com.synexoit.weatherapp.data.model.darksky.Currently
-import com.synexoit.weatherapp.data.model.darksky.Daily
-import com.synexoit.weatherapp.data.model.darksky.Hourly
+import com.synexoit.weatherapp.data.entity.CityPlace
+import com.synexoit.weatherapp.data.entity.darksky.City
+import com.synexoit.weatherapp.data.entity.darksky.Currently
+import com.synexoit.weatherapp.data.entity.darksky.Daily
+import com.synexoit.weatherapp.data.entity.darksky.Hourly
 
 @Database(entities = [CityPlace::class, City::class, Hourly::class, Currently::class, Daily::class], version = 1)
 @TypeConverters

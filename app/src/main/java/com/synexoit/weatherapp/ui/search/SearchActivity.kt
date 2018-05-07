@@ -12,7 +12,7 @@ import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
 import com.google.android.gms.location.places.ui.PlaceSelectionListener
 import com.synexoit.weatherapp.R
 import com.synexoit.weatherapp.data.exceptions.CityAlreadyInDatabaseException
-import com.synexoit.weatherapp.data.model.CityPlace
+import com.synexoit.weatherapp.data.entity.CityPlace
 import com.synexoit.weatherapp.databinding.ActivitySearchBinding
 import com.synexoit.weatherapp.ui.base.BaseActivity
 import com.synexoit.weatherapp.ui.base.adapter.UniversalAdapter

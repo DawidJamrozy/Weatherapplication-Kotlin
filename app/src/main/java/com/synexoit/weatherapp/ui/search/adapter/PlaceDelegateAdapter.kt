@@ -2,7 +2,7 @@ package com.synexoit.weatherapp.ui.search.adapter
 
 import android.support.v7.widget.RecyclerView
 import com.example.dawidjamrozy.chattapplication.ui.adapter.delegates.BaseBindingAdapter
-import com.synexoit.weatherapp.data.model.CityPlace
+import com.synexoit.weatherapp.data.entity.CityPlace
 import com.synexoit.weatherapp.databinding.ItemPlaceBinding
 import com.synexoit.weatherapp.util.OnItemClickListener
 import com.synexoit.weatherapp.util.ViewType

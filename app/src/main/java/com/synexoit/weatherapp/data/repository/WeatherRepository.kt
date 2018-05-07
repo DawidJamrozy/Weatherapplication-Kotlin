@@ -1,6 +1,6 @@
 package com.synexoit.weatherapp.data.repository
 
-import com.synexoit.weatherapp.data.model.darksky.City
+import com.synexoit.weatherapp.data.entity.darksky.City
 import io.reactivex.Observable
 
 interface WeatherRepository {

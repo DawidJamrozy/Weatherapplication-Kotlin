@@ -1,10 +1,10 @@
 package com.synexoit.weatherapp.data.repository
 
 import com.synexoit.weatherapp.data.db.AppDatabase
-import com.synexoit.weatherapp.data.model.darksky.City
-import com.synexoit.weatherapp.data.model.darksky.Currently
-import com.synexoit.weatherapp.data.model.darksky.Daily
-import com.synexoit.weatherapp.data.model.darksky.Hourly
+import com.synexoit.weatherapp.data.entity.darksky.City
+import com.synexoit.weatherapp.data.entity.darksky.Currently
+import com.synexoit.weatherapp.data.entity.darksky.Daily
+import com.synexoit.weatherapp.data.entity.darksky.Hourly
 import io.reactivex.Single
 import javax.inject.Inject
 

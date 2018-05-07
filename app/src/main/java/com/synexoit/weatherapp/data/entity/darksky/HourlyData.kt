@@ -1,4 +1,4 @@
-package com.synexoit.weatherapp.data.model.darksky
+package com.synexoit.weatherapp.data.entity.darksky
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
