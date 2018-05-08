@@ -45,18 +45,18 @@ abstract class BaseRecyclerAdapter<T : ViewType>(val mList: MutableList<T>) : Re
         notifyDataSetChanged()
     }
 
+    fun refreshWithNewItem(item: T) {
+        mList.clear()
+        mList.add(item)
+        notifyDataSetChanged()
+    }
+
     fun addNewItemsToList(list: MutableList<out T>, hideProgress: Boolean = false) {
         if (hideProgress)
             mList.clear()
 
         val indexToInsert = if (mList.isEmpty()) 0 else mList.realSize()
         mList.addAll(indexToInsert, list)
-        notifyDataSetChanged()
-    }
-
-    fun refreshWithNewItem(item: T) {
-        mList.clear()
-        mList.add(item)
         notifyDataSetChanged()
     }
 
@@ -73,6 +73,10 @@ abstract class BaseRecyclerAdapter<T : ViewType>(val mList: MutableList<T>) : Re
         notifyItemInserted(position)
     }
 
+    fun showProgressAtLastPosition() {
+        showProgressAtPosition(mList.size)
+    }
+
     fun showProgress() {
         if (mList.contains(progress)) return
 
@@ -84,13 +88,11 @@ abstract class BaseRecyclerAdapter<T : ViewType>(val mList: MutableList<T>) : Re
     fun hideProgress() {
         if (!mList.contains(progress)) return
 
-        for (item in mList) {
-            if (item is ItemProgress) {
-                val position = mList.indexOf(item)
-                mList.removeAt(position)
-                notifyItemRemoved(position)
-                return
-            }
+        val index = mList.indexOfFirst { it is ItemProgress }
+
+        if(index != -1) {
+            mList.removeAt(index)
+            notifyItemRemoved(index)
         }
     }
 

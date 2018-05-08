@@ -1,6 +1,7 @@
 package com.synexoit.weatherapp.data.repository
 
 import com.synexoit.weatherapp.data.entity.darksky.City
+import io.reactivex.Maybe
 import io.reactivex.Single
 
 /**
@@ -8,9 +9,9 @@ import io.reactivex.Single
  */
 interface CityRepository {
 
-    fun getCityList(): Single<List<City>>
+    fun getCityList(): Maybe<List<City>>
 
     fun getCity(id: Long): Single<City>
 
-    fun insertCity(city: City): Single<Long>
+    fun insertCity(city: City)
 }

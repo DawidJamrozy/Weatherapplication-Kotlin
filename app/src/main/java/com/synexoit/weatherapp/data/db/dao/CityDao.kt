@@ -4,6 +4,7 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
 import com.synexoit.weatherapp.data.entity.darksky.City
+import io.reactivex.Maybe
 import io.reactivex.Single
 
 /**
@@ -14,6 +15,12 @@ interface CityDao {
 
     @Query("SELECT * FROM city WHERE id = :id LIMIT 1")
     fun getCityData(id: Long): Single<City>
+
+    @Query("SELECT * FROM city WHERE placeId = :placeId LIMIT 1")
+    fun getCityData(placeId: String): Maybe<City>
+
+    @Query("SELECT * FROM city")
+    fun getCityList(): Maybe<List<City>>
 
     @Insert
     fun insertCity(city: City): Long

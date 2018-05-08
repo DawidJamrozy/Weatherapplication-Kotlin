@@ -1,7 +1,7 @@
 package com.synexoit.weatherapp.data.api
 
 import com.synexoit.weatherapp.data.entity.darksky.City
-import io.reactivex.Observable
+import io.reactivex.Maybe
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -14,7 +14,7 @@ interface WeatherApi {
                 @Path("lng") lng: String,
                 @Query("lang") lang: String,
                 @Query("exclude") exclude: String,
-                @Query("units") units: String): Observable<City>
+                @Query("units") units: String): Maybe<City>
 /*
 
     @GET("json?")

@@ -5,6 +5,7 @@ import com.synexoit.weatherapp.data.entity.darksky.City
 import com.synexoit.weatherapp.data.entity.darksky.Currently
 import com.synexoit.weatherapp.data.entity.darksky.Daily
 import com.synexoit.weatherapp.data.entity.darksky.Hourly
+import io.reactivex.Maybe
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -13,8 +14,8 @@ import javax.inject.Inject
  */
 class CityRepositoryImpl @Inject constructor(private val mDatabase: AppDatabase) : CityRepository {
 
-    override fun getCityList(): Single<List<City>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getCityList(): Maybe<List<City>> {
+        return mDatabase.getCityDao().getCityList()
     }
 
     override fun getCity(id: Long): Single<City> {
@@ -37,15 +38,11 @@ class CityRepositoryImpl @Inject constructor(private val mDatabase: AppDatabase)
                 }
     }
 
-    override fun insertCity(city: City): Single<Long> {
-        return Single.just(city)
-                .map {
-                    val id = mDatabase.getCityDao().insertCity(city)
-                    insertHourly(id, city.hourly!!)
-                    insertCurrently(id, city.currently!!)
-                    insertDaily(id, city.daily!!)
-                    id
-                }
+    override fun insertCity(city: City) {
+        val id = mDatabase.getCityDao().insertCity(city)
+        insertHourly(id, city.hourly!!)
+        insertCurrently(id, city.currently!!)
+        insertDaily(id, city.daily!!)
     }
 
     private fun insertHourly(cityId: Long, hourly: Hourly) {
@@ -58,7 +55,7 @@ class CityRepositoryImpl @Inject constructor(private val mDatabase: AppDatabase)
         mDatabase.getDailyDao().insertDaily(daily)
     }
 
-    private fun insertCurrently(cityId: Long,currently: Currently){
+    private fun insertCurrently(cityId: Long, currently: Currently) {
         currently.cityId = cityId
         mDatabase.getCurrentlyDao().insertCurrenty(currently)
     }

@@ -11,13 +11,15 @@ import com.google.android.gms.location.places.Place
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
 import com.google.android.gms.location.places.ui.PlaceSelectionListener
 import com.synexoit.weatherapp.R
-import com.synexoit.weatherapp.data.exceptions.CityAlreadyInDatabaseException
 import com.synexoit.weatherapp.data.entity.CityPlace
+import com.synexoit.weatherapp.data.entity.darksky.City
+import com.synexoit.weatherapp.data.exceptions.CityAlreadyInDatabaseException
 import com.synexoit.weatherapp.databinding.ActivitySearchBinding
 import com.synexoit.weatherapp.ui.base.BaseActivity
 import com.synexoit.weatherapp.ui.base.adapter.UniversalAdapter
 import com.synexoit.weatherapp.ui.base.navigator.Navigator
 import com.synexoit.weatherapp.util.OnItemClickListener
+import com.synexoit.weatherapp.util.ViewType
 import com.synexoit.weatherapp.util.getViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -46,15 +48,16 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
     override fun isDisplayingBackArrow(): Boolean = true
 
     private fun registerObservers() {
-        mViewModel.getCityPlaceListObserver().observe(this, Observer { list ->
+        mViewModel.getCityListObserver().observe(this, Observer { list ->
             list?.let {
                 mAdapter.refreshWithNewList(it)
             }
         })
 
-        mViewModel.getCityPlaceObserver().observe(this, Observer { cityPlace ->
-            cityPlace?.let {
+        mViewModel.getCityObserver().observe(this, Observer { city ->
+            city?.let {
                 mAdapter.addNewItem(it)
+                mAdapter.hideProgress()
             }
         })
 
@@ -90,8 +93,9 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
     private val placeListener = object : PlaceSelectionListener {
         override fun onPlaceSelected(place: Place?) {
             place?.let {
+                mAdapter.showProgressAtLastPosition()
                 val cityPlace = CityPlace(it.name.toString(), it.address.toString(), it.latLng.latitude, it.latLng.longitude, it.id)
-                mViewModel.insertPlaceToDatabase(cityPlace)
+                mViewModel.getCity(cityPlace)
             }
             Timber.d("onPlaceSelected(): ${place.toString()}")
         }
@@ -102,9 +106,10 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
     }
 
     private val mOnClickListener = object : OnItemClickListener {
-        override fun onItemClick(position: Int, view: View?) {
-            //TODO 26.04.2018 by Dawid Jamroży
+        override fun onItemClick(position: Int, item: ViewType, view: View?) {
+            item as City
             Timber.d("onItemClick(): $position")
+            Timber.d("onItemClick(): $item")
         }
     }
 }
