@@ -8,10 +8,9 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 @Entity(tableName = "daily")
-data class Daily(var summary: String?,
+data class Daily(@PrimaryKey(autoGenerate = true) var id: Long = 0,
+                 var summary: String?,
                  var icon: String?,
-                 //var data: List<DailyData>,
+        //var data: List<DailyData>,
                  @ForeignKey(entity = City::class, parentColumns = ["id"], childColumns = ["cityId"])
-                 var cityId: Long = 0,
-                 @PrimaryKey(autoGenerate = true)
-                 var id: Int = 0) : Parcelable
+                 var cityId: Long = 0) : Parcelable

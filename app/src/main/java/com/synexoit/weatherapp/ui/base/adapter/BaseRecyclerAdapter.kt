@@ -6,7 +6,10 @@ import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.synexoit.weatherapp.data.entity.ItemProgress
-import com.synexoit.weatherapp.util.*
+import com.synexoit.weatherapp.util.CityDiffCallback
+import com.synexoit.weatherapp.util.ViewType
+import com.synexoit.weatherapp.util.ViewTypeDelegateInterface
+import com.synexoit.weatherapp.util.realSize
 
 abstract class BaseRecyclerAdapter<T : ViewType>(val mList: MutableList<T>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -20,7 +23,7 @@ abstract class BaseRecyclerAdapter<T : ViewType>(val mList: MutableList<T>) : Re
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        mDelegateAdapters[getItemViewType(position)].onBindViewHolder(holder, mList, mOnItemClickListener, mViewModel)
+        mDelegateAdapters[getItemViewType(position)].onBindViewHolder(holder, mList, mViewModel)
     }
 
     override fun getItemCount(): Int {
@@ -31,12 +34,7 @@ abstract class BaseRecyclerAdapter<T : ViewType>(val mList: MutableList<T>) : Re
         return mList[position].getViewType()
     }
 
-    private var mOnItemClickListener: OnItemClickListener? = null
     private var mViewModel: ViewModel? = null
-
-    fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
-        this.mOnItemClickListener = onItemClickListener
-    }
 
     fun setViewModel(viewModel: ViewModel) {
         this.mViewModel = viewModel
@@ -104,10 +102,5 @@ abstract class BaseRecyclerAdapter<T : ViewType>(val mList: MutableList<T>) : Re
             mList.removeAt(index)
             notifyItemRemoved(index)
         }
-    }
-
-    fun clear() {
-        mList.clear()
-        notifyDataSetChanged()
     }
 }

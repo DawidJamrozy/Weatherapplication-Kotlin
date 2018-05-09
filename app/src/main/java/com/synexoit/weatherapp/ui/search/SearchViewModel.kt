@@ -5,9 +5,10 @@ import android.view.View
 import com.synexoit.weatherapp.R
 import com.synexoit.weatherapp.WeatherApplication
 import com.synexoit.weatherapp.data.entity.CityPlace
+import com.synexoit.weatherapp.data.entity.CityPreview
 import com.synexoit.weatherapp.data.entity.darksky.City
 import com.synexoit.weatherapp.data.exceptions.CityAlreadyInDatabaseException
-import com.synexoit.weatherapp.data.repository.CityRepository
+import com.synexoit.weatherapp.data.repository.CityPreviewRepository
 import com.synexoit.weatherapp.data.repository.WeatherRepository
 import com.synexoit.weatherapp.ui.base.BaseAndroidViewModel
 import com.synexoit.weatherapp.util.ListStatus
@@ -20,10 +21,10 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(private val mWeatherRepository: WeatherRepository,
-                                          private val mCityRepository: CityRepository,
+                                          private val mCityPreviewRepository: CityPreviewRepository,
                                           application: WeatherApplication) : BaseAndroidViewModel(application) {
 
-    private val mCityList = MutableLiveData<ListWrapper<City>>()
+    private val mCityList = MutableLiveData<ListWrapper<CityPreview>>()
     private val event = MutableLiveData<Int>()
 
     init {
@@ -33,24 +34,27 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
     private fun processResponse(response: Resource<City>) {
         when (response.status) {
             is Status.Success -> {
-                mCityList.value?.let {
-                    it.list.add(response.data!!)
-                    mCityList.value = ListWrapper(ListStatus.Refresh(), it.list)
+                mCityList.value?.let { wrapper ->
+                    response.data?.let {
+                        wrapper.list.add(CityPreview(it.name, it.address, it.placeId))
+                    }
+                    mCityList.value = ListWrapper(ListStatus.Refresh(), wrapper.list)
                 }
             }
+            //TODO 09.05.2018 Dawid Jamroży add throwable to response and notify ui to hide progress bar
             is Status.Error -> Timber.d("processResponse(): ${response.message}")
         }
     }
 
     fun getCity(cityPlace: CityPlace) {
         mCityList.value?.let {
-            for (city in it.list) {
-                if (city.placeId == cityPlace.id) {
-                    proceedWithError(CityAlreadyInDatabaseException(getApplication<WeatherApplication>().getString(R.string.error_city_already_in_database)))
-                    return@getCity
-                }
+            val city = it.list.singleOrNull { it.placeId == cityPlace.id }
+            city?.let {
+                proceedWithError(CityAlreadyInDatabaseException(getApplication<WeatherApplication>().getString(R.string.error_city_already_in_database)))
+                return@getCity
             }
         }
+
         addDisposable(mWeatherRepository.getCity(cityPlace)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -59,7 +63,7 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
     }
 
     private fun getCityListFromDatabase() {
-        addDisposable(mCityRepository.getCityList()
+        addDisposable(mCityPreviewRepository.getCityPreviewList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -68,13 +72,8 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
                 ))
     }
 
-    //TODO 09.05.2018 by Dawid Jamroży
-    fun startMainActivity(view: View) {
-        event.value = 1
-    }
-
-    fun deleteCity(city: City) {
-        addDisposable(mCityRepository.removeCity(city)
+    fun deleteCity(city: CityPreview) {
+        addDisposable(mCityPreviewRepository.deleteCity(city.placeId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -86,6 +85,11 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
                         },
                         { Timber.d("deleteCity(): ") }
                 ))
+    }
+
+    //TODO 09.05.2018 by Dawid Jamroży notify to start main activity
+    fun startMainActivity(view: View) {
+        event.value = 1
     }
 
     fun getCityListObserver() = mCityList

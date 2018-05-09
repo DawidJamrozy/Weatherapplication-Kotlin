@@ -1,9 +1,6 @@
 package com.synexoit.weatherapp.di.module
 
-import com.synexoit.weatherapp.data.repository.CityRepository
-import com.synexoit.weatherapp.data.repository.CityRepositoryImpl
-import com.synexoit.weatherapp.data.repository.WeatherRepository
-import com.synexoit.weatherapp.data.repository.WeatherRepositoryImpl
+import com.synexoit.weatherapp.data.repository.*
 import dagger.Binds
 import dagger.Module
 
@@ -15,4 +12,7 @@ abstract class RepositoryModule {
 
     @Binds
     internal abstract fun bindCityRepository(repository: CityRepositoryImpl): CityRepository
+
+    @Binds
+    internal abstract fun bindCityPreviewRepository(repository: CityPreviewRepositoryImpl): CityPreviewRepository
 }

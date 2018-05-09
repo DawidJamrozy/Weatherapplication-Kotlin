@@ -14,7 +14,7 @@ abstract class BaseAndroidViewModel(application: WeatherApplication) : AndroidVi
 	private val mCompositeDisposable: CompositeDisposable = CompositeDisposable()
 	private val mErrorLiveData = MutableLiveData<Throwable>()
 
-	open protected fun proceedWithError(throwable: Throwable) {
+	protected open fun proceedWithError(throwable: Throwable) {
 		mErrorLiveData.value = throwable
 	}
 

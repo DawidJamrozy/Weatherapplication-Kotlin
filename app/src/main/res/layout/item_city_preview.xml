@@ -6,20 +6,19 @@
 
         <variable
             name="item"
-            type="com.synexoit.weatherapp.data.entity.darksky.City"/>
+            type="com.synexoit.weatherapp.data.entity.CityPreview" />
 
         <variable
             name="vm"
-            type="com.synexoit.weatherapp.ui.search.SearchViewModel"/>
+            type="com.synexoit.weatherapp.ui.search.SearchViewModel" />
     </data>
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:background="?android:attr/selectableItemBackground"
+        android:orientation="horizontal"
         android:padding="15dp">
 
         <LinearLayout
@@ -37,14 +36,14 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                tools:text="Warszawa"/>
+                tools:text="Warszawa" />
 
             <TextView
                 android:id="@+id/address"
-                android:text="@{item.address}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="Warszawa, Polska"/>
+                android:text="@{item.address}"
+                tools:text="Warszawa, Polska" />
 
         </LinearLayout>
 
@@ -52,9 +51,9 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
-            android:padding="10dp"
             android:onClick="@{() -> vm.deleteCity(item)}"
-            android:src="@drawable/ic_launcher_background"/>
+            android:padding="10dp"
+            android:src="@drawable/ic_launcher_background" />
 
     </LinearLayout>
 </layout>

@@ -6,7 +6,6 @@ import com.synexoit.weatherapp.data.entity.darksky.Currently
 import com.synexoit.weatherapp.data.entity.darksky.Daily
 import com.synexoit.weatherapp.data.entity.darksky.Hourly
 import io.reactivex.Maybe
-import io.reactivex.Observable
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -15,29 +14,20 @@ import javax.inject.Inject
  */
 class CityRepositoryImpl @Inject constructor(private val mDatabase: AppDatabase) : CityRepository {
 
-    override fun getCityList(): Maybe<List<City>>  {
-      mDatabase.getCityDao().getCityIdList()
-                .flatMapObservable {
-                    Observable.fromIterable(it)
-                            .flatMapSingle { getCity(it) }
-                }
-
-    }
-
     override fun getCityPlaceIdList(): Maybe<List<String>> = mDatabase.getCityDao().getCityPlaceIdList()
 
-    override fun getCity(id: Long): Single<City> {
+    override fun getCity(placeId: String): Single<City> {
         return mDatabase.getCityDao()
-                .getCityData(id)
-                .flatMap { city ->
-                    getHourly(id)
+                .getCityData(placeId)
+                .flatMapSingle { city ->
+                    getHourly(city.id)
                             .flatMap {
                                 city.hourly = it
-                                getCurrently(id)
+                                getCurrently(city.id)
                             }
                             .flatMap {
                                 city.currently = it
-                                getDaily(id)
+                                getDaily(city.id)
                             }
                             .map {
                                 city.daily = it
@@ -53,29 +43,22 @@ class CityRepositoryImpl @Inject constructor(private val mDatabase: AppDatabase)
         insertDaily(id, city.daily!!)
     }
 
-    override fun removeCity(city: City): Single<Unit> {
-        return Single.fromCallable { mDatabase.getCityDao().deleteCity(city) }
-    }
+    private fun insertHourly(cityId: Long, hourly: Hourly) =
+            mDatabase.getHourlyDao().insertHourly(hourly.copy(cityId = cityId))
 
-    private fun insertHourly(cityId: Long, hourly: Hourly) {
-        hourly.cityId = cityId
-        mDatabase.getHourlyDao().insertHourly(hourly)
-    }
+    private fun insertDaily(cityId: Long, daily: Daily) =
+            mDatabase.getDailyDao().insertDaily(daily.copy(cityId = cityId))
 
-    private fun insertDaily(cityId: Long, daily: Daily) {
-        daily.cityId = cityId
-        mDatabase.getDailyDao().insertDaily(daily)
-    }
+    private fun insertCurrently(cityId: Long, currently: Currently) =
+            mDatabase.getCurrentlyDao().insertCurrenty(currently.copy(cityId = cityId))
 
-    private fun insertCurrently(cityId: Long, currently: Currently) {
-        currently.cityId = cityId
-        mDatabase.getCurrentlyDao().insertCurrenty(currently)
-    }
+    private fun getHourly(id: Long): Single<Hourly> =
+            mDatabase.getHourlyDao().getCityHourlyData(id)
 
-    private fun getHourly(id: Long): Single<Hourly> = mDatabase.getHourlyDao().getCityHourlyData(id)
+    private fun getCurrently(id: Long): Single<Currently> =
+            mDatabase.getCurrentlyDao().getCityCurrentlyData(id)
 
-    private fun getCurrently(id: Long): Single<Currently> = mDatabase.getCurrentlyDao().getCityCurrentlyData(id)
-
-    private fun getDaily(id: Long): Single<Daily> = mDatabase.getDailyDao().getCityDailyData(id)
+    private fun getDaily(id: Long): Single<Daily> =
+            mDatabase.getDailyDao().getCityDailyData(id)
 
 }

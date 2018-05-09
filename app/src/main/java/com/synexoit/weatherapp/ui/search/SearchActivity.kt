@@ -31,7 +31,9 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
 
     @Inject
     protected lateinit var mNavigator: Navigator
+
     private lateinit var mViewModel: SearchViewModel
+
     private val mAdapter = UniversalAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +65,10 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
         mViewModel.getErrorObserver().observe(this, Observer { error ->
             error?.let {
                 when (it) {
-                    is CityAlreadyInDatabaseException -> showToast(it.uiMessage)
+                    is CityAlreadyInDatabaseException ->  {
+                        showToast(it.uiMessage)
+                        mAdapter.hideProgress()
+                    }
                     else -> showToast(it.message)
                 }
             }
@@ -91,7 +96,6 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
         binding.recyclerView.adapter = mAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
-        mAdapter.setOnItemClickListener(mOnClickListener)
         mAdapter.setViewModel(mViewModel)
     }
 
@@ -106,14 +110,6 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
 
         override fun onError(place: Status?) {
             Timber.d("onError(): ${place.toString()}")
-        }
-    }
-
-    private val mOnClickListener = object : OnItemClickListener {
-        override fun onItemClick(position: Int, item: ViewType, view: View?) {
-            item as City
-            Timber.d("onItemClick(): $position")
-            Timber.d("onItemClick(): $item")
         }
     }
 }

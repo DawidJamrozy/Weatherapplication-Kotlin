@@ -26,7 +26,6 @@ class MainViewModel @Inject constructor(mCityRepository: CityRepository,
                 )
     }
 
-
     fun getCityIdList() = cityIdList
 
 }

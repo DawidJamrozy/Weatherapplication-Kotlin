@@ -1,9 +1,9 @@
 package com.synexoit.weatherapp.data.db.dao
 
 import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Delete
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
+import com.synexoit.weatherapp.data.entity.CityPreview
 import com.synexoit.weatherapp.data.entity.darksky.City
 import io.reactivex.Maybe
 import io.reactivex.Single
@@ -20,6 +20,9 @@ interface CityDao {
     @Query("SELECT * FROM city WHERE placeId = :placeId LIMIT 1")
     fun getCityData(placeId: String): Maybe<City>
 
+    @Query("SELECT name, address, placeId FROM city")
+    fun getCityPreviewList(): Maybe<List<CityPreview>>
+
     @Query("SELECT * FROM city")
     fun getCityList(): Maybe<List<City>>
 
@@ -32,7 +35,7 @@ interface CityDao {
     @Insert
     fun insertCity(city: City): Long
 
-    @Delete
-    fun deleteCity(city: City)
+    @Query("DELETE FROM city WHERE placeId = :placeId")
+    fun deleteCity(placeId: String)
 
 }

@@ -9,13 +9,9 @@ import io.reactivex.Single
  */
 interface CityRepository {
 
-    fun getCityList(): Maybe<List<City>>
-
     fun getCityPlaceIdList(): Maybe<List<String>>
 
-    fun getCity(id: Long): Single<City>
-
-    fun removeCity(city: City): Single<Unit>
+    fun getCity(placeId: String): Single<City>
 
     fun insertCity(city: City)
 }

@@ -8,7 +8,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 @Entity(tableName = "currently")
-data class Currently(var time: Int?,
+data class Currently(@PrimaryKey(autoGenerate = true) var id: Long = 0,
+                     var time: Int?,
                      var summary: String?,
                      var icon: String?,
                      var precipIntensity: Double?,
@@ -23,6 +24,4 @@ data class Currently(var time: Int?,
                      var pressure: Double?,
                      var ozone: Double?,
                      @ForeignKey(entity = City::class, parentColumns = ["id"], childColumns = ["cityId"])
-                     var cityId: Long = 0,
-                     @PrimaryKey(autoGenerate = true)
-                     var id: Long = 0) : Parcelable
+                     var cityId: Long = 0) : Parcelable
