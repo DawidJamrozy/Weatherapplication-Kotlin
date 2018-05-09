@@ -25,7 +25,7 @@ import javax.inject.Inject
  */
 abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity() {
 
-	protected lateinit var mBinding: B
+	protected lateinit var binding: B
 
 	@Inject
 	protected lateinit var mViewModelFactory: ViewModelProvider.Factory
@@ -34,8 +34,8 @@ abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity() {
 		AndroidInjection.inject(this)
 		super.onCreate(savedInstanceState)
         Icepick.restoreInstanceState(this, savedInstanceState)
-        mBinding = DataBindingUtil.setContentView(this, getLayoutResId())
-        mBinding.setLifecycleOwner(this)
+        binding = DataBindingUtil.setContentView(this, getLayoutResId())
+        binding.setLifecycleOwner(this)
 
 		val sp = PreferenceManager.getDefaultSharedPreferences(baseContext)
 		setLanguage(sp.getString("language", "pl"))

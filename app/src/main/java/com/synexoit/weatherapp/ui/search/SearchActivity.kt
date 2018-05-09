@@ -1,6 +1,7 @@
 package com.synexoit.weatherapp.ui.search
 
 import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -18,6 +19,7 @@ import com.synexoit.weatherapp.databinding.ActivitySearchBinding
 import com.synexoit.weatherapp.ui.base.BaseActivity
 import com.synexoit.weatherapp.ui.base.adapter.UniversalAdapter
 import com.synexoit.weatherapp.ui.base.navigator.Navigator
+import com.synexoit.weatherapp.ui.main.MainActivity
 import com.synexoit.weatherapp.util.OnItemClickListener
 import com.synexoit.weatherapp.util.ViewType
 import com.synexoit.weatherapp.util.getViewModel
@@ -34,7 +36,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mViewModel = getViewModel(SearchViewModel::class.java, mViewModelFactory)
-        mBinding.vm = mViewModel
+        binding.vm = mViewModel
 
         initAutoComplete()
         initRecyclerView()
@@ -69,6 +71,11 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
                 }
             }
         })
+
+        mViewModel.getEvent().observe(this, Observer {
+            val intent = Intent(this, MainActivity::class.java)
+            mNavigator.startActivity(intent)
+        })
     }
 
     private fun initAutoComplete() {
@@ -84,10 +91,11 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
     }
 
     private fun initRecyclerView() {
-        mBinding.recyclerView.adapter = mAdapter
-        mBinding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        mBinding.recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
+        binding.recyclerView.adapter = mAdapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
         mAdapter.setOnItemClickListener(mOnClickListener)
+        mAdapter.setViewModel(mViewModel)
     }
 
     private val placeListener = object : PlaceSelectionListener {

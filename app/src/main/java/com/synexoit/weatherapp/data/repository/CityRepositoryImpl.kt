@@ -14,9 +14,9 @@ import javax.inject.Inject
  */
 class CityRepositoryImpl @Inject constructor(private val mDatabase: AppDatabase) : CityRepository {
 
-    override fun getCityList(): Maybe<List<City>> {
-        return mDatabase.getCityDao().getCityList()
-    }
+    override fun getCityList(): Maybe<List<City>> = mDatabase.getCityDao().getCityList()
+
+    override fun getCityIdList(): Maybe<List<String>> = mDatabase.getCityDao().getCityIdList()
 
     override fun getCity(id: Long): Single<City> {
         return mDatabase.getCityDao()
@@ -60,15 +60,10 @@ class CityRepositoryImpl @Inject constructor(private val mDatabase: AppDatabase)
         mDatabase.getCurrentlyDao().insertCurrenty(currently)
     }
 
-    private fun getHourly(id: Long): Single<Hourly> {
-        return mDatabase.getHourlyDao().getCityHourlyData(id)
-    }
+    private fun getHourly(id: Long): Single<Hourly> = mDatabase.getHourlyDao().getCityHourlyData(id)
 
-    private fun getCurrently(id: Long): Single<Currently> {
-        return mDatabase.getCurrentlyDao().getCityCurrentlyData(id)
-    }
+    private fun getCurrently(id: Long): Single<Currently> = mDatabase.getCurrentlyDao().getCityCurrentlyData(id)
 
-    private fun getDaily(id: Long): Single<Daily> {
-        return mDatabase.getDailyDao().getCityDailyData(id)
-    }
+    private fun getDaily(id: Long): Single<Daily> = mDatabase.getDailyDao().getCityDailyData(id)
+
 }

@@ -1,6 +1,7 @@
 package com.synexoit.weatherapp.ui.search
 
 import android.arch.lifecycle.MutableLiveData
+import android.view.View
 import com.synexoit.weatherapp.R
 import com.synexoit.weatherapp.WeatherApplication
 import com.synexoit.weatherapp.data.entity.CityPlace
@@ -22,6 +23,7 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
 
     private val mCityList = MutableLiveData<MutableList<City>>()
     private val mCity = MutableLiveData<City>()
+    private val event = MutableLiveData<Int>()
 
     init {
         getCityListFromDatabase()
@@ -63,7 +65,14 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
                 ))
     }
 
+    //TODO 09.05.2018 by Dawid Jamroży
+    fun startMainActivity(view: View) {
+        event.value = 1
+    }
+
     fun getCityListObserver() = mCityList
 
     fun getCityObserver() = mCity
+
+    fun getEvent() = event
 }

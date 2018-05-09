@@ -11,6 +11,8 @@ interface CityRepository {
 
     fun getCityList(): Maybe<List<City>>
 
+    fun getCityIdList(): Maybe<List<String>>
+
     fun getCity(id: Long): Single<City>
 
     fun insertCity(city: City)

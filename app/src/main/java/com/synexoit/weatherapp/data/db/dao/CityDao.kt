@@ -22,6 +22,9 @@ interface CityDao {
     @Query("SELECT * FROM city")
     fun getCityList(): Maybe<List<City>>
 
+    @Query("SELECT placeId FROM city")
+    fun getCityIdList(): Maybe<List<String>>
+
     @Insert
     fun insertCity(city: City): Long
 

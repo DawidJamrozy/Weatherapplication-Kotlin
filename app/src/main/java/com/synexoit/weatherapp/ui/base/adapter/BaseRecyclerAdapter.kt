@@ -1,5 +1,6 @@
 package com.synexoit.weatherapp.ui.base.adapter
 
+import android.arch.lifecycle.ViewModel
 import android.support.v4.util.SparseArrayCompat
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
@@ -21,7 +22,7 @@ abstract class BaseRecyclerAdapter<T : ViewType>(val mList: MutableList<T>) : Re
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        mDelegateAdapters[getItemViewType(position)].onBindViewHolder(holder, mList, mOnItemClickListener)
+        mDelegateAdapters[getItemViewType(position)].onBindViewHolder(holder, mList, mOnItemClickListener, mViewModel)
     }
 
     override fun getItemCount(): Int {
@@ -33,9 +34,14 @@ abstract class BaseRecyclerAdapter<T : ViewType>(val mList: MutableList<T>) : Re
     }
 
     private var mOnItemClickListener: OnItemClickListener? = null
+    private var mViewModel: ViewModel? = null
 
     fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
         this.mOnItemClickListener = onItemClickListener
+    }
+
+    fun setViewModel(viewModel: ViewModel) {
+        this.mViewModel = viewModel
     }
 
     fun refreshWithNewList(list: MutableList<out T>) {

@@ -1,5 +1,6 @@
 package com.synexoit.weatherapp.util
 
+import android.arch.lifecycle.ViewModel
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 
@@ -10,5 +11,6 @@ interface ViewTypeDelegateInterface {
 
 	fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
 
-	fun onBindViewHolder(holder: RecyclerView.ViewHolder, list: List<ViewType>, listener: OnItemClickListener? = null)
+	fun onBindViewHolder(holder: RecyclerView.ViewHolder, list: List<ViewType>, listener: OnItemClickListener? = null,
+                         viewModel: ViewModel? = null)
 }

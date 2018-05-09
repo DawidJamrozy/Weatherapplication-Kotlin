@@ -26,7 +26,7 @@ import javax.inject.Inject
  */
 abstract class BaseFragment<B : ViewDataBinding> : Fragment(), Injectable {
 
-	protected lateinit var mBinding: B
+	protected lateinit var binding: B
 
 	@Inject
 	protected lateinit var mViewModelFactory: ViewModelProvider.Factory
@@ -42,9 +42,9 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), Injectable {
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mBinding = DataBindingUtil.inflate(inflater, getLayoutResId(), container, false)
-        mBinding.setLifecycleOwner(this)
-		return mBinding.root
+        binding = DataBindingUtil.inflate(inflater, getLayoutResId(), container, false)
+        binding.setLifecycleOwner(this)
+		return binding.root
 	}
 
 	abstract fun getLayoutResId(): Int
