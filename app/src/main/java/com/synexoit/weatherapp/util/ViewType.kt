@@ -7,4 +7,6 @@ interface ViewType {
 
     fun getViewType() : Int
 
+    fun getUniqueId(): String
+
 }

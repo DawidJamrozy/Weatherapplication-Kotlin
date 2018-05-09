@@ -8,5 +8,9 @@ import com.synexoit.weatherapp.util.ViewType
  */
 class ItemProgress : ViewType {
 
+    private val PROGRESS = "PROGRESS"
+
     override fun getViewType(): Int = R.layout.item_progress
+
+    override fun getUniqueId(): String = PROGRESS
 }

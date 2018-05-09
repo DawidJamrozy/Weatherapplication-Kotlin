@@ -20,6 +20,7 @@ import com.synexoit.weatherapp.ui.base.BaseActivity
 import com.synexoit.weatherapp.ui.base.adapter.UniversalAdapter
 import com.synexoit.weatherapp.ui.base.navigator.Navigator
 import com.synexoit.weatherapp.ui.main.MainActivity
+import com.synexoit.weatherapp.util.ListStatus
 import com.synexoit.weatherapp.util.OnItemClickListener
 import com.synexoit.weatherapp.util.ViewType
 import com.synexoit.weatherapp.util.getViewModel
@@ -50,16 +51,12 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
     override fun isDisplayingBackArrow(): Boolean = true
 
     private fun registerObservers() {
-        mViewModel.getCityListObserver().observe(this, Observer { list ->
-            list?.let {
-                mAdapter.refreshWithNewList(it)
-            }
-        })
-
-        mViewModel.getCityObserver().observe(this, Observer { city ->
-            city?.let {
-                mAdapter.addNewItem(it)
-                mAdapter.hideProgress()
+        mViewModel.getCityListObserver().observe(this, Observer { wrapper ->
+            wrapper?.let {
+                when (it.status) {
+                    is ListStatus.New -> mAdapter.addNewList(it.list)
+                    is ListStatus.Refresh -> mAdapter.loadWithDifference(it.list)
+                }
             }
         })
 
@@ -73,7 +70,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
         })
 
         mViewModel.getEvent().observe(this, Observer {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(MainActivity@ this, MainActivity::class.java)
             mNavigator.startActivity(intent)
         })
     }
@@ -105,7 +102,6 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
                 val cityPlace = CityPlace(it.name.toString(), it.address.toString(), it.latLng.latitude, it.latLng.longitude, it.id)
                 mViewModel.getCity(cityPlace)
             }
-            Timber.d("onPlaceSelected(): ${place.toString()}")
         }
 
         override fun onError(place: Status?) {

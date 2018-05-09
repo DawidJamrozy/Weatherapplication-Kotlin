@@ -2,13 +2,11 @@ package com.synexoit.weatherapp.ui.base.adapter
 
 import android.arch.lifecycle.ViewModel
 import android.support.v4.util.SparseArrayCompat
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.synexoit.weatherapp.data.entity.ItemProgress
-import com.synexoit.weatherapp.util.OnItemClickListener
-import com.synexoit.weatherapp.util.ViewType
-import com.synexoit.weatherapp.util.ViewTypeDelegateInterface
-import com.synexoit.weatherapp.util.realSize
+import com.synexoit.weatherapp.util.*
 
 abstract class BaseRecyclerAdapter<T : ViewType>(val mList: MutableList<T>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -30,7 +28,7 @@ abstract class BaseRecyclerAdapter<T : ViewType>(val mList: MutableList<T>) : Re
     }
 
     override fun getItemViewType(position: Int): Int {
-       return mList[position].getViewType()
+        return mList[position].getViewType()
     }
 
     private var mOnItemClickListener: OnItemClickListener? = null
@@ -44,10 +42,9 @@ abstract class BaseRecyclerAdapter<T : ViewType>(val mList: MutableList<T>) : Re
         this.mViewModel = viewModel
     }
 
-    fun refreshWithNewList(list: MutableList<out T>) {
+    fun addNewList(list: MutableList<out T>) {
         mList.clear()
         mList.addAll(list)
-
         notifyDataSetChanged()
     }
 
@@ -64,6 +61,13 @@ abstract class BaseRecyclerAdapter<T : ViewType>(val mList: MutableList<T>) : Re
         val indexToInsert = if (mList.isEmpty()) 0 else mList.realSize()
         mList.addAll(indexToInsert, list)
         notifyDataSetChanged()
+    }
+
+    fun loadWithDifference(list: MutableList<out T>) {
+        val diffResult = DiffUtil.calculateDiff(CityDiffCallback(list, mList))
+        mList.clear()
+        mList.addAll(list)
+        diffResult.dispatchUpdatesTo(this)
     }
 
     fun addNewItem(item: T) {
@@ -96,7 +100,7 @@ abstract class BaseRecyclerAdapter<T : ViewType>(val mList: MutableList<T>) : Re
 
         val index = mList.indexOfFirst { it is ItemProgress }
 
-        if(index != -1) {
+        if (index != -1) {
             mList.removeAt(index)
             notifyItemRemoved(index)
         }

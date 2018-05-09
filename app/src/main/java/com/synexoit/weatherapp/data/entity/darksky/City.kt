@@ -11,7 +11,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 @Entity(tableName = "city")
-data class City(var name: String = "",
+ data class City(var name: String = "",
                 var placeId: String = "",
                 var address: String = "",
                 var addressDescription: String = "",
@@ -31,6 +31,28 @@ data class City(var name: String = "",
 
     override fun getViewType(): Int = R.layout.item_city
 
+    @Ignore
+    override fun getUniqueId(): String {
+        return placeId
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is City) return false
+
+        if (placeId != other.placeId) return false
+        if (id != other.id) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = placeId.hashCode()
+        result = 31 * result + id.hashCode()
+        return result
+    }
+
     constructor() : this("", "", "", "", "",0, 0.0, 0.0, "", 0, null, null, null)
+
 
 }

@@ -11,9 +11,11 @@ interface CityRepository {
 
     fun getCityList(): Maybe<List<City>>
 
-    fun getCityIdList(): Maybe<List<String>>
+    fun getCityPlaceIdList(): Maybe<List<String>>
 
     fun getCity(id: Long): Single<City>
+
+    fun removeCity(city: City): Single<Unit>
 
     fun insertCity(city: City)
 }

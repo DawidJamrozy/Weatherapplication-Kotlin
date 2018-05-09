@@ -6,6 +6,7 @@ import com.synexoit.weatherapp.data.entity.darksky.Currently
 import com.synexoit.weatherapp.data.entity.darksky.Daily
 import com.synexoit.weatherapp.data.entity.darksky.Hourly
 import io.reactivex.Maybe
+import io.reactivex.Observable
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -14,9 +15,16 @@ import javax.inject.Inject
  */
 class CityRepositoryImpl @Inject constructor(private val mDatabase: AppDatabase) : CityRepository {
 
-    override fun getCityList(): Maybe<List<City>> = mDatabase.getCityDao().getCityList()
+    override fun getCityList(): Maybe<List<City>>  {
+      mDatabase.getCityDao().getCityIdList()
+                .flatMapObservable {
+                    Observable.fromIterable(it)
+                            .flatMapSingle { getCity(it) }
+                }
 
-    override fun getCityIdList(): Maybe<List<String>> = mDatabase.getCityDao().getCityIdList()
+    }
+
+    override fun getCityPlaceIdList(): Maybe<List<String>> = mDatabase.getCityDao().getCityPlaceIdList()
 
     override fun getCity(id: Long): Single<City> {
         return mDatabase.getCityDao()
@@ -43,6 +51,10 @@ class CityRepositoryImpl @Inject constructor(private val mDatabase: AppDatabase)
         insertHourly(id, city.hourly!!)
         insertCurrently(id, city.currently!!)
         insertDaily(id, city.daily!!)
+    }
+
+    override fun removeCity(city: City): Single<Unit> {
+        return Single.fromCallable { mDatabase.getCityDao().deleteCity(city) }
     }
 
     private fun insertHourly(cityId: Long, hourly: Hourly) {
