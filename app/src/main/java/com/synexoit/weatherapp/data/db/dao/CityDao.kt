@@ -21,6 +21,9 @@ abstract class CityDao : BaseDao<City> {
     @Query("SELECT placeId FROM city")
     abstract fun getCityPlaceIdList(): Maybe<List<String>>
 
+    @Query("SELECT placeId FROM city WHERE placeId = :placeId LIMIT 1")
+    abstract fun getCityPlaceId(placeId: String): String?
+
     @Query("DELETE FROM city WHERE placeId = :placeId")
     abstract fun deleteCity(placeId: String)
 

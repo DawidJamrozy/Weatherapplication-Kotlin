@@ -27,7 +27,14 @@ class WeatherRepositoryImpl @Inject constructor(private val mWeatherApi: Weather
         return object : ObservableResponse<City>() {
             override fun saveCallResult(item: City) {
                 Timber.d("saveCallResult(): ")
-                mDatabase.runInTransaction { mCityRepository.insertCity(item) }
+                mDatabase.runInTransaction {
+                    val cityId = mDatabase.getCityDao().getCityPlaceId(cityPlace.id)
+
+                    if (cityId == null)
+                        mCityRepository.insertCity(item)
+                    else
+                        mDatabase.getCityDao().update(item)
+                }
                 repoListRateLimit.addTimeStamp(item.placeId)
             }
 
@@ -38,7 +45,7 @@ class WeatherRepositoryImpl @Inject constructor(private val mWeatherApi: Weather
 
             override fun loadFromDb(): Maybe<City> {
                 Timber.d("loadFromDb(): ")
-                return mDatabase.getCityDao().getCity(cityPlace.id)
+                return mCityRepository.getCity(cityPlace.id)
             }
 
             override fun createCall(): Maybe<Resource<City>> {

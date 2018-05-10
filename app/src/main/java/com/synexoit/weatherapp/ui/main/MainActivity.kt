@@ -7,6 +7,7 @@ import com.synexoit.weatherapp.R
 import com.synexoit.weatherapp.databinding.ActivityMainBinding
 import com.synexoit.weatherapp.ui.base.BaseFragmentActivity
 import com.synexoit.weatherapp.ui.base.navigator.Navigator
+import com.synexoit.weatherapp.ui.city.CityFragment
 import com.synexoit.weatherapp.ui.city.CityFragmentBuilder
 import com.synexoit.weatherapp.util.ViewPagerAdapter
 import com.synexoit.weatherapp.util.getViewModel
@@ -28,8 +29,10 @@ class MainActivity : BaseFragmentActivity<ActivityMainBinding>() {
     }
 
     private fun setUpViewPagerAdapter(cityIdList: List<String>) {
-        val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
-        cityIdList.onEach { viewPagerAdapter.addFragment(CityFragmentBuilder.newCityFragment(it)) }
+        val list = ArrayList<CityFragment>()
+        cityIdList.onEach { list.add(CityFragmentBuilder.newCityFragment(it)) }
+        val viewPagerAdapter = ViewPagerAdapter(list, supportFragmentManager)
+        //cityIdList.onEach { viewPagerAdapter.addFragment(CityFragmentBuilder.newCityFragment(it)) }
         binding.viewPager.adapter = viewPagerAdapter
     }
 

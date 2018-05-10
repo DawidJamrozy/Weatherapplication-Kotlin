@@ -2,17 +2,19 @@ package com.synexoit.weatherapp.data.entity.darksky
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.Ignore
+import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
 import android.os.Parcelable
+import com.synexoit.weatherapp.data.entity.CityPlace
 import kotlinx.android.parcel.Parcelize
 
 
 @Parcelize
-@Entity(tableName = "city")
+@Entity(tableName = "city", indices = [Index(value = ["placeId"], unique = true)])
 data class City(@PrimaryKey(autoGenerate = true)
                 var id: Long = 0,
-                var name: String = "",
                 var placeId: String = "",
+                var name: String = "",
                 var address: String = "",
                 var addressDescription: String = "",
                 var refreshDate: String = "",
@@ -24,20 +26,22 @@ data class City(@PrimaryKey(autoGenerate = true)
                 @Ignore var hourly: Hourly?,
                 @Ignore var daily: Daily?) : Parcelable {
 
+
+    fun toCityPlace(): CityPlace {
+        return CityPlace(name, address, latitude, longitude, placeId)
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is City) return false
 
         if (placeId != other.placeId) return false
-        if (id != other.id) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result = placeId.hashCode()
-        result = 31 * result + id.hashCode()
-        return result
+        return placeId.hashCode()
     }
 
     constructor() : this(0, "", "", "", "", "", 0, 0.0, 0.0, "", null, null, null)

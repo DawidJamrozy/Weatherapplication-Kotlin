@@ -13,4 +13,6 @@ interface CityRepository {
     fun getCity(placeId: String): Maybe<City>
 
     fun insertCity(city: City)
+
+    fun updateCity(city:City)
 }

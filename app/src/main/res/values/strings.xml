@@ -20,4 +20,7 @@
     <string name="wind">Wind</string>
     <string name="humidity">Humidity</string>
     <string name="pressure">Pressure</string>
+
+    <string name="degree">%1$s&#176;</string>
+    <string name="time">Dane: %1$d</string>
 </resources>

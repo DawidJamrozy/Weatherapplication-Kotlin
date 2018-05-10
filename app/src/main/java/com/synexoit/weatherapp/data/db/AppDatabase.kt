@@ -2,12 +2,14 @@ package com.synexoit.weatherapp.data.db
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
+import android.arch.persistence.room.TypeConverter
 import android.arch.persistence.room.TypeConverters
 import com.synexoit.weatherapp.data.db.dao.*
 import com.synexoit.weatherapp.data.entity.darksky.*
+import java.util.*
 
 @Database(entities = [City::class, Hourly::class, Currently::class, Daily::class, HourlyData::class, DailyData::class], version = 1)
-@TypeConverters()
+@TypeConverters(RoomConverters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun getCityDao(): CityDao
@@ -16,8 +18,15 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun getDailyDao(): DailyDao
     abstract fun getDailyDataDao(): DailyDataDao
     abstract fun getCurrentlyDao(): CurrentlyDao
+
 }
 
-class TypeConverters {
+class RoomConverters {
+
+    @TypeConverter
+    fun toData(time: Long) = Date(time)
+
+    @TypeConverter
+    fun fromDate(date: Date) = date.time
 
 }

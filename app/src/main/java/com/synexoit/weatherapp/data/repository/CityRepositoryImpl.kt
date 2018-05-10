@@ -50,6 +50,10 @@ class CityRepositoryImpl @Inject constructor(private val mDatabase: AppDatabase)
         insertDailyData(dailyId, city.daily!!.data!!)
     }
 
+    override fun updateCity(city: City) {
+        mDatabase.getCityDao().update(city)
+    }
+
     private fun insertCurrently(cityId: Long, currently: Currently): Long =
             mDatabase.getCurrentlyDao().insert(currently.copy(cityId = cityId))
 

@@ -81,8 +81,8 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), Injectable {
 
 	open fun onBackPressed() = false
 
-	protected fun showToast(text: String = "ERROR", stringId: Int? = null, time: Int = Toast.LENGTH_SHORT) {
-		val message = if (stringId == null) text else getString(stringId)
+	protected fun showToast(text: String? = "ERROR", stringId: Int? = null, time: Int = Toast.LENGTH_SHORT) {
+		val message = if (stringId == null) text ?: "ERROR" else getString(stringId)
 		context?.let { SingleToast.show(it, message, time) }
 	}
 
