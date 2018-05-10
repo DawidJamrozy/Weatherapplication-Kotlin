@@ -38,7 +38,7 @@ class WeatherRepositoryImpl @Inject constructor(private val mWeatherApi: Weather
 
             override fun loadFromDb(): Maybe<City> {
                 Timber.d("loadFromDb(): ")
-                return mDatabase.getCityDao().getCityData(cityPlace.id)
+                return mDatabase.getCityDao().getCity(cityPlace.id)
             }
 
             override fun createCall(): Maybe<Resource<City>> {
