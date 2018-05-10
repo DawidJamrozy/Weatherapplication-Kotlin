@@ -1,36 +1,53 @@
 package com.synexoit.weatherapp.data.entity.darksky
 
+import android.databinding.BindingAdapter
 import android.os.Parcelable
+import android.widget.ImageView
+import com.synexoit.weatherapp.GlideApp
 import com.synexoit.weatherapp.R
+import com.synexoit.weatherapp.util.ViewType
 import kotlinx.android.parcel.Parcelize
 import java.text.SimpleDateFormat
 import java.util.*
-
 
 @Parcelize
 data class DayData(var tempMin: Int,
                    var tempMax: Int,
                    var icon: String,
-                   var time: Int,
-                   var simpleDayDateFormat: SimpleDateFormat = SimpleDateFormat(DAY_FORMAT)) : Parcelable {
+                   var time: Int) : ViewType, Parcelable {
+
+
+    private val simpleDayDateFormat: SimpleDateFormat = SimpleDateFormat(DAY_FORMAT)
+
+    override fun getViewType(): Int = R.layout.item_day
+
+    override fun getUniqueId(): String = ""
 
     companion object {
-        private val DAY_FORMAT = "EEEE"
+        private const val DAY_FORMAT = "EEEE"
+
+        @BindingAdapter("imageSrc")
+        @JvmStatic
+        fun loadImage(imageView: ImageView, imageSrc: Int) {
+            GlideApp.with(imageView)
+                    .load(imageSrc)
+                    .into(imageView)
+        }
     }
 
     fun getSummary(): Int {
-       return when (icon) {
-            "rain" ->  R.string.rain
-            "fog" ->  R.string.mist
-            "partly-cloudy-day" ->  R.string.partly_cloudy_day
-            "partly-cloudy-night" ->  R.string.partly_cloudy_night
-            "snow" ->  R.string.snow
-            "sleet" ->  R.string.sleet
-            "clear-day" ->  R.string.clear
-            "clear-night" ->  R.string.clear
-            "wind" ->  R.string.wind
+        return when (icon) {
+            "rain" -> R.string.rain
+            "fog" -> R.string.mist
+            "partly-cloudy-day" -> R.string.partly_cloudy_day
+            "partly-cloudy-night" -> R.string.partly_cloudy_night
+            "snow" -> R.string.snow
+            "sleet" -> R.string.sleet
+            "clear-day" -> R.string.clear
+            "clear-night" -> R.string.clear
+            "wind" -> R.string.wind
             "cloudy" -> R.string.cloudy
-            else ->  0
+            else -> 0
         }
     }
 

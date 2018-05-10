@@ -5,8 +5,8 @@ import android.support.v7.util.DiffUtil
 /**
  * Created by dawidjamrozy on 09.05.2018.
  */
-class CityDiffCallback(private val newItems: List<ViewType>,
-                          private val oldItems: List<ViewType>) : DiffUtil.Callback() {
+class ItemDiffCallback(private val newItems: List<ViewType>,
+                       private val oldItems: List<ViewType>) : DiffUtil.Callback() {
 
     override fun getOldListSize() = oldItems.size
 

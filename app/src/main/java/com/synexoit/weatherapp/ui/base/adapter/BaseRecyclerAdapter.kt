@@ -6,7 +6,7 @@ import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.synexoit.weatherapp.data.entity.ItemProgress
-import com.synexoit.weatherapp.util.CityDiffCallback
+import com.synexoit.weatherapp.util.ItemDiffCallback
 import com.synexoit.weatherapp.util.ViewType
 import com.synexoit.weatherapp.util.ViewTypeDelegateInterface
 import com.synexoit.weatherapp.util.realSize
@@ -62,7 +62,7 @@ abstract class BaseRecyclerAdapter<T : ViewType>(val mList: MutableList<T>) : Re
     }
 
     fun loadWithDifference(list: MutableList<out T>) {
-        val diffResult = DiffUtil.calculateDiff(CityDiffCallback(list, mList))
+        val diffResult = DiffUtil.calculateDiff(ItemDiffCallback(list, mList))
         mList.clear()
         mList.addAll(list)
         diffResult.dispatchUpdatesTo(this)

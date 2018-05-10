@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.view.View
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.places.AutocompleteFilter
 import com.google.android.gms.location.places.Place
@@ -13,7 +12,6 @@ import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
 import com.google.android.gms.location.places.ui.PlaceSelectionListener
 import com.synexoit.weatherapp.R
 import com.synexoit.weatherapp.data.entity.CityPlace
-import com.synexoit.weatherapp.data.entity.darksky.City
 import com.synexoit.weatherapp.data.exceptions.CityAlreadyInDatabaseException
 import com.synexoit.weatherapp.databinding.ActivitySearchBinding
 import com.synexoit.weatherapp.ui.base.BaseActivity
@@ -21,8 +19,6 @@ import com.synexoit.weatherapp.ui.base.adapter.UniversalAdapter
 import com.synexoit.weatherapp.ui.base.navigator.Navigator
 import com.synexoit.weatherapp.ui.main.MainActivity
 import com.synexoit.weatherapp.util.ListStatus
-import com.synexoit.weatherapp.util.OnItemClickListener
-import com.synexoit.weatherapp.util.ViewType
 import com.synexoit.weatherapp.util.getViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -30,16 +26,16 @@ import javax.inject.Inject
 class SearchActivity : BaseActivity<ActivitySearchBinding>() {
 
     @Inject
-    protected lateinit var mNavigator: Navigator
+    protected lateinit var navigator: Navigator
 
-    private lateinit var mViewModel: SearchViewModel
+    private lateinit var viewModel: SearchViewModel
 
-    private val mAdapter = UniversalAdapter()
+    private val recyclerAdapter = UniversalAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mViewModel = getViewModel(SearchViewModel::class.java, mViewModelFactory)
-        binding.vm = mViewModel
+        viewModel = getViewModel(SearchViewModel::class.java, mViewModelFactory)
+        binding.vm = viewModel
 
         initAutoComplete()
         initRecyclerView()
@@ -53,30 +49,30 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
     override fun isDisplayingBackArrow(): Boolean = true
 
     private fun registerObservers() {
-        mViewModel.getCityListObserver().observe(this, Observer { wrapper ->
+        viewModel.getCityListObserver().observe(this, Observer { wrapper ->
             wrapper?.let {
                 when (it.status) {
-                    is ListStatus.New -> mAdapter.addNewList(it.list)
-                    is ListStatus.Refresh -> mAdapter.loadWithDifference(it.list)
+                    is ListStatus.New -> recyclerAdapter.addNewList(it.list)
+                    is ListStatus.Refresh -> recyclerAdapter.loadWithDifference(it.list)
                 }
             }
         })
 
-        mViewModel.getErrorObserver().observe(this, Observer { error ->
+        viewModel.getErrorObserver().observe(this, Observer { error ->
             error?.let {
                 when (it) {
-                    is CityAlreadyInDatabaseException ->  {
+                    is CityAlreadyInDatabaseException -> {
                         showToast(it.uiMessage)
-                        mAdapter.hideProgress()
+                        recyclerAdapter.hideProgress()
                     }
                     else -> showToast(it.message)
                 }
             }
         })
 
-        mViewModel.getEvent().observe(this, Observer {
+        viewModel.getEvent().observe(this, Observer {
             val intent = Intent(MainActivity@ this, MainActivity::class.java)
-            mNavigator.startActivity(intent)
+            navigator.startActivity(intent)
         })
     }
 
@@ -93,18 +89,21 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
     }
 
     private fun initRecyclerView() {
-        binding.recyclerView.adapter = mAdapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        binding.recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
-        mAdapter.setViewModel(mViewModel)
+        binding.recyclerView.run {
+            adapter = recyclerAdapter
+            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+            addItemDecoration(DividerItemDecoration(this.context, LinearLayoutManager.VERTICAL))
+        }
+
+        recyclerAdapter.setViewModel(viewModel)
     }
 
     private val placeListener = object : PlaceSelectionListener {
         override fun onPlaceSelected(place: Place?) {
             place?.let {
-                mAdapter.showProgressAtLastPosition()
+                recyclerAdapter.showProgressAtLastPosition()
                 val cityPlace = CityPlace(it.name.toString(), it.address.toString(), it.latLng.latitude, it.latLng.longitude, it.id)
-                mViewModel.getCity(cityPlace)
+                viewModel.getCity(cityPlace)
             }
         }
 

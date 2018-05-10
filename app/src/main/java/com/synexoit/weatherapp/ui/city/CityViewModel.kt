@@ -2,10 +2,10 @@ package com.synexoit.weatherapp.ui.city
 
 import android.arch.lifecycle.MutableLiveData
 import com.synexoit.weatherapp.data.entity.darksky.City
+import com.synexoit.weatherapp.data.entity.darksky.DayData
 import com.synexoit.weatherapp.data.repository.CityRepository
 import com.synexoit.weatherapp.data.repository.WeatherRepository
 import com.synexoit.weatherapp.ui.base.BaseViewModel
-import com.synexoit.weatherapp.util.Resource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -16,16 +16,15 @@ import javax.inject.Inject
 class CityViewModel @Inject constructor(private val cityRepository: CityRepository,
                                         private val weatherRepository: WeatherRepository) : BaseViewModel() {
 
-    private var city = MutableLiveData<City>()
+    private val city = MutableLiveData<City>()
+    private val dayDataList = MutableLiveData<MutableList<DayData>>()
 
     fun loadCityFromDatabase(placeId: String) {
         addDisposable(cityRepository.getCity(placeId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { city.value = it },
-                        { proceedWithError(it) })
-        )
+                .doOnError { proceedWithError(it) }
+                .subscribe({ processResponse(it) }))
     }
 
     fun refreshWeatherData() {
@@ -34,14 +33,23 @@ class CityViewModel @Inject constructor(private val cityRepository: CityReposito
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnError { proceedWithError(it) }
-                    .subscribe({processResponse(it)}))
+                    .subscribe({ processResponse(it.data) }))
         }
     }
 
-    private fun processResponse(response: Resource<City>) {
-        city.value = response.data
+    private fun processResponse(data: City?) {
+        data?.let { city.value = it }
+
+        data?.daily?.data?.let {
+            val temporaryDayDataList = mutableListOf<DayData>()
+            it.take(7).forEach { temporaryDayDataList.add(DayData(it.temperatureMax.toInt(),
+                    it.temperatureMin.toInt(), it.icon, it.time)) }
+            dayDataList.value = temporaryDayDataList
+        }
     }
 
     fun getCity() = city
+
+    fun getDayData() = dayDataList
 
 }

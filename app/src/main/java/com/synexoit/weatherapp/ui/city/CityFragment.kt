@@ -3,6 +3,8 @@ package com.synexoit.weatherapp.ui.city
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.components.XAxis
@@ -16,6 +18,7 @@ import com.synexoit.weatherapp.R
 import com.synexoit.weatherapp.data.entity.darksky.City
 import com.synexoit.weatherapp.databinding.FragmentCityBinding
 import com.synexoit.weatherapp.ui.base.BaseFragment
+import com.synexoit.weatherapp.ui.base.adapter.UniversalAdapter
 import com.synexoit.weatherapp.ui.base.navigator.FragmentNavigator
 import com.synexoit.weatherapp.util.chart.AxisValueFormatter
 import com.synexoit.weatherapp.util.chart.ValueFormatter
@@ -36,6 +39,7 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
     @Inject
     protected lateinit var navigator: FragmentNavigator
     private lateinit var viewModel: CityViewModel
+    private val recyclerAdapter = UniversalAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +53,7 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         viewModel.loadCityFromDatabase(id)
         binding.swipeRefreshLayout.setOnRefreshListener(this)
         registerObservers()
+        initRecyclerView()
     }
 
     override fun getScreenTitle(): String = ""
@@ -60,11 +65,25 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         viewModel.refreshWeatherData()
     }
 
+    private fun initRecyclerView() {
+        binding.recyclerView.run {
+            adapter = recyclerAdapter
+            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+            addItemDecoration(DividerItemDecoration(this.context, LinearLayoutManager.VERTICAL))
+        }
+    }
+
     private fun registerObservers() {
         viewModel.getCity().observe(this, Observer {
             it?.let {
                 setSwipeRefreshIndicator(false)
                 setChart(it)
+            }
+        })
+
+        viewModel.getDayData().observe(this, Observer {
+            it?.let {
+                recyclerAdapter.addNewList(it)
             }
         })
 
@@ -84,7 +103,6 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         val entries = mutableListOf<Entry>()
         val temperatureList = mutableListOf<Int>()
         val hours = mutableListOf<String>()
-
 
         val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
         sdf.timeZone = TimeZone.getTimeZone(city.timezone)
@@ -111,7 +129,6 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         customizeLineDataSet(lineDataSet)
 
         val lineData = LineData(lineDataSet)
-
         customizeLineChart(lineData)
     }
 

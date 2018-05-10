@@ -1,12 +1,15 @@
 <resources>
     <string name="app_name">WeatherApp</string>
 
+    <!--common-->
+    <string name="degree" translatable="false">%1$s&#176;</string>
+    <string name="vertical_line" translatable="false">&#160;|&#160;</string>
+    <string name="max_min_temp" translatable="false">%1$d&#176;&#160;/&#160;%2$d&#176;</string>
 
     <!--activity search-->
     <string name="fragment_search_toolbar_title">Search</string>
     <string name="search_city">City...</string>
     <string name="error_city_already_in_database">City is already in database</string>
-
 
     <!--weather description-->
     <string name="rain">Rain</string>
@@ -18,9 +21,8 @@
     <string name="clear">Clear</string>
     <string name="cloudy">Cloudy</string>
     <string name="wind">Wind</string>
-    <string name="humidity">Humidity</string>
-    <string name="pressure">Pressure</string>
 
-    <string name="degree">%1$s&#176;</string>
-    <string name="time">Dane: %1$d</string>
+    <!--fragment city-->
+    <string name="time">Last actualization:&#160;%1$d</string>
+
 </resources>
