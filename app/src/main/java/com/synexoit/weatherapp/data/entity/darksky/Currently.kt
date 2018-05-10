@@ -7,21 +7,21 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-@Entity(tableName = "currently")
+@Entity(tableName = "currently",
+        foreignKeys = [ForeignKey(entity = City::class, parentColumns = ["id"], childColumns = ["cityId"], onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE)])
 data class Currently(@PrimaryKey(autoGenerate = true) var id: Long = 0,
-                     var time: Int?,
-                     var summary: String?,
-                     var icon: String?,
-                     var precipIntensity: Double?,
-                     var precipProbability: Double?,
-                     var temperature: Double?,
-                     var apparentTemperature: Double?,
-                     var dewPoint: Double?,
-                     var humidity: Double?,
-                     var windSpeed: Double?,
-                     var windBearing: Double?,
-                     var cloudCover: Double?,
-                     var pressure: Double?,
-                     var ozone: Double?,
-                     @ForeignKey(entity = City::class, parentColumns = ["id"], childColumns = ["cityId"])
+                     var time: Int = 0,
+                     var summary: String = "",
+                     var icon: String = "",
+                     var precipIntensity: Double = 0.0,
+                     var precipProbability: Double = 0.0,
+                     var temperature: Double = 0.0,
+                     var apparentTemperature: Double = 0.0,
+                     var dewPoint: Double = 0.0,
+                     var humidity: Double = 0.0,
+                     var windSpeed: Double = 0.0,
+                     var windBearing: Double = 0.0,
+                     var cloudCover: Double = 0.0,
+                     var pressure: Double = 0.0,
+                     var ozone: Double = 0.0,
                      var cityId: Long = 0) : Parcelable

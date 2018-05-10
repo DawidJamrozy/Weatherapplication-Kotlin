@@ -4,7 +4,7 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
 import com.synexoit.weatherapp.data.entity.darksky.Currently
-import io.reactivex.Single
+import io.reactivex.Maybe
 
 /**
  * Created by Dawid on 05.05.2018.
@@ -13,8 +13,8 @@ import io.reactivex.Single
 interface CurrentlyDao {
 
     @Query("SELECT * FROM currently WHERE id = :id LIMIT 1")
-    fun getCityCurrentlyData(id: Long): Single<Currently>
+    fun getCityCurrentlyData(id: Long): Maybe<Currently>
 
     @Insert
-    fun insertCurrenty(currently: Currently)
+    fun insertCurrently(currently: Currently): Long
 }

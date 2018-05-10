@@ -11,12 +11,16 @@ import javax.inject.Inject
 /**
  * Created by Dawid on 25.04.2018.
  */
-class MainViewModel @Inject constructor(mCityRepository: CityRepository,
+class MainViewModel @Inject constructor(private val mCityRepository: CityRepository,
                                         application: WeatherApplication) : BaseAndroidViewModel(application) {
 
     private val cityIdList = MutableLiveData<List<String>>()
 
     init {
+      loadCityIdListFromDatabase()
+    }
+
+    private fun loadCityIdListFromDatabase() {
         mCityRepository.getCityPlaceIdList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

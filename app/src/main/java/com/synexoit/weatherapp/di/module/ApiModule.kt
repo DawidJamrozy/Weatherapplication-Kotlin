@@ -3,7 +3,6 @@ package com.synexoit.weatherapp.di.module
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.PropertyNamingStrategy
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.synexoit.weatherapp.data.api.WeatherApi
 import dagger.Module
@@ -26,7 +25,7 @@ class ApiModule {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         objectMapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true)
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
-        objectMapper.propertyNamingStrategy = PropertyNamingStrategy.LOWER_CASE
+        //objectMapper.propertyNamingStrategy = PropertyNamingStrategy.LOWER_CASE
         objectMapper.registerModule(KotlinModule())
         return objectMapper
     }

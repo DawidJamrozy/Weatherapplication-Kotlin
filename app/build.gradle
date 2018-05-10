@@ -155,4 +155,7 @@ dependencies {
     // AutoComplete
     implementation 'com.google.android.gms:play-services-places:15.0.0'
 
+    // Android Debug Database
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.3'
+
 }

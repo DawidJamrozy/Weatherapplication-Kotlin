@@ -7,12 +7,9 @@ import com.synexoit.weatherapp.data.db.dao.CityDao
 import com.synexoit.weatherapp.data.db.dao.CurrentlyDao
 import com.synexoit.weatherapp.data.db.dao.DailyDao
 import com.synexoit.weatherapp.data.db.dao.HourlyDao
-import com.synexoit.weatherapp.data.entity.darksky.City
-import com.synexoit.weatherapp.data.entity.darksky.Currently
-import com.synexoit.weatherapp.data.entity.darksky.Daily
-import com.synexoit.weatherapp.data.entity.darksky.Hourly
+import com.synexoit.weatherapp.data.entity.darksky.*
 
-@Database(entities = [City::class, Hourly::class, Currently::class, Daily::class], version = 1)
+@Database(entities = [City::class, Hourly::class, Currently::class, Daily::class, HourlyData::class, DailyData::class], version = 1)
 @TypeConverters
 abstract class AppDatabase : RoomDatabase() {
 

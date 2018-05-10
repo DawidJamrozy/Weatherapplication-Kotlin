@@ -13,6 +13,8 @@ class DatabaseModule {
     @Singleton
     @Provides
     fun provideDatabaseInstance(application: WeatherApplication) : AppDatabase {
-        return Room.databaseBuilder(application, AppDatabase::class.java, "database").build()
+        return Room.databaseBuilder(application, AppDatabase::class.java, "database")
+                .fallbackToDestructiveMigration()
+                .build()
     }
 }
