@@ -26,6 +26,7 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
 
     private val mCityList = MutableLiveData<ListWrapper<CityPreview>>()
     private val event = MutableLiveData<Int>()
+    private val isButtonVisible = MutableLiveData<Boolean>()
 
     init {
         getCityListFromDatabase()
@@ -39,9 +40,10 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
                         wrapper.list.add(CityPreview(it.name, it.address, it.placeId))
                     }
                     mCityList.value = ListWrapper(ListStatus.Refresh(), wrapper.list)
+                    isButtonVisible.value = wrapper.list.isEmpty()
                 }
             }
-            //TODO 09.05.2018 Dawid Jamroży add throwable to response and notify ui to hide progress bar
+        //TODO 09.05.2018 Dawid Jamroży add throwable to response and notify ui to hide progress bar
             is Status.Error -> Timber.d("processResponse(): ${response.message}")
         }
     }
@@ -81,6 +83,7 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
                             mCityList.value?.let {
                                 it.list.remove(city)
                                 mCityList.value = ListWrapper(ListStatus.Refresh(), it.list)
+                                isButtonVisible.value = it.list.isEmpty()
                             }
                         },
                         { Timber.d("deleteCity(): ") }
@@ -95,4 +98,6 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
     fun getCityListObserver() = mCityList
 
     fun getEvent() = event
+
+    fun isButtonVisible() = isButtonVisible
 }
