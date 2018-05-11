@@ -11,5 +11,5 @@ interface ViewTypeDelegateInterface {
 
 	fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
 
-	fun onBindViewHolder(holder: RecyclerView.ViewHolder, list: List<ViewType>, viewModel: ViewModel? = null)
+	fun onBindViewHolder(holder: RecyclerView.ViewHolder, viewModel: ViewModel? = null)
 }

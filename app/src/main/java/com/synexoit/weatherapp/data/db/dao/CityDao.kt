@@ -15,10 +15,10 @@ abstract class CityDao : BaseDao<City> {
     @Query("SELECT * FROM city WHERE placeId = :placeId LIMIT 1")
     abstract fun getCity(placeId: String): Maybe<City>
 
-    @Query("SELECT name, address, placeId FROM city")
+    @Query("SELECT name, address, placeId, sortPosition FROM city ORDER BY sortPosition ASC")
     abstract fun getCityPreviewList(): Maybe<List<CityPreview>>
 
-    @Query("SELECT placeId FROM city")
+    @Query("SELECT placeId FROM city ORDER BY sortPosition ASC")
     abstract fun getCityPlaceIdList(): Maybe<List<String>>
 
     @Query("SELECT placeId FROM city WHERE placeId = :placeId LIMIT 1")
@@ -26,5 +26,8 @@ abstract class CityDao : BaseDao<City> {
 
     @Query("DELETE FROM city WHERE placeId = :placeId")
     abstract fun deleteCity(placeId: String)
+
+    @Query("UPDATE city SET sortPosition = :sortPosition WHERE placeId = :placeId")
+    abstract fun swapPositions(sortPosition: Int, placeId: String)
 
 }

@@ -24,5 +24,8 @@
 
     <!--fragment city-->
     <string name="time">Last actualization:&#160;%1$d</string>
+    <string name="weekly">Weekly</string>
+    <string name="hourly">Hourly</string>
+    <string name="details">Details</string>
 
 </resources>

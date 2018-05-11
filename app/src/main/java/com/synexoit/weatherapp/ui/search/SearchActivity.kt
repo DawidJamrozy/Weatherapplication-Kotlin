@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.helper.ItemTouchHelper
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.places.AutocompleteFilter
 import com.google.android.gms.location.places.Place
@@ -18,7 +19,9 @@ import com.synexoit.weatherapp.ui.base.BaseActivity
 import com.synexoit.weatherapp.ui.base.adapter.UniversalAdapter
 import com.synexoit.weatherapp.ui.base.navigator.Navigator
 import com.synexoit.weatherapp.ui.main.MainActivity
+import com.synexoit.weatherapp.ui.search.adapter.CityPreviewDelegateAdapter
 import com.synexoit.weatherapp.util.ListStatus
+import com.synexoit.weatherapp.util.RecyclerViewTouchHelper
 import com.synexoit.weatherapp.util.getViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -93,6 +96,9 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
             adapter = recyclerAdapter
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
             addItemDecoration(DividerItemDecoration(this.context, LinearLayoutManager.VERTICAL))
+            val touchCallback = RecyclerViewTouchHelper(recyclerAdapter.getDelegateAdapter(UniversalAdapter.VIEW_CITY_PREVIEW) as CityPreviewDelegateAdapter)
+            val touchHelper = ItemTouchHelper(touchCallback)
+            touchHelper.attachToRecyclerView(this)
         }
 
         recyclerAdapter.setViewModel(viewModel)

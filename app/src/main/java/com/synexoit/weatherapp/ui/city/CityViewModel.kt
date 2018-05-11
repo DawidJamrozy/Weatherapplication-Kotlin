@@ -18,6 +18,7 @@ class CityViewModel @Inject constructor(private val cityRepository: CityReposito
 
     private val city = MutableLiveData<City>()
     private val dayDataList = MutableLiveData<MutableList<DayData>>()
+    private val event = MutableLiveData<Int>()
 
     fun loadCityFromDatabase(placeId: String) {
         addDisposable(cityRepository.getCity(placeId)
@@ -42,14 +43,21 @@ class CityViewModel @Inject constructor(private val cityRepository: CityReposito
 
         data?.daily?.data?.let {
             val temporaryDayDataList = mutableListOf<DayData>()
-            it.take(7).forEach { temporaryDayDataList.add(DayData(it.temperatureMax.toInt(),
-                    it.temperatureMin.toInt(), it.icon, it.time)) }
+            it.take(7).forEach { temporaryDayDataList.add(DayData(it.temperatureMin.toInt(),
+                    it.temperatureMax.toInt(), it.icon, it.time)) }
             dayDataList.value = temporaryDayDataList
         }
+    }
+
+    //TODO 11.05.2018 by Dawid Jamroży replace with proper navigation
+    fun openWebsite() {
+        event.value = 0
     }
 
     fun getCity() = city
 
     fun getDayData() = dayDataList
+
+    fun getEvent() = event
 
 }

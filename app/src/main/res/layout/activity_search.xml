@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -34,9 +34,11 @@
 
         <Button
             android:id="@+id/start_main_activity"
+            android:layout_margin="15dp"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:text="Start Main Activity"
             android:visibility="@{vm.isButtonVisible ? View.GONE : View.VISIBLE}"
-            android:onClick="@{vm::startMainActivity}"
+            android:onClick="@{() -> vm.startMainActivity()}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>

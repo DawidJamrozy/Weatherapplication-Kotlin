@@ -1,6 +1,8 @@
 package com.synexoit.weatherapp.ui.city
 
 import android.arch.lifecycle.Observer
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DividerItemDecoration
@@ -92,6 +94,10 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
                 setSwipeRefreshIndicator(false)
                 showToast(it.message)
             }
+        })
+
+        viewModel.getEvent().observe(this, Observer {
+            navigator.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.powered_by_dark_sky_website))))
         })
     }
 

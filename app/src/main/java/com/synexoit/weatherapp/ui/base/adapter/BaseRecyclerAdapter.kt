@@ -11,7 +11,7 @@ import com.synexoit.weatherapp.util.ViewType
 import com.synexoit.weatherapp.util.ViewTypeDelegateInterface
 import com.synexoit.weatherapp.util.realSize
 
-abstract class BaseRecyclerAdapter<T : ViewType>(val mList: MutableList<T>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class BaseRecyclerAdapter<in T : ViewType>(private val mList: MutableList<T>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     @Suppress("UNCHECKED_CAST")
     private val progress = ItemProgress() as T
@@ -23,7 +23,7 @@ abstract class BaseRecyclerAdapter<T : ViewType>(val mList: MutableList<T>) : Re
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        mDelegateAdapters[getItemViewType(position)].onBindViewHolder(holder, mList, mViewModel)
+        mDelegateAdapters[getItemViewType(position)].onBindViewHolder(holder, mViewModel)
     }
 
     override fun getItemCount(): Int {

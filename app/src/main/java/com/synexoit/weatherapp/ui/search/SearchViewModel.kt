@@ -1,7 +1,6 @@
 package com.synexoit.weatherapp.ui.search
 
 import android.arch.lifecycle.MutableLiveData
-import android.view.View
 import com.synexoit.weatherapp.R
 import com.synexoit.weatherapp.WeatherApplication
 import com.synexoit.weatherapp.data.entity.CityPlace
@@ -9,6 +8,7 @@ import com.synexoit.weatherapp.data.entity.CityPreview
 import com.synexoit.weatherapp.data.entity.darksky.City
 import com.synexoit.weatherapp.data.exceptions.CityAlreadyInDatabaseException
 import com.synexoit.weatherapp.data.repository.CityPreviewRepository
+import com.synexoit.weatherapp.data.repository.CityRepository
 import com.synexoit.weatherapp.data.repository.WeatherRepository
 import com.synexoit.weatherapp.ui.base.BaseAndroidViewModel
 import com.synexoit.weatherapp.util.ListStatus
@@ -18,10 +18,12 @@ import com.synexoit.weatherapp.util.Status
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(private val mWeatherRepository: WeatherRepository,
                                           private val mCityPreviewRepository: CityPreviewRepository,
+                                          private val cityRepository: CityRepository,
                                           application: WeatherApplication) : BaseAndroidViewModel(application) {
 
     private val mCityList = MutableLiveData<ListWrapper<CityPreview>>()
@@ -60,7 +62,7 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
         addDisposable(mWeatherRepository.getCity(cityPlace)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnError { Timber.d("getCity(): error") }
+                .doOnError { proceedWithError(it) }
                 .subscribe({ processResponse(it) }))
     }
 
@@ -90,8 +92,31 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
                 ))
     }
 
+    fun itemsMoved(fromPosition: Int, toPosition: Int) {
+        mCityList.value?.list?.let { list ->
+            if (fromPosition < toPosition)
+                for (i in fromPosition until toPosition) Collections.swap(list, i, i + 1)
+            else
+                for (i in fromPosition downTo toPosition + 1) Collections.swap(list, i, i - 1)
+
+            val pairList = mutableListOf<Pair<String, Int>>()
+
+            list.forEach {
+                pairList.add(Pair(it.placeId, list.indexOf(it)))
+            }
+
+            addDisposable(cityRepository.changeItemsPosition(pairList)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            { mCityList.value = ListWrapper(ListStatus.Refresh(), list) },
+                            { proceedWithError(it) }
+                    ))
+        }
+    }
+
     //TODO 09.05.2018 by Dawid Jamroży notify to start main activity
-    fun startMainActivity(view: View) {
+    fun startMainActivity() {
         event.value = 1
     }
 

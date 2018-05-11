@@ -19,5 +19,8 @@
 
     <!--fragment city-->
     <string name="time">Ostatnia aktualizacja:&#160;%1$d</string>
+    <string name="weekly">Tygodniowa</string>
+    <string name="hourly">Godzinowa</string>
+    <string name="details">Szczegóły</string>
 
 </resources>

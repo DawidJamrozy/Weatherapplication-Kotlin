@@ -10,9 +10,9 @@ import com.synexoit.weatherapp.util.ViewType
 /**
  * Created by Dawid on 10.05.2018.
  */
-class DayDelegateAdapter : BaseBindingAdapter<ItemDayBinding>() {
+class DayDelegateAdapter(private val list: List<ViewType>) : BaseBindingAdapter<ItemDayBinding>() {
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, list: List<ViewType>, viewModel: ViewModel?) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, viewModel: ViewModel?) {
         @Suppress("UNCHECKED_CAST")
         holder as BindingViewHolder<ItemDayBinding>
         val position = holder.adapterPosition

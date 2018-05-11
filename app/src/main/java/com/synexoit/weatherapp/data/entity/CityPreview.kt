@@ -11,7 +11,8 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class CityPreview(var name: String = "",
                        var address: String = "",
-                       var placeId: String = "") : ViewType, Parcelable {
+                       var placeId: String = "",
+                       var sortPosition: Int = 0) : ViewType, Parcelable {
 
     override fun getViewType(): Int = R.layout.item_city_preview
 
