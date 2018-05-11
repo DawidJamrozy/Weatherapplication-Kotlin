@@ -27,14 +27,16 @@ class WeatherRepositoryImpl @Inject constructor(private val mWeatherApi: Weather
         return object : ObservableResponse<City>() {
             override fun saveCallResult(item: City) {
                 Timber.d("saveCallResult(): ")
-                mDatabase.runInTransaction {
+                //TODO 11.05.2018 by Dawid Jamroży update is not working
+                /*mDatabase.runInTransaction {
                     val cityId = mDatabase.getCityDao().getCityPlaceId(cityPlace.id)
 
                     if (cityId == null)
                         mCityRepository.insertCity(item)
                     else
-                        mDatabase.getCityDao().update(item)
-                }
+                        mCityRepository.updateCity(item)
+                }*/
+                mCityRepository.insertCity(item)
                 repoListRateLimit.addTimeStamp(item.placeId)
             }
 
