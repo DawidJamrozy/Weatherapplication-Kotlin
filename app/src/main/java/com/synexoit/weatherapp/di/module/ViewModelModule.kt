@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import com.synexoit.weatherapp.ui.city.CityViewModel
 import com.synexoit.weatherapp.ui.main.MainViewModel
 import com.synexoit.weatherapp.ui.search.SearchViewModel
+import com.synexoit.weatherapp.ui.splash.SplashViewModel
 import com.synexoit.weatherapp.util.ViewModelFactory
 import com.synexoit.weatherapp.util.ViewModelKey
 import dagger.Binds
@@ -28,6 +29,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CityViewModel::class)
     internal abstract fun bindCityViewModel(viewModel: CityViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SplashViewModel::class)
+    internal abstract fun bindSplashViewModel(viewModel: SplashViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(viewModelFactory: ViewModelFactory): ViewModelProvider.Factory

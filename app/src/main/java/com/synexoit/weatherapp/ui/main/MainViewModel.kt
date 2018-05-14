@@ -1,9 +1,9 @@
 package com.synexoit.weatherapp.ui.main
 
 import android.arch.lifecycle.MutableLiveData
-import com.synexoit.weatherapp.WeatherApplication
+import com.synexoit.weatherapp.data.exceptions.Failure
 import com.synexoit.weatherapp.data.repository.CityRepository
-import com.synexoit.weatherapp.ui.base.BaseAndroidViewModel
+import com.synexoit.weatherapp.ui.base.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -11,13 +11,12 @@ import javax.inject.Inject
 /**
  * Created by Dawid on 25.04.2018.
  */
-class MainViewModel @Inject constructor(private val mCityRepository: CityRepository,
-                                        application: WeatherApplication) : BaseAndroidViewModel(application) {
+class MainViewModel @Inject constructor(private val mCityRepository: CityRepository) : BaseViewModel() {
 
-    private val cityIdList = MutableLiveData<List<String>>()
+    val cityIdList = MutableLiveData<List<String>>()
 
     init {
-      loadCityIdListFromDatabase()
+        loadCityIdListFromDatabase()
     }
 
     private fun loadCityIdListFromDatabase() {
@@ -25,11 +24,12 @@ class MainViewModel @Inject constructor(private val mCityRepository: CityReposit
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { cityIdList.value = it },
-                        { proceedWithError(it) }
+                        { handleResponse(it)},
+                        { handleFailure(Failure.UnknownAppError()) }
                 )
     }
 
-    fun getCityIdList() = cityIdList
-
+    private fun handleResponse(cityIdList: List<String>) {
+        this.cityIdList.value = cityIdList
+    }
 }

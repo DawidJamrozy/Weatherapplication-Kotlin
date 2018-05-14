@@ -1,6 +1,5 @@
 package com.synexoit.weatherapp.ui.city
 
-import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -18,13 +17,18 @@ import com.hannesdorfmann.fragmentargs.annotation.Arg
 import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs
 import com.synexoit.weatherapp.R
 import com.synexoit.weatherapp.data.entity.darksky.City
+import com.synexoit.weatherapp.data.entity.darksky.DayData
+import com.synexoit.weatherapp.data.exceptions.Failure
+import com.synexoit.weatherapp.data.extensions.empty
+import com.synexoit.weatherapp.data.extensions.failure
+import com.synexoit.weatherapp.data.extensions.getViewModel
+import com.synexoit.weatherapp.data.extensions.observe
 import com.synexoit.weatherapp.databinding.FragmentCityBinding
 import com.synexoit.weatherapp.ui.base.BaseFragment
 import com.synexoit.weatherapp.ui.base.adapter.UniversalAdapter
 import com.synexoit.weatherapp.ui.base.navigator.FragmentNavigator
 import com.synexoit.weatherapp.util.chart.AxisValueFormatter
 import com.synexoit.weatherapp.util.chart.ValueFormatter
-import com.synexoit.weatherapp.util.getViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -45,7 +49,12 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = getViewModel(CityViewModel::class.java, mViewModelFactory)
+        viewModel = getViewModel(viewModelFactory, {
+            observe(city, ::handleCity)
+            observe(event, ::handleEvent)
+            observe(dayDataList, ::handleDayData)
+            failure(failure, ::handleFailure)
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,11 +63,10 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
 
         viewModel.loadCityFromDatabase(id)
         binding.swipeRefreshLayout.setOnRefreshListener(this)
-        registerObservers()
         initRecyclerView()
     }
 
-    override fun getScreenTitle(): String = ""
+    override fun getScreenTitle(): String = String.empty()
 
     override fun getLayoutResId(): Int = R.layout.fragment_city
 
@@ -75,30 +83,27 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         }
     }
 
-    private fun registerObservers() {
-        viewModel.getCity().observe(this, Observer {
-            it?.let {
-                setSwipeRefreshIndicator(false)
-                setChart(it)
-            }
-        })
+    private fun handleCity(city: City?) {
+        city?.let {
+            setSwipeRefreshIndicator(false)
+            setChart(it)
+        }
+    }
 
-        viewModel.getDayData().observe(this, Observer {
-            it?.let {
-                recyclerAdapter.addNewList(it)
-            }
-        })
+    private fun handleDayData(dayData: MutableList<DayData>?) {
+        dayData?.let { recyclerAdapter.addNewList(it) }
+    }
 
-        viewModel.getErrorObserver().observe(this, Observer {
-            it?.let {
-                setSwipeRefreshIndicator(false)
-                showToast(it.message)
-            }
-        })
+    private fun handleFailure(failure: Failure?) {
+        failure?.let {
+            setSwipeRefreshIndicator(false)
+            //TODO 14.05.2018 by Dawid Jamroży
+            showToast("ERROR")
+        }
+    }
 
-        viewModel.getEvent().observe(this, Observer {
-            navigator.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.powered_by_dark_sky_website))))
-        })
+    private fun handleEvent(event: Int?) {
+        navigator.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.powered_by_dark_sky_website))))
     }
 
     private fun setSwipeRefreshIndicator(isRefreshing: Boolean) {

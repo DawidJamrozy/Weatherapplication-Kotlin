@@ -12,7 +12,7 @@ abstract class ObservableResponse<Result> {
     private val ERROR_MESSAGE = "ERROR"
 
     @WorkerThread
-    protected abstract fun saveCallResult(item: Result)
+    protected abstract fun saveCallAndReturnResult(item: Result):  Resource<Result>
 
     @MainThread
     protected abstract fun shouldFetch(data: Result?): Boolean
@@ -27,12 +27,7 @@ abstract class ObservableResponse<Result> {
         return loadFromDb()
                 .filter { !shouldFetch(it) }
                 .map { Resource.success(it) }
-                .switchIfEmpty(
-                        createCall()
-                                .map {
-                                    saveCallResult(it.data!!)
-                                    it
-                                })
-                .onErrorReturn { Resource.error(it.message ?: ERROR_MESSAGE) }
+                .switchIfEmpty(createCall().map { saveCallAndReturnResult(it.data!!) })
+                .onErrorReturn {  Resource.error(it.message ?: ERROR_MESSAGE) }
     }
 }

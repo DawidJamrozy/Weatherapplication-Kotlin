@@ -16,15 +16,16 @@ import javax.inject.Inject
 class CityViewModel @Inject constructor(private val cityRepository: CityRepository,
                                         private val weatherRepository: WeatherRepository) : BaseViewModel() {
 
-    private val city = MutableLiveData<City>()
-    private val dayDataList = MutableLiveData<MutableList<DayData>>()
-    private val event = MutableLiveData<Int>()
+    val city = MutableLiveData<City>()
+    val dayDataList = MutableLiveData<MutableList<DayData>>()
+    val event = MutableLiveData<Int>()
 
     fun loadCityFromDatabase(placeId: String) {
         addDisposable(cityRepository.getCity(placeId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnError { proceedWithError(it) }
+                //TODO 14.05.2018 by Dawid Jamroży
+                //.doOnError { proceedWithError(it) }
                 .subscribe({ processResponse(it) }))
     }
 
@@ -33,7 +34,8 @@ class CityViewModel @Inject constructor(private val cityRepository: CityReposito
             addDisposable(weatherRepository.getCity(it.toCityPlace())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .doOnError { proceedWithError(it) }
+                    //TODO 14.05.2018 by Dawid Jamroży
+                    //.doOnError { proceedWithError(it) }
                     .subscribe({ processResponse(it.data) }))
         }
     }
@@ -53,11 +55,4 @@ class CityViewModel @Inject constructor(private val cityRepository: CityReposito
     fun openWebsite() {
         event.value = 0
     }
-
-    fun getCity() = city
-
-    fun getDayData() = dayDataList
-
-    fun getEvent() = event
-
 }

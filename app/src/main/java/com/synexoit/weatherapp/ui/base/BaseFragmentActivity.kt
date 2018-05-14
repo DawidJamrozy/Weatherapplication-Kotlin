@@ -2,6 +2,7 @@ package com.synexoit.weatherapp.ui.base
 
 import android.databinding.ViewDataBinding
 import android.support.v4.app.Fragment
+import com.synexoit.weatherapp.data.extensions.empty
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
@@ -17,9 +18,12 @@ abstract class BaseFragmentActivity<B: ViewDataBinding> : BaseActivity<B>(), Has
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> = mDispatchAndroidInjector
 
+    /**
+     * Layout resource id of View which will be used to change content
+     */
     abstract fun getContentResId(): Int
 
-    override fun getScreenTitle(): String = ""
+    override fun getScreenTitle(): String = String.empty()
 
     override fun onBackPressed() = navigateBack()
 
@@ -47,8 +51,6 @@ abstract class BaseFragmentActivity<B: ViewDataBinding> : BaseActivity<B>(), Has
             }
 
             if (childFragmentManager.backStackEntryCount > 0) {
-	            println("a")
-	            println(System.currentTimeMillis())
                 childFragmentManager.popBackStack()
                 return
             }
@@ -57,8 +59,7 @@ abstract class BaseFragmentActivity<B: ViewDataBinding> : BaseActivity<B>(), Has
         if (fragmentManager.backStackEntryCount == 0) {
             finish()
         }
-	    println("a")
-	    println(System.currentTimeMillis())
+
         fragmentManager.popBackStack()
     }
 }

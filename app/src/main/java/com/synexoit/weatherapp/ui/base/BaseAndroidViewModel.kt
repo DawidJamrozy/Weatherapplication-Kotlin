@@ -3,6 +3,7 @@ package com.synexoit.weatherapp.ui.base
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
 import com.synexoit.weatherapp.WeatherApplication
+import com.synexoit.weatherapp.data.exceptions.Failure
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
@@ -11,24 +12,22 @@ import io.reactivex.disposables.Disposable
  */
 abstract class BaseAndroidViewModel(application: WeatherApplication) : AndroidViewModel(application) {
 
-	private val mCompositeDisposable: CompositeDisposable = CompositeDisposable()
-	private val mErrorLiveData = MutableLiveData<Throwable>()
+	private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+    val failure = MutableLiveData<Failure>()
 
-	protected open fun proceedWithError(throwable: Throwable) {
-		mErrorLiveData.value = throwable
+	protected open fun handleFailure(throwable: Failure) {
+        failure.value = throwable
 	}
 
-	protected fun proceedWithErrorOnBackgroundThead(throwable: Throwable) {
-		mErrorLiveData.postValue(throwable)
+	protected fun handleFailureFromBackgroundThread(throwable: Failure) {
+        failure.postValue(throwable)
 	}
 
 	override fun onCleared() {
-		mCompositeDisposable.clear()
+        compositeDisposable.clear()
 	}
 
 	fun addDisposable(disposable: Disposable) {
-		mCompositeDisposable.add(disposable)
+        compositeDisposable.add(disposable)
 	}
-
-	fun getErrorObserver() = mErrorLiveData
 }

@@ -9,7 +9,6 @@ import com.synexoit.weatherapp.data.entity.ItemProgress
 import com.synexoit.weatherapp.util.ItemDiffCallback
 import com.synexoit.weatherapp.util.ViewType
 import com.synexoit.weatherapp.util.ViewTypeDelegateInterface
-import com.synexoit.weatherapp.util.realSize
 
 abstract class BaseRecyclerAdapter<in T : ViewType>(private val mList: MutableList<T>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -56,7 +55,7 @@ abstract class BaseRecyclerAdapter<in T : ViewType>(private val mList: MutableLi
         if (hideProgress)
             mList.clear()
 
-        val indexToInsert = if (mList.isEmpty()) 0 else mList.realSize()
+        val indexToInsert = if (mList.isEmpty()) 0 else (mList.size - 1)
         mList.addAll(indexToInsert, list)
         notifyDataSetChanged()
     }

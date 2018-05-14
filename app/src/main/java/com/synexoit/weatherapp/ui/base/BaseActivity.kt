@@ -28,7 +28,7 @@ abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity() {
 	protected lateinit var binding: B
 
 	@Inject
-	protected lateinit var mViewModelFactory: ViewModelProvider.Factory
+	protected lateinit var viewModelFactory: ViewModelProvider.Factory
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		AndroidInjection.inject(this)

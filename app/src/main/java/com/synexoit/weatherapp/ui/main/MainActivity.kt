@@ -1,16 +1,15 @@
 package com.synexoit.weatherapp.ui.main
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
 import com.f2prateek.dart.HensonNavigable
 import com.synexoit.weatherapp.R
+import com.synexoit.weatherapp.data.extensions.getViewModel
+import com.synexoit.weatherapp.data.extensions.observe
 import com.synexoit.weatherapp.databinding.ActivityMainBinding
 import com.synexoit.weatherapp.ui.base.BaseFragmentActivity
 import com.synexoit.weatherapp.ui.base.navigator.Navigator
-import com.synexoit.weatherapp.ui.city.CityFragment
 import com.synexoit.weatherapp.ui.city.CityFragmentBuilder
 import com.synexoit.weatherapp.util.ViewPagerAdapter
-import com.synexoit.weatherapp.util.getViewModel
 import javax.inject.Inject
 
 @HensonNavigable
@@ -23,29 +22,23 @@ class MainActivity : BaseFragmentActivity<ActivityMainBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = getViewModel(MainViewModel::class.java, mViewModelFactory)
+        viewModel = getViewModel(viewModelFactory, {
+            observe(cityIdList, ::handleCityIdList)
+        })
         binding.vm = viewModel
-        registerObservers()
     }
 
     private fun setUpViewPagerAdapter(cityIdList: List<String>) {
-        val list = ArrayList<CityFragment>()
-        cityIdList.onEach { list.add(CityFragmentBuilder.newCityFragment(it)) }
-        val viewPagerAdapter = ViewPagerAdapter(list, supportFragmentManager)
-        //cityIdList.onEach { viewPagerAdapter.addFragment(CityFragmentBuilder.newCityFragment(it)) }
+        val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
+        cityIdList.onEach { viewPagerAdapter.addFragment(CityFragmentBuilder.newCityFragment(it)) }
         binding.viewPager.adapter = viewPagerAdapter
     }
 
-    private fun registerObservers() {
-        viewModel.getCityIdList().observe(this, Observer { cityIdList ->
-            cityIdList?.let { setUpViewPagerAdapter(it) }
-        })
+    private fun handleCityIdList(cityIdList: List<String>?) {
+        cityIdList?.let { setUpViewPagerAdapter(it) }
     }
 
     override fun getLayoutResId(): Int = R.layout.activity_main
 
-    override fun getScreenTitle(): String = ""
-    override fun getContentResId(): Int {
-        return 0
-    }
+    override fun getContentResId(): Int  = 0
 }

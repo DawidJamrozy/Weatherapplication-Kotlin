@@ -1,7 +1,6 @@
 package com.synexoit.weatherapp.data.repository
 
 import com.synexoit.weatherapp.data.api.WeatherApi
-import com.synexoit.weatherapp.data.db.AppDatabase
 import com.synexoit.weatherapp.data.entity.CityPlace
 import com.synexoit.weatherapp.data.entity.darksky.City
 import com.synexoit.weatherapp.util.ObservableResponse
@@ -13,8 +12,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class WeatherRepositoryImpl @Inject constructor(private val mWeatherApi: WeatherApi,
-                                                private val mCityRepository: CityRepository,
-                                                private val mDatabase: AppDatabase) : WeatherRepository {
+                                                private val mCityRepository: CityRepository) : WeatherRepository {
 
     //TODO 05.05.2018 Dawid Jamroży change to config
     private val LANGUAGE = "pl"
@@ -25,19 +23,11 @@ class WeatherRepositoryImpl @Inject constructor(private val mWeatherApi: Weather
 
     override fun getCity(cityPlace: CityPlace): Maybe<Resource<City>> {
         return object : ObservableResponse<City>() {
-            override fun saveCallResult(item: City) {
-                Timber.d("saveCallResult(): ")
-                //TODO 11.05.2018 by Dawid Jamroży update is not working
-                /*mDatabase.runInTransaction {
-                    val cityId = mDatabase.getCityDao().getCityPlaceId(cityPlace.id)
-
-                    if (cityId == null)
-                        mCityRepository.insertCity(item)
-                    else
-                        mCityRepository.updateCity(item)
-                }*/
+            override fun saveCallAndReturnResult(item: City): Resource<City> {
+                Timber.d("saveCallAndReturnResult(): ")
                 mCityRepository.insertCity(item)
                 repoListRateLimit.addTimeStamp(item.placeId)
+                return Resource.success(item)
             }
 
             override fun shouldFetch(data: City?): Boolean {

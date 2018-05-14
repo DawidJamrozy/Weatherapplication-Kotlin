@@ -29,7 +29,7 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), Injectable {
 	protected lateinit var binding: B
 
 	@Inject
-	protected lateinit var mViewModelFactory: ViewModelProvider.Factory
+	protected lateinit var viewModelFactory: ViewModelProvider.Factory
 
 	companion object {
 		val NO_CHILD_CONTENT: Int = 0
@@ -47,6 +47,9 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), Injectable {
 		return binding.root
 	}
 
+    /**
+     * Fragment layout resource id
+     */
 	abstract fun getLayoutResId(): Int
 
 	override fun onSaveInstanceState(outState: Bundle) {
