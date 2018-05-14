@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">WeatherApp</string>
 
+    <!--common-->
+    <string name="speed_unit">km/h</string>
+
     <!--activity search-->
     <string name="fragment_search_toolbar_title">Wyszukaj</string>
     <string name="search_city">Miasto...</string>
@@ -22,5 +25,12 @@
     <string name="weekly">Tygodniowa</string>
     <string name="hourly">Godzinowa</string>
     <string name="details">Szczegóły</string>
+
+    <string name="humidity">Wilgotność</string>
+    <string name="apparent">Odczuwalnie</string>
+    <string name="precip">Opady</string>
+    <string name="intensity">Intensywność</string>
+    <string name="pressure">Ciśnienie</string>
+
 
 </resources>

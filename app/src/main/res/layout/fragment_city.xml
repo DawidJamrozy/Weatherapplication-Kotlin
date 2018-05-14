@@ -34,9 +34,22 @@
                     android:background="@drawable/background_green"
                     android:padding="10dp">
 
+
+                    <ImageView
+                        android:id="@+id/settings"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:padding="12dp"
+                        android:onClick="@{() -> vm.onSettingsClick()}"
+                        app:layout_constraintBottom_toTopOf="@+id/name"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0"
+                        android:src="@drawable/more_icon"/>
+
                     <TextView
                         android:id="@+id/temperature"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
@@ -44,6 +57,7 @@
                         android:text="@{@string/degree(vm.city.currently.temperature)}"
                         android:textSize="30sp"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="25"/>
@@ -108,7 +122,7 @@
                 <include layout="@layout/basic_separator"/>
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_view"
+                    android:id="@+id/day_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 

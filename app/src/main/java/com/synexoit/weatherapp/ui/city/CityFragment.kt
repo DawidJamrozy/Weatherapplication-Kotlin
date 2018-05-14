@@ -1,10 +1,13 @@
 package com.synexoit.weatherapp.ui.city
 
+import android.app.Activity.RESULT_CANCELED
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.github.mikephil.charting.components.Description
@@ -16,6 +19,7 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.hannesdorfmann.fragmentargs.annotation.Arg
 import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs
 import com.synexoit.weatherapp.R
+import com.synexoit.weatherapp.data.entity.DayDetails
 import com.synexoit.weatherapp.data.entity.darksky.City
 import com.synexoit.weatherapp.data.entity.darksky.DayData
 import com.synexoit.weatherapp.data.exceptions.Failure
@@ -27,8 +31,10 @@ import com.synexoit.weatherapp.databinding.FragmentCityBinding
 import com.synexoit.weatherapp.ui.base.BaseFragment
 import com.synexoit.weatherapp.ui.base.adapter.UniversalAdapter
 import com.synexoit.weatherapp.ui.base.navigator.FragmentNavigator
+import com.synexoit.weatherapp.ui.search.SearchActivity
 import com.synexoit.weatherapp.util.chart.AxisValueFormatter
 import com.synexoit.weatherapp.util.chart.ValueFormatter
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -39,13 +45,19 @@ import javax.inject.Inject
 @FragmentWithArgs
 class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnRefreshListener {
 
+    companion object {
+        private const val HOUR_FORMAT = "HH:mm"
+        private const val SETTINGS_REQUEST_CODE = 10001
+    }
+
     @Arg(required = true)
     lateinit var id: String
 
     @Inject
     protected lateinit var navigator: FragmentNavigator
     private lateinit var viewModel: CityViewModel
-    private val recyclerAdapter = UniversalAdapter()
+    private val dayRecyclerAdapter = UniversalAdapter()
+    private val dayDetailsRecyclerAdapter = UniversalAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +65,7 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
             observe(city, ::handleCity)
             observe(event, ::handleEvent)
             observe(dayDataList, ::handleDayData)
+            observe(dayDetailsList, ::handleDayDetails)
             failure(failure, ::handleFailure)
         })
     }
@@ -76,10 +89,14 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
     }
 
     private fun initRecyclerView() {
-        binding.recyclerView.run {
-            adapter = recyclerAdapter
+        binding.dayRecyclerView.run {
+            adapter = dayRecyclerAdapter
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
             addItemDecoration(DividerItemDecoration(this.context, LinearLayoutManager.VERTICAL))
+        }
+        binding.detailsRecyclerView.run {
+            adapter = dayDetailsRecyclerAdapter
+            layoutManager = GridLayoutManager(this.context, 2, LinearLayoutManager.VERTICAL, false)
         }
     }
 
@@ -90,8 +107,14 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         }
     }
 
-    private fun handleDayData(dayData: MutableList<DayData>?) {
-        dayData?.let { recyclerAdapter.addNewList(it) }
+    private fun handleDayData(list: MutableList<DayData>?) {
+        list?.let { dayRecyclerAdapter.addNewList(it) }
+    }
+
+    private fun handleDayDetails(list: MutableList<DayDetails>?) {
+        list?.let {
+            dayDetailsRecyclerAdapter.addNewList(it)
+        }
     }
 
     private fun handleFailure(failure: Failure?) {
@@ -103,7 +126,19 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
     }
 
     private fun handleEvent(event: Int?) {
-        navigator.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.powered_by_dark_sky_website))))
+        event?.let {
+            when(it) {
+                CityViewModel.OPEN_WEBSITE -> navigator.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.powered_by_dark_sky_website))))
+                CityViewModel.OPEN_SETTINGS -> navigator.startActivityForResult(Intent(activity, SearchActivity::class.java), SETTINGS_REQUEST_CODE)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when(resultCode) {
+            RESULT_OK -> viewModel.refreshWeatherData()
+            RESULT_CANCELED -> Timber.d("onActivityResult(): ignore")
+        }
     }
 
     private fun setSwipeRefreshIndicator(isRefreshing: Boolean) {
@@ -115,15 +150,15 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         val temperatureList = mutableListOf<Int>()
         val hours = mutableListOf<String>()
 
-        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val sdf = SimpleDateFormat(HOUR_FORMAT, Locale.getDefault())
         sdf.timeZone = TimeZone.getTimeZone(city.timezone)
-        //temp - add data to calculate min temperature for chart axis
-        //entries - add data to display temp for every hour
-        //hours - add data to display time in chart
         for (i in 0..24) {
             val data = city.hourly!!.data!![i]
+            //temp - add data to calculate min temperature for chart axis
             temperatureList.add(data.temperature.toInt())
+            //entries - add data to display temp for every hour
             entries.add(Entry(i.toFloat(), data.temperature.toFloat()))
+            //hours - add data to display time in chart
             hours.add(sdf.format(Date(data.time * 1000L)))
         }
 

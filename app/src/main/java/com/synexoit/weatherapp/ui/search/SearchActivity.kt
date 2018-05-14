@@ -61,7 +61,10 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
         cityList?.let {
             when (it.status) {
                 is ListStatus.New -> recyclerAdapter.addNewList(it.list)
-                is ListStatus.Refresh -> recyclerAdapter.loadWithDifference(it.list)
+                is ListStatus.Refresh -> {
+                    recyclerAdapter.loadWithDifference(it.list)
+                    setResult(RESULT_OK)
+                }
             }
         }
     }

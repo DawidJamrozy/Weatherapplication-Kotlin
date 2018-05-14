@@ -3,8 +3,15 @@
 
     <!--common-->
     <string name="degree" translatable="false">%1$s&#176;</string>
+    <string name="degree_unit" translatable="false">&#176;</string>
+    <string name="speed_unit">mp/h</string>
+    <string name="pressure_unit" translatable="false">hPa</string>
+    <string name="percent_unit" translatable="false">%</string>
+    <string name="precip_unit" translatable="false">mm/h</string>
+
     <string name="vertical_line" translatable="false">&#160;|&#160;</string>
     <string name="max_min_temp" translatable="false">%1$d&#176;&#160;/&#160;%2$d&#176;</string>
+    <string name="day_details" translatable="false">%1$s&#160;%2$s</string>
 
     <!--activity search-->
     <string name="fragment_search_toolbar_title">Search</string>
@@ -27,5 +34,12 @@
     <string name="weekly">Weekly</string>
     <string name="hourly">Hourly</string>
     <string name="details">Details</string>
+
+    <string name="humidity">Humidity</string>
+    <string name="apparent">Noticeably</string>
+    <string name="precip">Precip</string>
+    <string name="intensity">Intensity</string>
+    <string name="pressure">Pressure</string>
+
 
 </resources>
