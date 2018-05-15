@@ -10,7 +10,7 @@ import kotlinx.android.parcel.Parcelize
 @Entity(tableName = "currently",
         foreignKeys = [ForeignKey(entity = City::class, parentColumns = ["id"], childColumns = ["cityId"], onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE)])
 data class Currently(@PrimaryKey(autoGenerate = true) var id: Long = 0,
-                     var time: Int = 0,
+                     var time: Long = 0,
                      var summary: String = "",
                      var icon: String = "",
                      var precipIntensity: Double = 0.0,

@@ -10,7 +10,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(tableName = "daily_data",
         foreignKeys = [ForeignKey(entity = Daily::class, parentColumns = ["id"], childColumns = ["dailyId"], onDelete = CASCADE, onUpdate = CASCADE)])
-data class DailyData(var time: Int = 0,
+data class DailyData(var time: Long = 0,
                      var summary: String = "",
                      var placeId: String = "",
                      var icon: String = "",

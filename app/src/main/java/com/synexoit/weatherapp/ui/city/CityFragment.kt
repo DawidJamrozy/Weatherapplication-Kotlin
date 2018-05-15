@@ -1,5 +1,6 @@
 package com.synexoit.weatherapp.ui.city
 
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.content.Intent
@@ -31,6 +32,7 @@ import com.synexoit.weatherapp.databinding.FragmentCityBinding
 import com.synexoit.weatherapp.ui.base.BaseFragment
 import com.synexoit.weatherapp.ui.base.adapter.UniversalAdapter
 import com.synexoit.weatherapp.ui.base.navigator.FragmentNavigator
+import com.synexoit.weatherapp.ui.main.MainActivity
 import com.synexoit.weatherapp.ui.search.SearchActivity
 import com.synexoit.weatherapp.util.chart.AxisValueFormatter
 import com.synexoit.weatherapp.util.chart.ValueFormatter
@@ -136,7 +138,7 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when(resultCode) {
-            RESULT_OK -> viewModel.refreshWeatherData()
+            RESULT_OK -> (activity as MainActivity).refreshCities()
             RESULT_CANCELED -> Timber.d("onActivityResult(): ignore")
         }
     }
@@ -145,12 +147,15 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         binding.swipeRefreshLayout.isRefreshing = isRefreshing
     }
 
+
     private fun setChart(city: City) {
         val entries = mutableListOf<Entry>()
         val temperatureList = mutableListOf<Int>()
         val hours = mutableListOf<String>()
 
-        val sdf = SimpleDateFormat(HOUR_FORMAT, Locale.getDefault())
+        @SuppressLint("SimpleDateFormat")
+        val sdf = SimpleDateFormat(HOUR_FORMAT)
+
         sdf.timeZone = TimeZone.getTimeZone(city.timezone)
         for (i in 0..24) {
             val data = city.hourly!!.data!![i]

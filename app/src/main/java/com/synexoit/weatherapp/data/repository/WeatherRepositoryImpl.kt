@@ -42,7 +42,7 @@ class WeatherRepositoryImpl @Inject constructor(private val mWeatherApi: Weather
 
             override fun createCall(): Maybe<Resource<City>> {
                 Timber.d("createCall(): ")
-                return mWeatherApi.getCity(cityPlace.latitude.toString(), cityPlace.latitude.toString(), LANGUAGE, EXCLUDE, UNITS)
+                return mWeatherApi.getCity(cityPlace.latitude.toString(), cityPlace.longitude.toString(), LANGUAGE, EXCLUDE, UNITS)
                         .map { Resource.success(it.copy(name = cityPlace.name, placeId = cityPlace.id, address = cityPlace.address)) }
             }
         }.fetchData()

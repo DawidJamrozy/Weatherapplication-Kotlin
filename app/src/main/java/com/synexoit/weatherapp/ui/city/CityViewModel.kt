@@ -6,13 +6,15 @@ import com.synexoit.weatherapp.WeatherApplication
 import com.synexoit.weatherapp.data.entity.DayDetails
 import com.synexoit.weatherapp.data.entity.darksky.City
 import com.synexoit.weatherapp.data.entity.darksky.Currently
-import com.synexoit.weatherapp.data.entity.darksky.DailyData
 import com.synexoit.weatherapp.data.entity.darksky.DayData
+import com.synexoit.weatherapp.data.exceptions.Failure
 import com.synexoit.weatherapp.data.repository.CityRepository
 import com.synexoit.weatherapp.data.repository.WeatherRepository
 import com.synexoit.weatherapp.ui.base.BaseAndroidViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -25,19 +27,22 @@ class CityViewModel @Inject constructor(private val cityRepository: CityReposito
     companion object {
         const val OPEN_WEBSITE = 0
         const val OPEN_SETTINGS = 1
+        const val DATE_FORMAT = "HH:mm dd.MM.yyyy"
+        const val DAY_FORMAT = "EEEE"
     }
 
     val city = MutableLiveData<City>()
     val dayDetailsList = MutableLiveData<MutableList<DayDetails>>()
     val dayDataList = MutableLiveData<MutableList<DayData>>()
     val event = MutableLiveData<Int>()
+    val dataTime = MutableLiveData<String>()
 
     fun loadCityFromDatabase(placeId: String) {
         addDisposable(cityRepository.getCity(placeId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 //TODO 14.05.2018 by Dawid Jamroży
-                //.doOnError { proceedWithError(it) }
+                .doOnError { handleFailure(Failure.UnknownAppError()) }
                 .subscribe({ processResponse(it) }))
     }
 
@@ -47,7 +52,7 @@ class CityViewModel @Inject constructor(private val cityRepository: CityReposito
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     //TODO 14.05.2018 by Dawid Jamroży
-                    //.doOnError { proceedWithError(it) }
+                    .doOnError { handleFailure(Failure.UnknownAppError()) }
                     .subscribe({ processResponse(it.data) }))
         }
     }
@@ -55,18 +60,24 @@ class CityViewModel @Inject constructor(private val cityRepository: CityReposito
     private fun processResponse(data: City?) {
         data?.let {
             city.value = it
-            it.daily?.data?.let { createDayData(it) }
+            dataTime.value = SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(it.currently!!.time * 1000)
+            createDayData(it)
             createDayDetails(it.currently)
         }
     }
 
-    private fun createDayData(list: List<DailyData>) {
+    private fun createDayData(city: City) {
         val temporaryDayDataList = mutableListOf<DayData>()
-        list.take(7).forEach {
-            temporaryDayDataList.add(DayData(it.temperatureMin.toInt(),
-                    it.temperatureMax.toInt(), it.icon, it.time))
+        val sdf = SimpleDateFormat(DAY_FORMAT, Locale.getDefault())
+        sdf.timeZone = TimeZone.getTimeZone(city.timezone)
+        city.daily?.data?.let {
+            it.take(7).forEach {
+                val dayName = sdf.format(Date(it.time * 1000L))
+                temporaryDayDataList.add(DayData(it.temperatureMin.toInt(),
+                        it.temperatureMax.toInt(), it.icon, dayName.substring(0, 1).toUpperCase() + dayName.substring(1)))
+            }
+            dayDataList.value = temporaryDayDataList
         }
-        dayDataList.value = temporaryDayDataList
     }
 
     private fun createDayDetails(currently: Currently?) {

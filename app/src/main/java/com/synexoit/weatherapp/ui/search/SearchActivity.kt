@@ -81,8 +81,10 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
     }
 
     private fun handleEvent(event: Int?) {
-        val intent = Intent(MainActivity@ this, MainActivity::class.java)
-        navigator.startActivity(intent)
+        if (callingActivity == null)
+            navigator.startActivity(Intent(MainActivity@ this, MainActivity::class.java))
+        else
+            finish()
     }
 
     private fun initAutoComplete() {

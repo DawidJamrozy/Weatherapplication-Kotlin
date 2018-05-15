@@ -19,7 +19,7 @@ class MainViewModel @Inject constructor(private val mCityRepository: CityReposit
         loadCityIdListFromDatabase()
     }
 
-    private fun loadCityIdListFromDatabase() {
+    fun loadCityIdListFromDatabase() {
         mCityRepository.getCityPlaceIdList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

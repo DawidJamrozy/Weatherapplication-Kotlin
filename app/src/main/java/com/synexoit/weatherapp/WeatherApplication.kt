@@ -30,7 +30,7 @@ class WeatherApplication : Application(), HasActivityInjector, HasServiceInjecto
 
         RxJavaPlugins.setErrorHandler({ e ->
             if (e is UndeliverableException) {
-                Timber.d("ChatApplication caught UndeliverableException : ${e.localizedMessage}")
+                Timber.d("WeatherApplication caught UndeliverableException : ${e.localizedMessage}")
             }
         })
     }

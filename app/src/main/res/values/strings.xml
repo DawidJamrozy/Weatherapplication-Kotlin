@@ -9,7 +9,7 @@
     <string name="percent_unit" translatable="false">%</string>
     <string name="precip_unit" translatable="false">mm/h</string>
 
-    <string name="vertical_line" translatable="false">&#160;|&#160;</string>
+    <string name="vertical_line" translatable="false">%1$s&#160;|&#160;%2$s</string>
     <string name="max_min_temp" translatable="false">%1$d&#176;&#160;/&#160;%2$d&#176;</string>
     <string name="day_details" translatable="false">%1$s&#160;%2$s</string>
 
@@ -30,7 +30,7 @@
     <string name="wind">Wind</string>
 
     <!--fragment city-->
-    <string name="time">Last actualization:&#160;%1$d</string>
+    <string name="time">Last actualization:&#160;%1$s</string>
     <string name="weekly">Weekly</string>
     <string name="hourly">Hourly</string>
     <string name="details">Details</string>

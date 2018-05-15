@@ -23,8 +23,8 @@ class CityRepositoryImpl @Inject constructor(private val mDatabase: AppDatabase)
                                 getHourly(city.id)
                                         .flatMap { hourly ->
                                             getHourlyData(hourly.id)
-                                                    .map {
-                                                        hourly.data = it
+                                                    .map { hourlyData ->
+                                                        hourly.data = hourlyData
                                                         city.hourly = hourly
                                                     }
                                         }
@@ -32,8 +32,8 @@ class CityRepositoryImpl @Inject constructor(private val mDatabase: AppDatabase)
                                 getDaily(city.id)
                                         .flatMap { daily ->
                                             getDailyData(daily.id)
-                                                    .map {
-                                                        daily.data = it
+                                                    .map { dailyData ->
+                                                        daily.data = dailyData
                                                         city.daily = daily
                                                         city
                                                     }

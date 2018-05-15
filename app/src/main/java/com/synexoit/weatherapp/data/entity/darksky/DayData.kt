@@ -7,25 +7,18 @@ import com.synexoit.weatherapp.GlideApp
 import com.synexoit.weatherapp.R
 import com.synexoit.weatherapp.util.ViewType
 import kotlinx.android.parcel.Parcelize
-import java.text.SimpleDateFormat
-import java.util.*
 
 @Parcelize
 data class DayData(var tempMin: Int,
                    var tempMax: Int,
                    var icon: String,
-                   var time: Int) : ViewType, Parcelable {
-
-
-    private val simpleDayDateFormat: SimpleDateFormat = SimpleDateFormat(DAY_FORMAT)
+                   var dayName: String) : ViewType, Parcelable {
 
     override fun getViewType(): Int = R.layout.item_day
 
     override fun getUniqueId(): String = ""
 
     companion object {
-        private const val DAY_FORMAT = "EEEE"
-
         @BindingAdapter("imageSrc")
         @JvmStatic
         fun loadImage(imageView: ImageView, imageSrc: Int) {
@@ -65,10 +58,5 @@ data class DayData(var tempMin: Int,
             "cloudy" -> R.drawable.cloudy
             else -> 0
         }
-    }
-
-    fun getDayName(): String {
-        val dayName = simpleDayDateFormat.format(Date(time * 1000L))
-        return dayName.substring(0, 1).toUpperCase() + dayName.substring(1)
     }
 }

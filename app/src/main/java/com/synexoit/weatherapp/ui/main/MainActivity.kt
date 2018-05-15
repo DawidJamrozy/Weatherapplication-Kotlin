@@ -38,6 +38,10 @@ class MainActivity : BaseFragmentActivity<ActivityMainBinding>() {
         cityIdList?.let { setUpViewPagerAdapter(it) }
     }
 
+    fun refreshCities() {
+        viewModel.loadCityIdListFromDatabase()
+    }
+
     override fun getLayoutResId(): Int = R.layout.activity_main
 
     override fun getContentResId(): Int  = 0

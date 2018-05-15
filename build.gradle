@@ -19,6 +19,7 @@ allprojects {
     repositories {
         maven { url "https://clojars.org/repo/" }
 	maven { url "https://jitpack.io" }
+   	maven { url "https://maven.google.com" }
         google()
         jcenter()
     }

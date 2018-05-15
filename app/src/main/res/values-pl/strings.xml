@@ -21,7 +21,7 @@
     <string name="wind">Wiatr</string>
 
     <!--fragment city-->
-    <string name="time">Ostatnia aktualizacja:&#160;%1$d</string>
+    <string name="time">Ostatnia aktualizacja:&#160;%1$s</string>
     <string name="weekly">Tygodniowa</string>
     <string name="hourly">Godzinowa</string>
     <string name="details">Szczegóły</string>
