@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
 import com.synexoit.weatherapp.WeatherApplication
 import com.synexoit.weatherapp.di.Injectable
-import com.synexoit.weatherapp.di.component.DaggerApplicationComponent
+import com.synexoit.weatherapp.di.component.ApplicationComponent
 import dagger.android.AndroidInjection
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
@@ -18,8 +18,8 @@ class AppInjector {
 
     companion object {
 
-        fun init(application: WeatherApplication) {
-            DaggerApplicationComponent.builder().application(application).build().inject(application)
+        fun init(application: WeatherApplication, applicationComponent: ApplicationComponent) {
+            applicationComponent.inject(application)
 
             application.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
                 override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
@@ -65,6 +65,5 @@ class AppInjector {
                 }
             }, true)
         }
-
     }
 }

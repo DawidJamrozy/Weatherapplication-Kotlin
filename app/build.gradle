@@ -86,7 +86,7 @@ dependencies {
     implementation "com.android.support:design:$support_library_version"
     implementation "com.android.support:cardview-v7:$support_library_version"
 
-    // Android state
+    // IcePick
     implementation "frankiesardo:icepick:$icepick_version"
     kapt "frankiesardo:icepick-processor:$icepick_version"
 
@@ -99,6 +99,8 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    kaptTest "com.google.dagger:dagger-compiler:2.15"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:2.15"
 
     // JUnit
     testImplementation "junit:junit:$junit_version"

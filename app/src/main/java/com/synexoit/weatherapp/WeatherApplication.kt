@@ -3,6 +3,9 @@ package com.synexoit.weatherapp
 import android.app.Activity
 import android.app.Application
 import android.app.Service
+import android.support.annotation.VisibleForTesting
+import com.synexoit.weatherapp.di.component.ApplicationComponent
+import com.synexoit.weatherapp.di.component.DaggerApplicationComponent
 import com.synexoit.weatherapp.di.injector.AppInjector
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -21,10 +24,16 @@ class WeatherApplication : Application(), HasActivityInjector, HasServiceInjecto
     @Inject
     lateinit var mDispatchingAndroidServiceInjector: DispatchingAndroidInjector<Service>
 
+    private lateinit var applicationComponent: ApplicationComponent
+
     override fun onCreate() {
         super.onCreate()
 
-        AppInjector.init(this)
+        applicationComponent = DaggerApplicationComponent.builder()
+                .application(this)
+                .build()
+
+        AppInjector.init(this, applicationComponent)
 
         Timber.plant(Timber.DebugTree())
 
@@ -33,6 +42,12 @@ class WeatherApplication : Application(), HasActivityInjector, HasServiceInjecto
                 Timber.d("WeatherApplication caught UndeliverableException : ${e.localizedMessage}")
             }
         })
+    }
+
+    @VisibleForTesting
+    fun setApplicationComponent(applicationComponent: ApplicationComponent) {
+        this.applicationComponent = applicationComponent
+        AppInjector.init(this, this.applicationComponent)
     }
 
     override fun activityInjector(): AndroidInjector<Activity> = mDispatchingAndroidActivityInjector
