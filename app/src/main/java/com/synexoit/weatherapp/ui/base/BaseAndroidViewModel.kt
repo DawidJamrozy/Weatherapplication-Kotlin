@@ -15,6 +15,7 @@ abstract class BaseAndroidViewModel(application: WeatherApplication) : AndroidVi
 
 	private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     val failure = MutableLiveData<Failure>()
+    val onClickEvent = MutableLiveData<Int>()
 
 	protected open fun handleFailure(throwable: Failure) {
         failure.value = throwable

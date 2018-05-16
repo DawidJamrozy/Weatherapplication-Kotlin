@@ -5,7 +5,6 @@ import android.content.Context
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +23,7 @@ import javax.inject.Inject
 /**
  * Created by dawidjamrozy on 29.08.2017.
  */
-abstract class BaseFragment<B : ViewDataBinding> : Fragment(), Injectable {
+abstract class BaseFragment<B : ViewDataBinding> : ViewLifecycleFragment(), Injectable {
 
 	protected lateinit var binding: B
 

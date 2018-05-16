@@ -92,6 +92,8 @@ abstract class BaseRecyclerAdapter<in T : ViewType>(private val mList: MutableLi
         notifyDataSetChanged()
     }
 
+    fun getListSize() = mList.size
+
     fun hideProgress() {
         if (!mList.contains(progress)) return
 

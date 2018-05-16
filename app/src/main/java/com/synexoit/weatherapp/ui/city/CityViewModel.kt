@@ -25,8 +25,8 @@ class CityViewModel @Inject constructor(private val cityRepository: CityReposito
                                         weatherApplication: WeatherApplication) : BaseAndroidViewModel(weatherApplication) {
 
     companion object {
-        const val OPEN_WEBSITE = 0
-        const val OPEN_SETTINGS = 1
+        const val OPEN_WEBSITE = 1000
+        const val OPEN_SETTINGS = 1001
         const val DATE_FORMAT = "HH:mm dd.MM.yyyy"
         const val DAY_FORMAT = "EEEE"
     }
@@ -34,7 +34,6 @@ class CityViewModel @Inject constructor(private val cityRepository: CityReposito
     val city = MutableLiveData<City>()
     val dayDetailsList = MutableLiveData<MutableList<DayDetails>>()
     val dayDataList = MutableLiveData<MutableList<DayData>>()
-    val event = MutableLiveData<Int>()
     val dataTime = MutableLiveData<String>()
 
     fun loadCityFromDatabase(placeId: String) {
@@ -74,7 +73,7 @@ class CityViewModel @Inject constructor(private val cityRepository: CityReposito
             it.take(7).forEach {
                 val dayName = sdf.format(Date(it.time * 1000L))
                 temporaryDayDataList.add(DayData(it.temperatureMin.toInt(),
-                        it.temperatureMax.toInt(), it.icon, dayName.substring(0, 1).toUpperCase() + dayName.substring(1)))
+                        it.temperatureMax.toInt(), it.icon, createDayName(dayName)))
             }
             dayDataList.value = temporaryDayDataList
         }
@@ -95,13 +94,14 @@ class CityViewModel @Inject constructor(private val cityRepository: CityReposito
         }
     }
 
+    private fun createDayName(dayName: String) : String =
+            dayName.substring(0, 1).toUpperCase() + dayName.substring(1)
+
     fun onSettingsClick() {
-        event.value = 1
+        onClickEvent.value = OPEN_SETTINGS
     }
 
-
-    //TODO 11.05.2018 by Dawid Jamroży replace with proper navigation
-    fun openWebsite() {
-        event.value = 0
+    fun openWebsite()  {
+        onClickEvent.value = OPEN_WEBSITE
     }
 }

@@ -25,19 +25,18 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
                                           application: WeatherApplication) : BaseAndroidViewModel(application) {
 
     val cityList = MutableLiveData<ListWrapper<CityPreview>>()
-    val event = MutableLiveData<Int>()
     val isButtonVisible = MutableLiveData<Boolean>()
 
     init {
         getCityListFromDatabase()
     }
 
-    private fun processResponse(response: Resource<City>) {
+    private fun processResponse(response: Resource<City>, lastItemPosition: Int) {
         when (response.status) {
             is Status.Success -> {
                 cityList.value?.let { wrapper ->
                     response.data?.let {
-                        wrapper.list.add(CityPreview(it.name, it.address, it.placeId))
+                        wrapper.list.add(CityPreview(it.name, it.address, it.placeId, lastItemPosition))
                     }
                     setCityPreviewListValue(ListWrapper(ListStatus.Refresh(), wrapper.list))
                 }
@@ -47,7 +46,7 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
         }
     }
 
-    fun getCity(cityPlace: CityPlace) {
+    fun getCity(cityPlace: CityPlace, lastItemPosition: Int) {
         cityList.value?.let {
             val city = it.list.singleOrNull { it.placeId == cityPlace.id }
             city?.let {
@@ -60,7 +59,7 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError { handleFailure(Failure.UnknownAppError(it.message)) }
-                .subscribe({ processResponse(it) }))
+                .subscribe({ processResponse(it, lastItemPosition) }))
     }
 
     private fun getCityListFromDatabase() {
@@ -116,8 +115,7 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
         cityList.value = wrapper
     }
 
-    //TODO 09.05.2018 by Dawid Jamroży notify to start main activity
     fun startMainActivity() {
-        event.value = 1
+        onClickEvent.value = 1
     }
 }

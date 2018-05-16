@@ -1,8 +1,6 @@
 package com.synexoit.weatherapp.ui.city
 
 import android.annotation.SuppressLint
-import android.app.Activity.RESULT_CANCELED
-import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -32,11 +30,9 @@ import com.synexoit.weatherapp.databinding.FragmentCityBinding
 import com.synexoit.weatherapp.ui.base.BaseFragment
 import com.synexoit.weatherapp.ui.base.adapter.UniversalAdapter
 import com.synexoit.weatherapp.ui.base.navigator.FragmentNavigator
-import com.synexoit.weatherapp.ui.main.MainActivity
 import com.synexoit.weatherapp.ui.settings.SettingsActivity
 import com.synexoit.weatherapp.util.chart.AxisValueFormatter
 import com.synexoit.weatherapp.util.chart.ValueFormatter
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -49,7 +45,6 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
 
     companion object {
         private const val HOUR_FORMAT = "HH:mm"
-        private const val SETTINGS_REQUEST_CODE = 10001
     }
 
     @Arg(required = true)
@@ -61,19 +56,16 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
     private val dayRecyclerAdapter = UniversalAdapter()
     private val dayDetailsRecyclerAdapter = UniversalAdapter()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModel = getViewModel(viewModelFactory, {
             observe(city, ::handleCity)
-            observe(event, ::handleEvent)
+            observe(onClickEvent, ::handleOnClick)
             observe(dayDataList, ::handleDayData)
             observe(dayDetailsList, ::handleDayDetails)
             failure(failure, ::handleFailure)
         })
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
 
         viewModel.loadCityFromDatabase(id)
@@ -127,29 +119,18 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         }
     }
 
-    private fun handleEvent(event: Int?) {
+    private fun handleOnClick(event: Int?) {
         event?.let {
-            when(it) {
+            when (it) {
                 CityViewModel.OPEN_WEBSITE -> navigator.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.powered_by_dark_sky_website))))
-                CityViewModel.OPEN_SETTINGS ->  {
-                    navigator.startActivity(Intent(activity, SettingsActivity::class.java))
-                    /*navigator.startActivityForResult(Intent(activity, SearchActivity::class.java), SETTINGS_REQUEST_CODE)*/
-                }
+                CityViewModel.OPEN_SETTINGS -> navigator.startActivity(Intent(activity, SettingsActivity::class.java))
             }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when(resultCode) {
-            RESULT_OK -> (activity as MainActivity).refreshCities()
-            RESULT_CANCELED -> Timber.d("onActivityResult(): ignore")
         }
     }
 
     private fun setSwipeRefreshIndicator(isRefreshing: Boolean) {
         binding.swipeRefreshLayout.isRefreshing = isRefreshing
     }
-
 
     private fun setChart(city: City) {
         val entries = mutableListOf<Entry>()

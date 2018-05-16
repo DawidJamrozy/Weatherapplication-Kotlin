@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
+import com.f2prateek.dart.HensonNavigable
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.places.AutocompleteFilter
 import com.google.android.gms.location.places.Place
@@ -29,6 +30,7 @@ import com.synexoit.weatherapp.util.RecyclerViewTouchHelper
 import timber.log.Timber
 import javax.inject.Inject
 
+@HensonNavigable
 class SearchActivity : BaseActivity<ActivitySearchBinding>() {
 
     @Inject
@@ -42,7 +44,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
         super.onCreate(savedInstanceState)
         viewModel = getViewModel(viewModelFactory, {
             observe(cityList, ::handleCityPreviewList)
-            observe(event, ::handleEvent)
+            observe(onClickEvent, ::handleOnClick)
             failure(failure, ::handleFailure)
         })
         binding.vm = viewModel
@@ -80,7 +82,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
         recyclerAdapter.hideProgress()
     }
 
-    private fun handleEvent(event: Int?) {
+    private fun handleOnClick(onClickEvent: Int?) {
         if (callingActivity == null)
             navigator.startActivity(Intent(MainActivity@ this, MainActivity::class.java))
         else
@@ -117,7 +119,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
             place?.let {
                 recyclerAdapter.showProgressAtLastPosition()
                 val cityPlace = CityPlace(it.name.toString(), it.address.toString(), it.latLng.latitude, it.latLng.longitude, it.id)
-                viewModel.getCity(cityPlace)
+                viewModel.getCity(cityPlace, recyclerAdapter.getListSize())
             }
         }
 

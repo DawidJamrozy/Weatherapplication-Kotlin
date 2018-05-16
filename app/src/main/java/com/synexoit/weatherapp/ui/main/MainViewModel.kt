@@ -15,6 +15,10 @@ class MainViewModel @Inject constructor(private val mCityRepository: CityReposit
 
     val cityIdList = MutableLiveData<List<String>>()
 
+    companion object {
+        const val ADD_NEW_CITY = 1000
+    }
+
     init {
         loadCityIdListFromDatabase()
     }
@@ -24,12 +28,16 @@ class MainViewModel @Inject constructor(private val mCityRepository: CityReposit
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { handleResponse(it)},
+                        { handleResponse(it) },
                         { handleFailure(Failure.UnknownAppError()) }
                 )
     }
 
     private fun handleResponse(cityIdList: List<String>) {
         this.cityIdList.value = cityIdList
+    }
+
+    fun onAddButtonClick() {
+        onClickEvent.value = ADD_NEW_CITY
     }
 }
