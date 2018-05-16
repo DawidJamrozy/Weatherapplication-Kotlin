@@ -33,7 +33,7 @@ import com.synexoit.weatherapp.ui.base.BaseFragment
 import com.synexoit.weatherapp.ui.base.adapter.UniversalAdapter
 import com.synexoit.weatherapp.ui.base.navigator.FragmentNavigator
 import com.synexoit.weatherapp.ui.main.MainActivity
-import com.synexoit.weatherapp.ui.search.SearchActivity
+import com.synexoit.weatherapp.ui.settings.SettingsActivity
 import com.synexoit.weatherapp.util.chart.AxisValueFormatter
 import com.synexoit.weatherapp.util.chart.ValueFormatter
 import timber.log.Timber
@@ -131,7 +131,10 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         event?.let {
             when(it) {
                 CityViewModel.OPEN_WEBSITE -> navigator.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.powered_by_dark_sky_website))))
-                CityViewModel.OPEN_SETTINGS -> navigator.startActivityForResult(Intent(activity, SearchActivity::class.java), SETTINGS_REQUEST_CODE)
+                CityViewModel.OPEN_SETTINGS ->  {
+                    navigator.startActivity(Intent(activity, SettingsActivity::class.java))
+                    /*navigator.startActivityForResult(Intent(activity, SearchActivity::class.java), SETTINGS_REQUEST_CODE)*/
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.synexoit.weatherapp.di.module
 
 import android.arch.persistence.room.Room
+import android.arch.persistence.room.RoomDatabase
 import com.synexoit.weatherapp.WeatherApplication
 import com.synexoit.weatherapp.data.db.AppDatabase
 import dagger.Module
@@ -14,6 +15,7 @@ class DatabaseModule {
     @Provides
     fun provideDatabaseInstance(application: WeatherApplication) : AppDatabase {
         return Room.databaseBuilder(application, AppDatabase::class.java, "database")
+                .setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
                 .fallbackToDestructiveMigration()
                 .build()
     }

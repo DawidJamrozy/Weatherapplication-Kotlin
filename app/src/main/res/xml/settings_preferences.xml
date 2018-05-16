@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Unit list">
+
+        <ListPreference
+            android:key="unitPref"
+            android:title="Units"
+            android:entries="@array/unit_entry_list"
+            android:entryValues="@array/unit_value_entry_list"
+            android:summary="Set unit type"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

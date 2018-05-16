@@ -40,6 +40,7 @@
     <string name="precip">Precip</string>
     <string name="intensity">Intensity</string>
     <string name="pressure">Pressure</string>
+    <string name="settings_title">Settings</string>
 
 
 </resources>

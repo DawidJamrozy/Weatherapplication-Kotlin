@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <header
+        android:fragment="com.synexoit.weatherapp.ui.settings.SettingsFragment"
+        android:title="Unit Settings"
+        android:summary="Set global unit settings/" />
+
+</preference-headers>
