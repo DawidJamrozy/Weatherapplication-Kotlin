@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.synexoit.weatherapp.R
+import java.util.*
 
 class SettingsActivity : PreferenceActivity() {
 
@@ -30,4 +31,12 @@ class SettingsActivity : PreferenceActivity() {
     }
 
     private fun getScreenTitle() = getString(R.string.settings_title)
+
+    @Suppress("DEPRECATION")
+    fun setLanguage(language: String) {
+        //TODO change to context wrapper
+        val conf = resources.configuration
+        conf.locale = Locale(language)
+        resources.updateConfiguration(conf, resources.displayMetrics)
+    }
 }

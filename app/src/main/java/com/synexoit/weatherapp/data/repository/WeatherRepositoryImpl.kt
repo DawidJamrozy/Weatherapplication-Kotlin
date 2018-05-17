@@ -3,6 +3,7 @@ package com.synexoit.weatherapp.data.repository
 import com.synexoit.weatherapp.data.api.WeatherApi
 import com.synexoit.weatherapp.data.entity.CityPlace
 import com.synexoit.weatherapp.data.entity.darksky.City
+import com.synexoit.weatherapp.data.manager.SharedPreferencesManager
 import com.synexoit.weatherapp.util.ObservableResponse
 import com.synexoit.weatherapp.util.RateLimiter
 import com.synexoit.weatherapp.util.Resource
@@ -12,12 +13,13 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class WeatherRepositoryImpl @Inject constructor(private val mWeatherApi: WeatherApi,
-                                                private val mCityRepository: CityRepository) : WeatherRepository {
+                                                private val mCityRepository: CityRepository,
+                                                private val sharedPreferencesManager: SharedPreferencesManager) : WeatherRepository {
 
     //TODO 05.05.2018 Dawid Jamroży change to config
-    private val LANGUAGE = "pl"
+    private val LANGUAGE = "language"
     private val EXCLUDE = "flags,alerts,minutely"
-    private val UNITS = "ca"
+    private val UNITS = "unit"
 
     private val repoListRateLimit = RateLimiter<String>(60, TimeUnit.SECONDS)
 
@@ -42,7 +44,9 @@ class WeatherRepositoryImpl @Inject constructor(private val mWeatherApi: Weather
 
             override fun createCall(): Maybe<Resource<City>> {
                 Timber.d("createCall(): ")
-                return mWeatherApi.getCity(cityPlace.latitude.toString(), cityPlace.longitude.toString(), LANGUAGE, EXCLUDE, UNITS)
+                val language = sharedPreferencesManager.getString(LANGUAGE)
+                val units = sharedPreferencesManager.getString(UNITS)
+                return mWeatherApi.getCity(cityPlace.latitude.toString(), cityPlace.longitude.toString(), language, EXCLUDE, units)
                         .map { Resource.success(it.copy(name = cityPlace.name, placeId = cityPlace.id, address = cityPlace.address)) }
             }
         }.fetchData()

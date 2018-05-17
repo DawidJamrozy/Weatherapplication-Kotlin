@@ -5,11 +5,23 @@
         android:title="Unit list">
 
         <ListPreference
-            android:key="unitPref"
+            android:key="unit"
             android:title="Units"
             android:entries="@array/unit_entry_list"
             android:entryValues="@array/unit_value_entry_list"
             android:summary="Set unit type"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Language list">
+
+        <ListPreference
+            android:key="language"
+            android:title="Language"
+            android:entries="@array/language_entry_list"
+            android:entryValues="@array/language_value_entry_list"
+            android:summary="Set language"/>
 
     </PreferenceCategory>
 

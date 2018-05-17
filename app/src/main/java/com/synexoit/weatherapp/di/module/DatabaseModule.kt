@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.synexoit.weatherapp.WeatherApplication
 import com.synexoit.weatherapp.data.db.AppDatabase
+import com.synexoit.weatherapp.data.manager.SharedPreferencesManager
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -24,7 +25,14 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideSharePreferences(application: WeatherApplication): SharedPreferences {
+    fun provideSharedPreferences(application: WeatherApplication): SharedPreferences {
         return application.getSharedPreferences("com.synexoit.weatherapp_preferences", Context.MODE_PRIVATE)
     }
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferencesManager(sharedPreferences: SharedPreferences): SharedPreferencesManager {
+        return SharedPreferencesManager(sharedPreferences)
+    }
+
 }

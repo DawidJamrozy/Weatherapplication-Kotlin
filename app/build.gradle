@@ -47,24 +47,39 @@ android {
         exclude 'META-INF/rxjava.properties'
     }
 }
+ext {
+    multidex_version = '1.0.3'
+    jackson_version = '2.9.5'
+    support_library_version = '27.1.1'
+    retrofit_version = '2.4.0'
+    okhttp_version = '3.6.0'
+    dagger_version = '2.16'
+    icepick_version = '3.2.0'
+    room_version = '1.1.0'
+    lifecycle_version = '1.1.1'
+    parceler_version = '1.1.9'
+    glide_version = '4.7.1'
+    dart_version = '2.0.2'
+    henson_version = '2.0.2'
+    fragment_args_version = '3.0.2'
+    timber_version = "4.7.0"
+    junit_version = "4.12"
+    rxrelay_version = "2.0.0"
+    android_debug_database_version = "1.0.3"
+    android_chart_version = "v3.0.1"
+    keyboard_visibility_version = "2.1.0"
+    constraint_layout_version = "1.1.0"
+    autocomplete_places_version = "15.0.1"
+    rx_java_version = "2.1.13"
+    rx_android_version = "2.0.2"
+    barista_version = "2.4.0"
+}
 
-ext.multidex_version = '1.0.3'
-ext.jackson_version = '2.9.5'
-ext.support_library_version = '27.1.1'
-ext.retrofit_version = '2.4.0'
-ext.okhttp_version = '3.6.0'
-ext.dagger_version = '2.15'
-ext.icepick_version = '3.2.0'
-ext.room_version = '1.1.0'
-ext.lifecycle_version = '1.1.1'
-ext.parceler_version = '1.1.9'
-ext.glide_version = '4.7.1'
-ext.dart_version = '2.0.2'
-ext.henson_version = '2.0.2'
-ext.fragment_args_version = '3.0.2'
-ext.timber_version = "4.6.1"
-ext.junit_version = "4.12"
-ext.rxrelay_version = "2.0.0"
+configurations.all {
+    resolutionStrategy {
+        force "com.android.support:support-v7:$support_library_version"
+    }
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -72,10 +87,10 @@ dependencies {
     implementation "com.android.support:multidex:$multidex_version"
 
     // JUnit
-    testImplementation 'junit:junit:4.12'
+    testImplementation "junit:junit:$junit_version"
 
     // Espresso Barista
-    androidTestImplementation('com.schibsted.spain:barista:2.4.0') {
+    androidTestImplementation("com.schibsted.spain:barista:$barista_version") {
         exclude group: 'com.android.support'
         exclude group: 'org.jetbrains.kotlin'
     }
@@ -99,11 +114,7 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
-    kaptTest "com.google.dagger:dagger-compiler:2.15"
-    kaptAndroidTest "com.google.dagger:dagger-compiler:2.15"
-
-    // JUnit
-    testImplementation "junit:junit:$junit_version"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -111,11 +122,8 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
 
     // RxJava
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.10'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-
-    // RxRelay
-    implementation "com.jakewharton.rxrelay2:rxrelay:$rxrelay_version"
+    implementation "io.reactivex.rxjava2:rxjava:$rx_java_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rx_android_version"
 
     // Room
     implementation "android.arch.persistence.room:runtime:$room_version"
@@ -137,10 +145,10 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-smile:$jackson_version"
-    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.4.1"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_version"
 
     // Keyboard visibility
-    implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.1.0'
+    implementation "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:$keyboard_visibility_version"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
@@ -160,15 +168,15 @@ dependencies {
     kapt "com.hannesdorfmann.fragmentargs:processor:$fragment_args_version"
 
     // ConstraintLayout
-    implementation   'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation   "com.android.support.constraint:constraint-layout:$constraint_layout_version"
 
     // AutoComplete
-    implementation 'com.google.android.gms:play-services-places:15.0.0'
+    implementation "com.google.android.gms:play-services-places:$autocomplete_places_version"
 
     // Android Debug Database
-    debugImplementation 'com.amitshekhar.android:debug-db:1.0.3'
+    debugImplementation "com.amitshekhar.android:debug-db:$android_debug_database_version"
 
     // Android Chart
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.1'
+    implementation "com.github.PhilJay:MPAndroidChart:$android_chart_version"
 
 }

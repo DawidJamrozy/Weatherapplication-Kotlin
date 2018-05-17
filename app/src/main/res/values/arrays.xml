@@ -9,4 +9,14 @@
         <item>ca</item>
         <item>si</item>
     </string-array>
+
+    <string-array name="language_entry_list">
+        <item>Polski</item>
+        <item>English</item>
+    </string-array>
+
+    <string-array name="language_value_entry_list">
+        <item>pl</item>
+        <item>en</item>
+    </string-array>
 </resources>

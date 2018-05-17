@@ -5,7 +5,6 @@ import android.content.Context
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -14,6 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.f2prateek.dart.Dart
 import com.synexoit.weatherapp.R
+import com.synexoit.weatherapp.data.manager.SharedPreferencesManager
 import com.synexoit.weatherapp.util.SingleToast
 import dagger.android.AndroidInjection
 import icepick.Icepick
@@ -30,6 +30,9 @@ abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity() {
 	@Inject
 	protected lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    @Inject
+    protected lateinit var sharedPreferencesManager:SharedPreferencesManager
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		AndroidInjection.inject(this)
 		super.onCreate(savedInstanceState)
@@ -37,8 +40,7 @@ abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, getLayoutResId())
         binding.setLifecycleOwner(this)
 
-		val sp = PreferenceManager.getDefaultSharedPreferences(baseContext)
-		setLanguage(sp.getString("language", "pl"))
+		setLanguage(sharedPreferencesManager.getString("language"))
 
 		Dart.inject(this)
 	}
