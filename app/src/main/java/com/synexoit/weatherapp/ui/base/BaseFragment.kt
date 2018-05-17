@@ -68,11 +68,11 @@ abstract class BaseFragment<B : ViewDataBinding> : ViewLifecycleFragment(), Inje
 		val arrowBack: ImageView? = view?.findViewById(R.id.toolbar_back_arrow)
 		val toolbarTitle: TextView? = view?.findViewById(R.id.toolbar_title)
 
-		arrowBack?.let {
-			it.visibility = if (isDisplayingBackArrow()) View.VISIBLE else View.INVISIBLE
-			it.setOnClickListener { navigateBack() }
+		arrowBack?.run {
+			visibility = if (isDisplayingBackArrow()) View.VISIBLE else View.INVISIBLE
+			setOnClickListener { navigateBack() }
 		}
-		toolbarTitle?.let { it.text = getScreenTitle() }
+		toolbarTitle?.run { text = getScreenTitle() }
 	}
 
 	abstract fun getScreenTitle(): String
@@ -91,6 +91,6 @@ abstract class BaseFragment<B : ViewDataBinding> : ViewLifecycleFragment(), Inje
 	protected fun hideKeyboard() {
 		val view = activity?.currentFocus
 		val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-		view?.let { imm?.hideSoftInputFromWindow(it.windowToken, 0) }
+		view?.run { imm?.hideSoftInputFromWindow(windowToken, 0) }
 	}
 }

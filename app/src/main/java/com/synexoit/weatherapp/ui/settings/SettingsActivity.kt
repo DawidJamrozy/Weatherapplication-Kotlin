@@ -26,7 +26,7 @@ class SettingsActivity : PreferenceActivity() {
             visibility = View.VISIBLE
             setOnClickListener { onBackPressed() }
         }
-        toolbarTitle?.let { it.text = getScreenTitle() }
+        toolbarTitle?.run { text = getScreenTitle() }
     }
 
     private fun getScreenTitle() = getString(R.string.settings_title)

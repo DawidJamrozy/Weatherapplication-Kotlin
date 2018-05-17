@@ -60,11 +60,11 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
     override fun isDisplayingBackArrow(): Boolean = true
 
     private fun handleCityPreviewList(cityList: ListWrapper<CityPreview>?) {
-        cityList?.let {
-            when (it.status) {
-                is ListStatus.New -> recyclerAdapter.addNewList(it.list)
+        cityList?.run {
+            when (status) {
+                is ListStatus.New -> recyclerAdapter.addNewList(list)
                 is ListStatus.Refresh -> {
-                    recyclerAdapter.loadWithDifference(it.list)
+                    recyclerAdapter.loadWithDifference(list)
                     setResult(RESULT_OK)
                 }
             }
@@ -83,15 +83,16 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
     }
 
     private fun handleOnClick(onClickEvent: Int?) {
-        if (callingActivity == null)
-            navigator.startActivity(Intent(MainActivity@ this, MainActivity::class.java))
-        else
-            finish()
+        onClickEvent?.let {
+            when(it) {
+                SearchViewModel.GO_TO_MAIN_ACTIVITY -> goToMainActivity()
+            }
+        }
     }
 
     private fun initAutoComplete() {
-        fragmentManager?.let {
-            val autoComplete = it.findFragmentById(R.id.place_autocomplete) as PlaceAutocompleteFragment
+        fragmentManager?.run {
+            val autoComplete = findFragmentById(R.id.place_autocomplete) as PlaceAutocompleteFragment
             val filter = AutocompleteFilter.Builder()
                     .setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES)
                     .build()
@@ -102,7 +103,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
     }
 
     private fun initRecyclerView() {
-        binding.recyclerView.run {
+      with(binding.recyclerView) {
             adapter = recyclerAdapter
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
             addItemDecoration(DividerItemDecoration(this.context, LinearLayoutManager.VERTICAL))
@@ -126,5 +127,12 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
         override fun onError(place: Status?) {
             Timber.d("onError(): ${place.toString()}")
         }
+    }
+
+    private fun goToMainActivity() {
+        if (callingActivity == null)
+            navigator.startActivity(Intent(this, MainActivity::class.java))
+        else
+            finish()
     }
 }

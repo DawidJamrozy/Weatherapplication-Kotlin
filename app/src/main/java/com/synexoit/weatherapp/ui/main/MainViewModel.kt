@@ -33,8 +33,8 @@ class MainViewModel @Inject constructor(private val mCityRepository: CityReposit
                 )
     }
 
-    private fun handleResponse(cityIdList: List<String>) {
-        this.cityIdList.value = cityIdList
+    private fun handleResponse(idList: List<String>) {
+        cityIdList.value = idList
     }
 
     fun onAddButtonClick() {

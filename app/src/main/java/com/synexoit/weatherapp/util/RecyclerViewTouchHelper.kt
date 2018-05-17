@@ -25,10 +25,10 @@ class RecyclerViewTouchHelper(private val itemTouchHelper: ItemTouchHelperAdapte
     }
 
     override fun isLongPressDragEnabled(): Boolean {
-        return true
+        return false
     }
 
     override fun isItemViewSwipeEnabled(): Boolean {
-        return true
+        return false
     }
 }

@@ -46,8 +46,8 @@ class CityViewModel @Inject constructor(private val cityRepository: CityReposito
     }
 
     fun refreshWeatherData() {
-        city.value?.let {
-            addDisposable(weatherRepository.getCity(it.toCityPlace())
+        city.value?.let { city ->
+            addDisposable(weatherRepository.getCity(city.toCityPlace())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     //TODO 14.05.2018 by Dawid Jamroży
@@ -58,8 +58,8 @@ class CityViewModel @Inject constructor(private val cityRepository: CityReposito
 
     private fun processResponse(data: City?) {
         data?.let {
-            city.value = it
             dataTime.value = SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(it.currently!!.time * 1000)
+            city.value = it
             createDayData(it)
             createDayDetails(it.currently)
         }
@@ -69,8 +69,8 @@ class CityViewModel @Inject constructor(private val cityRepository: CityReposito
         val temporaryDayDataList = mutableListOf<DayData>()
         val sdf = SimpleDateFormat(DAY_FORMAT, Locale.getDefault())
         sdf.timeZone = TimeZone.getTimeZone(city.timezone)
-        city.daily?.data?.let {
-            it.take(7).forEach {
+        city.daily?.data?.let { list ->
+            list.take(7).forEach {
                 val dayName = sdf.format(Date(it.time * 1000L))
                 temporaryDayDataList.add(DayData(it.temperatureMin.toInt(),
                         it.temperatureMax.toInt(), it.icon, createDayName(dayName)))
@@ -80,14 +80,14 @@ class CityViewModel @Inject constructor(private val cityRepository: CityReposito
     }
 
     private fun createDayDetails(currently: Currently?) {
-        currently?.let {
+        currently?.let { nonNullCurrently ->
             val list = mutableListOf<DayDetails>()
             list.run {
-                add(DayDetails(getString(R.string.wind), it.windSpeed.toInt(), getString(R.string.speed_unit), R.drawable.wind))
-                add(DayDetails(getString(R.string.humidity), (it.humidity * 100).toInt(), getString(R.string.percent_unit), R.drawable.humidity))
-                add(DayDetails(getString(R.string.apparent), it.apparentTemperature.toInt(), getString(R.string.degree_unit), R.drawable.temperature))
-                add(DayDetails(getString(R.string.precip), it.precipIntensity.toInt(), getString(R.string.precip_unit), R.drawable.drop))
-                add(DayDetails(getString(R.string.pressure), it.pressure.toInt(), getString(R.string.pressure_unit), R.drawable.pressure))
+                add(DayDetails(getString(R.string.wind), nonNullCurrently.windSpeed.toInt(), getString(R.string.speed_unit), R.drawable.wind))
+                add(DayDetails(getString(R.string.humidity), (nonNullCurrently.humidity * 100).toInt(), getString(R.string.percent_unit), R.drawable.humidity))
+                add(DayDetails(getString(R.string.apparent), nonNullCurrently.apparentTemperature.toInt(), getString(R.string.degree_unit), R.drawable.temperature))
+                add(DayDetails(getString(R.string.precip), nonNullCurrently.precipIntensity.toInt(), getString(R.string.precip_unit), R.drawable.drop))
+                add(DayDetails(getString(R.string.pressure), nonNullCurrently.pressure.toInt(), getString(R.string.pressure_unit), R.drawable.pressure))
             }
 
             dayDetailsList.value = list

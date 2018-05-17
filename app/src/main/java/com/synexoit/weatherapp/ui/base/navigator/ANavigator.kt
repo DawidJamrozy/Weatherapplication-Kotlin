@@ -69,8 +69,8 @@ open class ANavigator @Inject constructor(private val mActivity: FragmentActivit
 
 		val fragmentTransaction = fragmentManager.beginTransaction().replace(currentActivity.getContentResId(), fragment, null)
 
-		sharedElement?.let {
-			fragmentTransaction.addSharedElement(it.first, it.second)
+		sharedElement?.run {
+			fragmentTransaction.addSharedElement(first, second)
 			animation?.let {
 				fragment.sharedElementEnterTransition = it
 			}

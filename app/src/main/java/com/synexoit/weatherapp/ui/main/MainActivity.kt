@@ -47,12 +47,16 @@ class MainActivity : BaseFragmentActivity<ActivityMainBinding>() {
     }
 
     private fun handleCityIdList(cityIdList: List<String>?) {
-        cityIdList?.let { setUpViewPagerAdapter(it) }
+        cityIdList?.let {list ->
+            if(list.isEmpty())
+                finish()
+            else
+                setUpViewPagerAdapter(list) }
     }
 
     private fun handleOnClick(onClickEvent: Int?) {
         onClickEvent?.let {
-            when(onClickEvent) {
+            when(it) {
                 MainViewModel.ADD_NEW_CITY -> goToSearchActivity()
             }
         }

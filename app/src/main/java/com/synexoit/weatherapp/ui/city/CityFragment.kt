@@ -106,13 +106,11 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
     }
 
     private fun handleDayDetails(list: MutableList<DayDetails>?) {
-        list?.let {
-            dayDetailsRecyclerAdapter.addNewList(it)
-        }
+        list?.let { dayDetailsRecyclerAdapter.addNewList(it) }
     }
 
     private fun handleFailure(failure: Failure?) {
-        failure?.let {
+        failure?.run {
             setSwipeRefreshIndicator(false)
             //TODO 14.05.2018 by Dawid Jamroży
             showToast("ERROR")
@@ -139,8 +137,8 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
 
         @SuppressLint("SimpleDateFormat")
         val sdf = SimpleDateFormat(HOUR_FORMAT)
-
         sdf.timeZone = TimeZone.getTimeZone(city.timezone)
+
         for (i in 0..24) {
             val data = city.hourly!!.data!![i]
             //temp - add data to calculate min temperature for chart axis
@@ -151,24 +149,19 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
             hours.add(sdf.format(Date(data.time * 1000L)))
         }
 
-        val leftAxis = binding.lineChart.axisLeft
-        setYAxis(leftAxis, temperatureList)
-
-        val rightAxis = binding.lineChart.axisRight
-        setYAxis(rightAxis, temperatureList)
-
-        val downAxis = binding.lineChart.xAxis
-        setXAxis(downAxis, hours)
+        with(binding.lineChart) {
+            setYAxis(axisLeft, temperatureList)
+            setYAxis(axisRight, temperatureList)
+            setXAxis(xAxis, hours)
+        }
 
         val lineDataSet = LineDataSet(entries, "Label")
         customizeLineDataSet(lineDataSet)
-
-        val lineData = LineData(lineDataSet)
-        customizeLineChart(lineData)
+        customizeLineChart(LineData(lineDataSet))
     }
 
     private fun customizeLineDataSet(lineDataSet: LineDataSet) {
-        lineDataSet.run {
+        with(lineDataSet) {
             valueTextSize = 12f
             circleHoleRadius = 2.5f
             circleRadius = 4f
@@ -193,7 +186,7 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
     }
 
     private fun setXAxis(axis: XAxis, hours: MutableList<String>) {
-        axis.run {
+        with(axis) {
             labelCount = 25
             setDrawGridLines(false)
             position = XAxis.XAxisPosition.BOTTOM
@@ -202,7 +195,7 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
     }
 
     private fun setYAxis(axis: YAxis, temp: MutableList<Int>) {
-        axis.run {
+        with(axis) {
             setDrawGridLines(false)
             setDrawLabels(false)
             axisMinimum = (Collections.min(temp) - 2).toFloat()

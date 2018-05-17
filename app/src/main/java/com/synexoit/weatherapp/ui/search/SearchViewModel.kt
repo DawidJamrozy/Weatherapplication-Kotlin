@@ -24,6 +24,10 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
                                           private val cityRepository: CityRepository,
                                           application: WeatherApplication) : BaseAndroidViewModel(application) {
 
+    companion object {
+        const val GO_TO_MAIN_ACTIVITY = 1000
+    }
+
     val cityList = MutableLiveData<ListWrapper<CityPreview>>()
     val isButtonVisible = MutableLiveData<Boolean>()
 
@@ -35,8 +39,8 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
         when (response.status) {
             is Status.Success -> {
                 cityList.value?.let { wrapper ->
-                    response.data?.let {
-                        wrapper.list.add(CityPreview(it.name, it.address, it.placeId, lastItemPosition))
+                    response.data?.run {
+                        wrapper.list.add(CityPreview(name, address, placeId, lastItemPosition))
                     }
                     setCityPreviewListValue(ListWrapper(ListStatus.Refresh(), wrapper.list))
                 }
@@ -47,9 +51,9 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
     }
 
     fun getCity(cityPlace: CityPlace, lastItemPosition: Int) {
-        cityList.value?.let {
-            val city = it.list.singleOrNull { it.placeId == cityPlace.id }
-            city?.let {
+        cityList.value?.run {
+            val city = list.singleOrNull { it.placeId == cityPlace.id }
+            city?.run {
                 handleFailure(Failure.CityAlreadyInDatabaseException())
                 return@getCity
             }
@@ -78,9 +82,9 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         {
-                            cityList.value?.let {
-                                it.list.remove(city)
-                                setCityPreviewListValue(ListWrapper(ListStatus.Refresh(), it.list))
+                            cityList.value?.run {
+                                list.remove(city)
+                                setCityPreviewListValue(ListWrapper(ListStatus.Refresh(), list))
                             }
                         },
                         { handleFailure(Failure.UnknownAppError(it.message)) }
@@ -116,6 +120,6 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
     }
 
     fun startMainActivity() {
-        onClickEvent.value = 1
+        onClickEvent.value = GO_TO_MAIN_ACTIVITY
     }
 }

@@ -51,11 +51,11 @@ abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity() {
 		val arrowBack: ImageView? = findViewById(R.id.toolbar_back_arrow)
 		val toolbarTitle: TextView? = findViewById(R.id.toolbar_title)
 
-		arrowBack?.let {
-			it.visibility = if (isDisplayingBackArrow()) View.VISIBLE else View.INVISIBLE
-			it.setOnClickListener { onBackPressed() }
+		arrowBack?.run {
+			visibility = if (isDisplayingBackArrow()) View.VISIBLE else View.INVISIBLE
+			setOnClickListener { onBackPressed() }
 		}
-		toolbarTitle?.let { it.text = getScreenTitle() }
+		toolbarTitle?.run { text = getScreenTitle() }
 	}
 
 	open protected fun isDisplayingBackArrow(): Boolean {
