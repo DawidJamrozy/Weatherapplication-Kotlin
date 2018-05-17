@@ -9,6 +9,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -149,15 +150,15 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
             hours.add(sdf.format(Date(data.time * 1000L)))
         }
 
+        val lineDataSet = LineDataSet(entries, "Label")
+        customizeLineDataSet(lineDataSet)
+
         with(binding.lineChart) {
             setYAxis(axisLeft, temperatureList)
             setYAxis(axisRight, temperatureList)
             setXAxis(xAxis, hours)
+            customizeLineChart(this, LineData(lineDataSet))
         }
-
-        val lineDataSet = LineDataSet(entries, "Label")
-        customizeLineDataSet(lineDataSet)
-        customizeLineChart(LineData(lineDataSet))
     }
 
     private fun customizeLineDataSet(lineDataSet: LineDataSet) {
@@ -171,10 +172,10 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         }
     }
 
-    private fun customizeLineChart(lineData: LineData) {
+    private fun customizeLineChart(lineChart: LineChart, lineData: LineData) {
         val emptyDescription = Description()
         emptyDescription.text = ""
-        binding.lineChart.run {
+        with(lineChart) {
             data = lineData
             legend.isEnabled = false
             setTouchEnabled(false)

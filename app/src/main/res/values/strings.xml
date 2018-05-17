@@ -42,5 +42,12 @@
     <string name="pressure">Pressure</string>
     <string name="settings_title">Settings</string>
 
+    <!--Settings-->
+    <string name="language_list">Language list</string>
+    <string name="language">Language</string>
+    <string name="set_language">Set language</string>
+    <string name="unit_list">Unit list</string>
+    <string name="unit">Unit</string>
+    <string name="set_unit">Set unit</string>
 
 </resources>

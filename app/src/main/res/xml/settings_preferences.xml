@@ -2,26 +2,26 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="Unit list">
+        android:title="@string/unit_list">
 
         <ListPreference
             android:key="unit"
-            android:title="Units"
+            android:title="@string/unit"
             android:entries="@array/unit_entry_list"
             android:entryValues="@array/unit_value_entry_list"
-            android:summary="Set unit type"/>
+            android:summary="@string/set_unit"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Language list">
+        android:title="@string/language_list">
 
         <ListPreference
             android:key="language"
-            android:title="Language"
+            android:title="@string/language"
             android:entries="@array/language_entry_list"
             android:entryValues="@array/language_value_entry_list"
-            android:summary="Set language"/>
+            android:summary="@string/set_language"/>
 
     </PreferenceCategory>
 
