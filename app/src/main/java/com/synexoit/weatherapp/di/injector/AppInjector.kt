@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
-import com.synexoit.weatherapp.WeatherApplication
 import com.synexoit.weatherapp.di.Injectable
 import com.synexoit.weatherapp.di.component.ApplicationComponent
 import dagger.android.AndroidInjection
@@ -18,7 +17,7 @@ class AppInjector {
 
     companion object {
 
-        fun init(application: WeatherApplication, applicationComponent: ApplicationComponent) {
+        fun init(application: Application, applicationComponent: ApplicationComponent) {
             applicationComponent.inject(application)
 
             application.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {

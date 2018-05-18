@@ -1,8 +1,8 @@
 package com.synexoit.weatherapp.ui.city
 
+import android.app.Application
 import android.arch.lifecycle.MutableLiveData
 import com.synexoit.weatherapp.R
-import com.synexoit.weatherapp.WeatherApplication
 import com.synexoit.weatherapp.data.entity.DayDetails
 import com.synexoit.weatherapp.data.entity.darksky.City
 import com.synexoit.weatherapp.data.entity.darksky.Currently
@@ -22,7 +22,7 @@ import javax.inject.Inject
  */
 class CityViewModel @Inject constructor(private val cityRepository: CityRepository,
                                         private val weatherRepository: WeatherRepository,
-                                        weatherApplication: WeatherApplication) : BaseAndroidViewModel(weatherApplication) {
+                                        weatherApplication: Application) : BaseAndroidViewModel(weatherApplication) {
 
     companion object {
         const val OPEN_WEBSITE = 1000

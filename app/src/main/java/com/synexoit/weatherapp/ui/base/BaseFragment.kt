@@ -60,7 +60,7 @@ abstract class BaseFragment<B : ViewDataBinding> : ViewLifecycleFragment(), Inje
 			setUpCustomToolbar()
 	}
 
-	fun navigateBack() = (activity as BaseFragmentActivity<*>).navigateBack()
+	protected fun navigateBack() = (activity as BaseFragmentActivity<*>).navigateBack()
 
 	private fun setUpCustomToolbar() {
 		val arrowBack: ImageView? = view?.findViewById(R.id.toolbar_back_arrow)

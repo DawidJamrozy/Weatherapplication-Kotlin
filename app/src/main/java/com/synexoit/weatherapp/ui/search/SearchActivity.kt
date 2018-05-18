@@ -2,6 +2,7 @@ package com.synexoit.weatherapp.ui.search
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import com.f2prateek.dart.HensonNavigable
@@ -23,7 +24,6 @@ import com.synexoit.weatherapp.ui.base.adapter.UniversalAdapter
 import com.synexoit.weatherapp.ui.base.navigator.Navigator
 import com.synexoit.weatherapp.ui.main.MainActivity
 import com.synexoit.weatherapp.ui.search.adapter.CityPreviewDelegateAdapter
-import com.synexoit.weatherapp.util.CustomItemDecorator
 import com.synexoit.weatherapp.util.ListStatus
 import com.synexoit.weatherapp.util.ListWrapper
 import com.synexoit.weatherapp.util.RecyclerViewTouchHelper
@@ -62,10 +62,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
     private fun handleCityPreviewList(cityList: ListWrapper<CityPreview>?) {
         cityList?.run {
             when (status) {
-                is ListStatus.New -> {
-                    list.forEachIndexed { index, cityPreview ->  }
-                    recyclerAdapter.addNewList(list)
-                }
+                is ListStatus.New -> recyclerAdapter.addNewList(list)
                 is ListStatus.Refresh -> {
                     recyclerAdapter.loadWithDifference(list)
                     setResult(RESULT_OK)
@@ -109,7 +106,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
       with(binding.recyclerView) {
             adapter = recyclerAdapter
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
-            addItemDecoration(CustomItemDecorator(this.context, LinearLayoutManager.VERTICAL))
+            addItemDecoration(DividerItemDecoration(this.context, LinearLayoutManager.VERTICAL))
             val touchCallback = RecyclerViewTouchHelper(recyclerAdapter.getDelegateAdapter(UniversalAdapter.VIEW_CITY_PREVIEW) as CityPreviewDelegateAdapter)
             val touchHelper = ItemTouchHelper(touchCallback)
             touchHelper.attachToRecyclerView(this)

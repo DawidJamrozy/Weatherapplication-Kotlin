@@ -1,8 +1,8 @@
 package com.synexoit.weatherapp.di.component
 
 import android.app.Application
-import com.synexoit.weatherapp.di.ApplicationTestModule
 import com.synexoit.weatherapp.di.module.ActivityModuleBuilder
+import com.synexoit.weatherapp.di.module.TestApplicationModule
 import com.synexoit.weatherapp.di.module.ServiceModuleBuilder
 import dagger.BindsInstance
 import dagger.Component
@@ -13,10 +13,10 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [
     AndroidInjectionModule::class,
-    ApplicationTestModule::class,
+    TestApplicationModule::class,
     ActivityModuleBuilder::class,
     ServiceModuleBuilder::class])
-interface ApplicationTestComponent : ApplicationComponent {
+interface TestApplicationComponent : ApplicationComponent {
 
     @Component.Builder
     interface Builder {
@@ -24,6 +24,6 @@ interface ApplicationTestComponent : ApplicationComponent {
         @BindsInstance
         fun application(application: Application): Builder
 
-        fun build(): ApplicationTestComponent
+        fun build(): TestApplicationComponent
     }
 }

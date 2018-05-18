@@ -1,9 +1,9 @@
 package com.synexoit.weatherapp.ui.base
 
+import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
 import android.support.annotation.StringRes
-import com.synexoit.weatherapp.WeatherApplication
 import com.synexoit.weatherapp.data.exceptions.Failure
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -11,7 +11,7 @@ import io.reactivex.disposables.Disposable
 /**
  * Created by Dawid on 13.01.2018.
  */
-abstract class BaseAndroidViewModel(application: WeatherApplication) : AndroidViewModel(application) {
+abstract class BaseAndroidViewModel(application: Application) : AndroidViewModel(application) {
 
 	private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     val failure = MutableLiveData<Failure>()
@@ -34,8 +34,8 @@ abstract class BaseAndroidViewModel(application: WeatherApplication) : AndroidVi
 	}
 
     fun getString(@StringRes stringResId: Int)
-            = getApplication<WeatherApplication>().getString(stringResId)
+            = getApplication<Application>().getString(stringResId)
 
     fun getString(@StringRes stringResId: Int, vararg  formatArgs: Any)
-            = getApplication<WeatherApplication>().getString(stringResId, formatArgs)
+            = getApplication<Application>().getString(stringResId, formatArgs)
 }

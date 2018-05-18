@@ -21,7 +21,7 @@ class SearchActivityTest : BaseAndroidTest() {
             })
 
     @Test
-    fun testMethod() {
+    fun `testDUpy`() {
 
     }
 }
