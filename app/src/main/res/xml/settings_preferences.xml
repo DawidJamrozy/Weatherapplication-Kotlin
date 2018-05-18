@@ -13,16 +13,4 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/language_list">
-
-        <ListPreference
-            android:key="language"
-            android:title="@string/language"
-            android:entries="@array/language_entry_list"
-            android:entryValues="@array/language_value_entry_list"
-            android:summary="@string/set_language"/>
-
-    </PreferenceCategory>
-
 </PreferenceScreen>

@@ -37,10 +37,5 @@ class SettingsFragment : PreferenceFragment(), OnSharedPreferenceChangeListener 
         }
 
         sharedPreferenceEditor.apply()
-
-        if(key == "language" && preference is ListPreference) {
-            (activity as SettingsActivity).setLanguage(preference.value)
-            activity.recreate()
-        }
     }
 }

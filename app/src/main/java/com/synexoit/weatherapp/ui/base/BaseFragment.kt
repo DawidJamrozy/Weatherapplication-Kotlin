@@ -1,14 +1,12 @@
 package com.synexoit.weatherapp.ui.base
 
 import android.arch.lifecycle.ViewModelProvider
-import android.content.Context
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -89,8 +87,6 @@ abstract class BaseFragment<B : ViewDataBinding> : ViewLifecycleFragment(), Inje
 	}
 
 	protected fun hideKeyboard() {
-		val view = activity?.currentFocus
-		val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-		view?.run { imm?.hideSoftInputFromWindow(windowToken, 0) }
+        (activity as BaseActivity<*>).hideKeyboard()
 	}
 }

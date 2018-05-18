@@ -17,7 +17,6 @@ import com.synexoit.weatherapp.data.manager.SharedPreferencesManager
 import com.synexoit.weatherapp.util.SingleToast
 import dagger.android.AndroidInjection
 import icepick.Icepick
-import java.util.*
 import javax.inject.Inject
 
 /**
@@ -39,8 +38,6 @@ abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity() {
         Icepick.restoreInstanceState(this, savedInstanceState)
         binding = DataBindingUtil.setContentView(this, getLayoutResId())
         binding.setLifecycleOwner(this)
-
-		setLanguage(sharedPreferencesManager.getString("language"))
 
 		Dart.inject(this)
 	}
@@ -70,21 +67,9 @@ abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity() {
 			setUpCustomToolbar()
 	}
 
-	@Suppress("DEPRECATION")
-	fun setLanguage(language: String) {
-		//TODO change to context wrapper
-		val conf = resources.configuration
-		conf.locale = Locale(language)
-		resources.updateConfiguration(conf, resources.displayMetrics)
-	}
-
 	override fun onSaveInstanceState(outState: Bundle?) {
 		super.onSaveInstanceState(outState)
-
-		if (outState != null) {
-            //TODO 25.04.2018 by Dawid Jamroży
-			Icepick.saveInstanceState(this, outState)
-		}
+        outState?.let { Icepick.saveInstanceState(this, it) }
 	}
 
 	protected fun showToast(text: String? = "ERROR", stringId: Int? = null, time: Int = Toast.LENGTH_SHORT) {
@@ -92,9 +77,9 @@ abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity() {
 		SingleToast.show(this, message, time)
 	}
 
-	protected fun hideKeyboard() {
+	 fun hideKeyboard() {
 		val view = this.currentFocus
-		val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-		imm.hideSoftInputFromWindow(view.windowToken, 0)
+		val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+		imm?.hideSoftInputFromWindow(view.windowToken, 0)
 	}
 }

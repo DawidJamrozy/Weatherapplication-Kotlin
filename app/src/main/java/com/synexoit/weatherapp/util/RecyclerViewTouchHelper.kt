@@ -19,13 +19,11 @@ class RecyclerViewTouchHelper(private val itemTouchHelper: ItemTouchHelperAdapte
         return true
     }
 
-    //TODO 11.05.2018 by Dawid Jamroży  to remove
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        //itemTouchHelper.onItemDismiss(viewHolder.adapterPosition)
     }
 
     override fun isLongPressDragEnabled(): Boolean {
-        return false
+        return true
     }
 
     override fun isItemViewSwipeEnabled(): Boolean {

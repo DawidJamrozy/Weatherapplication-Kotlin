@@ -8,10 +8,12 @@ import com.synexoit.weatherapp.data.exceptions.Failure
 import com.synexoit.weatherapp.data.extensions.failure
 import com.synexoit.weatherapp.data.extensions.getViewModel
 import com.synexoit.weatherapp.data.extensions.observe
+import com.synexoit.weatherapp.data.manager.SharedPreferencesManager
 import com.synexoit.weatherapp.ui.base.navigator.Navigator
 import com.synexoit.weatherapp.ui.main.MainActivity
 import com.synexoit.weatherapp.ui.search.SearchActivity
 import dagger.android.AndroidInjection
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -19,11 +21,20 @@ import javax.inject.Inject
  */
 class SplashActivity : AppCompatActivity() {
 
+    companion object {
+        const val UNIT = "unit"
+        const val LANGUAGE = "language"
+        const val AUTO = "auto"
+    }
+
     @Inject
     protected lateinit var navigator: Navigator
 
     @Inject
     protected lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    @Inject
+    protected lateinit var sharedPreferencesManager: SharedPreferencesManager
 
     private lateinit var viewModel: SplashViewModel
 
@@ -34,6 +45,18 @@ class SplashActivity : AppCompatActivity() {
             observe(isCityTableEmpty, ::handleResponse)
             failure(failure, ::handleFailure)
         })
+
+        setUnitAndLanguageSettings()
+    }
+
+    private fun setUnitAndLanguageSettings(){
+        if (sharedPreferencesManager.getString(UNIT).isEmpty())
+            sharedPreferencesManager.putValue(UNIT, AUTO)
+
+        val language = sharedPreferencesManager.getString(LANGUAGE)
+        val localeLanguage = Locale.getDefault().language
+        if (language.isEmpty() || language != localeLanguage)
+            sharedPreferencesManager.putValue(LANGUAGE, localeLanguage)
     }
 
     /**

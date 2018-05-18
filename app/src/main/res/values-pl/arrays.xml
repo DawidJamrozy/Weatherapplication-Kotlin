@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="unit_entry_list">
+        <item>Międzynarodowy system jednostek (km/h)</item>
+        <item>Międzynarodowy system jednostek (mp/h)</item>
+        <item>Jednostki imperialne</item>
+        <item>Automatycznie</item>
+    </string-array>
+
+    <string-array name="unit_value_entry_list">
+        <item>ca</item>
+        <item>si</item>
+        <item>us</item>
+        <item>auto</item>
+    </string-array>
+</resources>

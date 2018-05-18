@@ -40,5 +40,7 @@
     <string name="unit_list">Lista jednostek</string>
     <string name="unit">Jednostki</string>
     <string name="set_unit">Ustaw jednostki</string>
+    <string name="application_settings">Ustawienia aplikacji</string>
+    <string name="set_application_settings">Zmień ustawienia aplikacji</string>
 
 </resources>

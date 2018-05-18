@@ -22,11 +22,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.main.MainActivity" />
+        <activity android:name=".ui.main.MainActivity"
+            android:configChanges="locale"/>
 
-        <activity android:name=".ui.search.SearchActivity"/>
+        <activity android:name=".ui.search.SearchActivity"
+                  android:configChanges="locale"/>
 
-        <activity android:name=".ui.settings.SettingsActivity"/>
+        <activity android:name=".ui.settings.SettingsActivity"
+                  android:configChanges="locale"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

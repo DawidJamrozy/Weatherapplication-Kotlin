@@ -15,7 +15,7 @@
 
     <!--activity search-->
     <string name="fragment_search_toolbar_title">Search</string>
-    <string name="search_city">City...</string>
+    <string name="search_city">City…</string>
     <string name="error_city_already_in_database">City is already in database</string>
 
     <!--weather description-->
@@ -49,5 +49,7 @@
     <string name="unit_list">Unit list</string>
     <string name="unit">Unit</string>
     <string name="set_unit">Set unit</string>
+    <string name="application_settings">Application settings</string>
+    <string name="set_application_settings">Change application settings</string>
 
 </resources>
