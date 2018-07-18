@@ -2,7 +2,6 @@ package com.synexoit.weatherapp.data.manager
 
 import android.content.SharedPreferences
 
-
 class SharedPreferencesManager(private val sharedPreferences: SharedPreferences) {
 
     fun putValue(key: String, value: Any) {
