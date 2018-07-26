@@ -8,7 +8,7 @@
 
         <variable
             name="vm"
-            type="com.synexoit.weatherapp.ui.city.CityViewModel"/>
+            type="com.synexoit.weatherapplication.ui.city.CityViewModel"/>
     </data>
 
     <android.support.v4.widget.SwipeRefreshLayout

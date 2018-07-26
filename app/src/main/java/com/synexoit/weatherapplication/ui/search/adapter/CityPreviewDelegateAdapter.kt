@@ -1,0 +1,29 @@
+package com.synexoit.weatherapplication.ui.weatherapplication.adapter
+
+import android.arch.lifecycle.ViewModel
+import android.support.v7.widget.RecyclerView
+import com.synexoit.weatherapplication.data.entity.CityPreview
+import com.synexoit.weatherapplication.databinding.ItemCityPreviewBinding
+import com.synexoit.weatherapplication.ui.base.adapter.BaseBindingAdapter
+import com.synexoit.weatherapplication.ui.search.SearchViewModel
+import com.synexoit.weatherapplication.util.ItemTouchHelperAdapter
+import com.synexoit.weatherapplication.util.ViewType
+
+class CityPreviewDelegateAdapter(private val list: List<ViewType>) : BaseBindingAdapter<ItemCityPreviewBinding>(), ItemTouchHelperAdapter {
+
+    private lateinit var viewModel: SearchViewModel
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, viewModel :ViewModel?) {
+        @Suppress("UNCHECKED_CAST")
+        holder as BindingViewHolder<ItemCityPreviewBinding>
+        val position = holder.adapterPosition
+        val item = list[position] as CityPreview
+        this.viewModel = viewModel as SearchViewModel
+        holder.binding.item = item
+        holder.binding.vm = this.viewModel
+    }
+
+    override fun onItemMove(fromPosition: Int, toPosition: Int) {
+        viewModel.itemsMoved(fromPosition, toPosition)
+    }
+}

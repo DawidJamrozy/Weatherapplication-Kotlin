@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WeatherApp</string>
+    <string name="app_name">weatherapplication</string>
 
     <!--common-->
     <string name="degree" translatable="false">%1$s&#176;</string>

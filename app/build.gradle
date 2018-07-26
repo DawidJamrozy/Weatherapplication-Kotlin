@@ -15,11 +15,11 @@ android {
         targetSdkVersion globalConfiguration["android_target_sdk_version"]
         versionCode globalConfiguration["android_version_code"]
         versionName globalConfiguration["android_version_name"]
-        testInstrumentationRunner "com.synexoit.weatherapp.TestRunner"
+        testInstrumentationRunner "com.synexoit.weatherapplication.TestRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = ['dart.henson.package': 'com.synexoit.weatherapp']
+                arguments = ['dart.henson.package': 'com.synexoit.weatherapplication']
             }
         }
     }

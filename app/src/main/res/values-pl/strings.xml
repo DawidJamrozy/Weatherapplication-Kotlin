@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WeatherApp</string>
+    <string name="app_name">weatherapplication</string>
 
     <!--common-->
     <string name="speed_unit">km/h</string>

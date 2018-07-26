@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <header
-        android:fragment="com.synexoit.weatherapp.ui.settings.SettingsFragment"
+        android:fragment="com.synexoit.weatherapplication.ui.settings.SettingsFragment"
         android:title="@string/application_settings"
         android:summary="@string/set_application_settings" />
 

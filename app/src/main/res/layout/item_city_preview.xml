@@ -6,11 +6,11 @@
 
         <variable
             name="item"
-            type="com.synexoit.weatherapp.data.entity.CityPreview" />
+            type="com.synexoit.weatherapplication.data.entity.CityPreview" />
 
         <variable
             name="vm"
-            type="com.synexoit.weatherapp.ui.search.SearchViewModel" />
+            type="com.synexoit.weatherapplication.ui.search.SearchViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
