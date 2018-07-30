@@ -15,7 +15,9 @@ data class DayDetails(val name: String,
                       val unit: String,
                       @DrawableRes val imageRes: Int) : Parcelable, ViewType {
 
-    override fun getViewType(): Int = R.layout.item_day_details
+    override val viewType: Int
+        get() = R.layout.item_day_details
 
-    override fun getUniqueId(): String = name
+    override val uniqueId: String
+        get() = name
 }

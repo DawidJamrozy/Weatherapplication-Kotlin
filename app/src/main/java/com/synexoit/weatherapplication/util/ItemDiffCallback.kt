@@ -13,7 +13,7 @@ class ItemDiffCallback(private val newItems: List<ViewType>,
     override fun getNewListSize() = newItems.size
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean
-            = oldItems[oldItemPosition].getUniqueId() == newItems[newItemPosition].getUniqueId()
+            = oldItems[oldItemPosition].uniqueId == newItems[newItemPosition].uniqueId
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean
             = oldItems[oldItemPosition] == newItems[newItemPosition]

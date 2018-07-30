@@ -5,6 +5,7 @@ import android.os.Parcelable
 import android.widget.ImageView
 import com.synexoit.weatherapplication.GlideApp
 import com.synexoit.weatherapplication.R
+import com.synexoit.weatherapplication.data.extensions.empty
 import com.synexoit.weatherapplication.util.ViewType
 import kotlinx.android.parcel.Parcelize
 
@@ -14,11 +15,24 @@ data class DayData(var tempMin: Int,
                    var icon: String,
                    var dayName: String) : ViewType, Parcelable {
 
-    override fun getViewType(): Int = R.layout.item_day
+    override val viewType: Int
+        get() = R.layout.item_day
 
-    override fun getUniqueId(): String = ""
+    override val uniqueId: String
+        get() = String.empty()
 
     companion object {
+        private const val RAIN  = "rain"
+        private const val FOG  = "fog"
+        private const val PARTLY_CLOUDY_DAY  = "partly-cloudy-day"
+        private const val PARTLY_CLOUDY_NIGHT  = "partly-cloudy-night"
+        private const val SNOW  = "snow"
+        private const val SLEET  = "sleet"
+        private const val CLEAR_DAY  = "clear-day"
+        private const val CLEAR_NIGHT  = "clear-night"
+        private const val WIND  = "wind"
+        private const val CLOUDY  = "cloudy"
+
         @BindingAdapter("imageSrc")
         @JvmStatic
         fun loadImage(imageView: ImageView, imageSrc: Int) {
@@ -30,32 +44,32 @@ data class DayData(var tempMin: Int,
 
     fun getSummary(): Int {
         return when (icon) {
-            "rain" -> R.string.rain
-            "fog" -> R.string.mist
-            "partly-cloudy-day" -> R.string.partly_cloudy_day
-            "partly-cloudy-night" -> R.string.partly_cloudy_night
-            "snow" -> R.string.snow
-            "sleet" -> R.string.sleet
-            "clear-day" -> R.string.clear
-            "clear-night" -> R.string.clear
-            "wind" -> R.string.wind
-            "cloudy" -> R.string.cloudy
+            RAIN -> R.string.rain
+            FOG -> R.string.mist
+            PARTLY_CLOUDY_DAY -> R.string.partly_cloudy_day
+            PARTLY_CLOUDY_NIGHT -> R.string.partly_cloudy_night
+            SNOW -> R.string.snow
+            SLEET -> R.string.sleet
+            CLEAR_DAY -> R.string.clear
+            CLEAR_NIGHT -> R.string.clear
+            WIND -> R.string.wind
+            CLOUDY -> R.string.cloudy
             else -> 0
         }
     }
 
     fun getImageSrc(): Int {
         return when (icon) {
-            "rain" -> R.drawable.rain
-            "fog" -> R.drawable.fog
-            "partly-cloudy-day" -> R.drawable.partly_cloudy_day
-            "partly-cloudy-night" -> R.drawable.partly_cloudy_night
-            "snow" -> R.drawable.snow
-            "sleet" -> R.drawable.sleet
-            "clear-day" -> R.drawable.clear_day
-            "clear-night" -> R.drawable.clear_night
-            "wind" -> R.drawable.wind
-            "cloudy" -> R.drawable.cloudy
+            RAIN -> R.drawable.rain
+            FOG -> R.drawable.fog
+            PARTLY_CLOUDY_DAY -> R.drawable.partly_cloudy_day
+            PARTLY_CLOUDY_NIGHT -> R.drawable.partly_cloudy_night
+            SNOW -> R.drawable.snow
+            SLEET -> R.drawable.sleet
+            CLEAR_DAY -> R.drawable.clear_day
+            CLEAR_NIGHT -> R.drawable.clear_night
+            WIND -> R.drawable.wind
+            CLOUDY -> R.drawable.cloudy
             else -> 0
         }
     }

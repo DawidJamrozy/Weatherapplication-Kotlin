@@ -5,7 +5,7 @@ import android.support.v4.util.SparseArrayCompat
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
-import com.synexoit.weatherapplication.data.entity.ItemProgress
+import com.synexoit.weatherapplication.data.entity.Progress
 import com.synexoit.weatherapplication.util.ItemDiffCallback
 import com.synexoit.weatherapplication.util.ViewType
 import com.synexoit.weatherapplication.util.ViewTypeDelegateInterface
@@ -13,7 +13,7 @@ import com.synexoit.weatherapplication.util.ViewTypeDelegateInterface
 abstract class BaseRecyclerAdapter<in T : ViewType>(private val mList: MutableList<T>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     @Suppress("UNCHECKED_CAST")
-    private val progress = ItemProgress() as T
+    private val progress = Progress() as T
 
     protected var mDelegateAdapters = SparseArrayCompat<ViewTypeDelegateInterface>()
 
@@ -30,7 +30,7 @@ abstract class BaseRecyclerAdapter<in T : ViewType>(private val mList: MutableLi
     }
 
     override fun getItemViewType(position: Int): Int {
-        return mList[position].getViewType()
+        return mList[position].viewType
     }
 
     private var mViewModel: ViewModel? = null
@@ -85,7 +85,7 @@ abstract class BaseRecyclerAdapter<in T : ViewType>(private val mList: MutableLi
     }
 
     fun showProgress() {
-        if (mList.contains(progress)) return
+     if (mList.contains(progress)) return
 
         mList.clear()
         mList.add(progress)
@@ -95,9 +95,9 @@ abstract class BaseRecyclerAdapter<in T : ViewType>(private val mList: MutableLi
     fun getListSize() = mList.size
 
     fun hideProgress() {
-        if (!mList.contains(progress)) return
+      if (!mList.contains(progress)) return
 
-        val index = mList.indexOfFirst { it is ItemProgress }
+        val index = mList.indexOfFirst { it is Progress }
 
         if (index != -1) {
             mList.removeAt(index)

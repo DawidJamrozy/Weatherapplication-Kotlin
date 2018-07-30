@@ -14,8 +14,9 @@ data class CityPreview(var name: String = "",
                        var placeId: String = "",
                        var sortPosition: Int = 0) : ViewType, Parcelable {
 
-    override fun getViewType(): Int = R.layout.item_city_preview
+    override val viewType: Int
+        get() = R.layout.item_city_preview
 
-    override fun getUniqueId(): String = placeId
-
+    override val uniqueId: String
+        get() = placeId
 }

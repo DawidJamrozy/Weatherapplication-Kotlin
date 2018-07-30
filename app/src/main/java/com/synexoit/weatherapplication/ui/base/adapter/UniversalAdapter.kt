@@ -3,8 +3,8 @@ package com.synexoit.weatherapplication.ui.base.adapter
 import com.synexoit.weatherapplication.R
 import com.synexoit.weatherapplication.ui.city.DayDelegateAdapter
 import com.synexoit.weatherapplication.ui.city.DayDetailsDelegateAdapter
+import com.synexoit.weatherapplication.ui.search.adapter.CityPreviewDelegateAdapter
 import com.synexoit.weatherapplication.ui.search.adapter.ProgressDelegateAdapter
-import com.synexoit.weatherapplication.ui.weatherapplication.adapter.CityPreviewDelegateAdapter
 import com.synexoit.weatherapplication.util.ViewType
 
 open class UniversalAdapter(list: MutableList<ViewType> = mutableListOf()) : BaseRecyclerAdapter<ViewType>(list) {

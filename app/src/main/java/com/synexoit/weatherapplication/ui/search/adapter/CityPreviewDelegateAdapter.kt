@@ -1,4 +1,4 @@
-package com.synexoit.weatherapplication.ui.weatherapplication.adapter
+package com.synexoit.weatherapplication.ui.search.adapter
 
 import android.arch.lifecycle.ViewModel
 import android.support.v7.widget.RecyclerView

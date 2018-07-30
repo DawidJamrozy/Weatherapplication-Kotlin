@@ -8,12 +8,12 @@ interface ViewType {
     /**
      *  Layout resource which will be used for delegate adapter
      */
-    fun getViewType() : Int
+    val viewType : Int
 
     /**
      *  Unique Id which is used to distinct items in DiffCallback
      *  Can set to "" if not used
      */
-    fun getUniqueId(): String
+    val uniqueId: String
 
 }
