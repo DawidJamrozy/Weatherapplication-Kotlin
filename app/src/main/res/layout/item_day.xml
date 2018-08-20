@@ -5,7 +5,7 @@
 
         <variable
             name="day"
-            type="com.synexoit.weatherapplication.data.entity.darksky.DayData" />
+            type="com.synexoit.weatherapplication.data.entity.DayData" />
     </data>
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

@@ -1,4 +1,4 @@
-package com.synexoit.weatherapplication.util
+package com.synexoit.weatherapplication.data.util
 
 /**
  * Created by dawidjamrozy on 08.05.2018.

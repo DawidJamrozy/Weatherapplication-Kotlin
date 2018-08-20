@@ -3,10 +3,10 @@ package com.synexoit.weatherapplication.ui.city
 import android.arch.lifecycle.MutableLiveData
 import com.synexoit.weatherapplication.R
 import com.synexoit.weatherapplication.WeatherApplication
+import com.synexoit.weatherapplication.data.entity.DayData
 import com.synexoit.weatherapplication.data.entity.DayDetails
 import com.synexoit.weatherapplication.data.entity.darksky.City
 import com.synexoit.weatherapplication.data.entity.darksky.Currently
-import com.synexoit.weatherapplication.data.entity.darksky.DayData
 import com.synexoit.weatherapplication.data.exceptions.Failure
 import com.synexoit.weatherapplication.data.repository.CityRepository
 import com.synexoit.weatherapplication.data.repository.WeatherRepository

@@ -1,4 +1,4 @@
-package com.synexoit.weatherapplication.data.entity.darksky
+package com.synexoit.weatherapplication.data.entity
 
 import android.databinding.BindingAdapter
 import android.os.Parcelable

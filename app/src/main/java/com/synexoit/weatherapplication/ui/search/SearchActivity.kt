@@ -42,11 +42,11 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = getViewModel(viewModelFactory, {
+        viewModel = getViewModel(viewModelFactory) {
             observe(cityList, ::handleCityPreviewList)
             observe(onClickEvent, ::handleOnClick)
             failure(failure, ::handleFailure)
-        })
+        }
         binding.vm = viewModel
 
         initAutoComplete()

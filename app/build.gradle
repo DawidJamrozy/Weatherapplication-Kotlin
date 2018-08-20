@@ -16,6 +16,7 @@ android {
         versionCode globalConfiguration["android_version_code"]
         versionName globalConfiguration["android_version_name"]
         testInstrumentationRunner "com.synexoit.weatherapplication.TestRunner"
+        multiDexEnabled true
 
         javaCompileOptions {
             annotationProcessorOptions {

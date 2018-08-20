@@ -1,15 +1,5 @@
 package com.synexoit.weatherapplication.data.entity.darksky
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.ForeignKey
-import android.arch.persistence.room.ForeignKey.CASCADE
-import android.arch.persistence.room.PrimaryKey
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
-@Parcelize
-@Entity(tableName = "daily_data",
-        foreignKeys = [ForeignKey(entity = Daily::class, parentColumns = ["id"], childColumns = ["dailyId"], onDelete = CASCADE, onUpdate = CASCADE)])
 data class DailyData(var time: Long = 0,
                      var summary: String = "",
                      var placeId: String = "",
@@ -38,5 +28,4 @@ data class DailyData(var time: Long = 0,
                      var pressure: Double = 0.0,
                      var ozone: Double = 0.0,
                      var dailyId: Long = 0,
-                     @PrimaryKey(autoGenerate = true)
-                     var roomId: Long = 0) : Parcelable
+                     var roomId: Long = 0)

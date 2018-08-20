@@ -65,6 +65,7 @@ ext {
     testOrchestratorVersion = '1.0.2'
 
     dataDependencies = [
+            multidex                : "com.android.support:multidex:${multidex_version}",
             appcompatV7             : "com.android.support:appcompat-v7:${support_library_version}",
             kotlin                  : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}",
             rxJava                  : "io.reactivex.rxjava2:rxjava:${rx_java_version}",

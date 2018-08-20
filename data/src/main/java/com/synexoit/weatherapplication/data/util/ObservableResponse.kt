@@ -1,4 +1,4 @@
-package com.synexoit.weatherapplication.util
+package com.synexoit.weatherapplication.data.util
 
 import android.support.annotation.MainThread
 import android.support.annotation.WorkerThread

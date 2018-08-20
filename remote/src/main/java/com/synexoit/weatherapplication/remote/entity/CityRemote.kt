@@ -1,5 +1,7 @@
 package com.synexoit.weatherapplication.remote.entity
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 
 data class CityRemote(var placeId: String = "",
                       var name: String = "",
@@ -10,6 +12,9 @@ data class CityRemote(var placeId: String = "",
                       var latitude: Double = 0.0,
                       var longitude: Double = 0.0,
                       var timezone: String = "",
+                      @JsonProperty("currently")
                       var currentlyCache: CurrentlyRemote?,
+                      @JsonProperty("hourly")
                       var hourlyCache: HourlyRemote?,
+                      @JsonProperty("daily")
                       var dailyCache: DailyRemote?)

@@ -18,9 +18,9 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.hannesdorfmann.fragmentargs.annotation.Arg
 import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs
 import com.synexoit.weatherapplication.R
+import com.synexoit.weatherapplication.data.entity.DayData
 import com.synexoit.weatherapplication.data.entity.DayDetails
 import com.synexoit.weatherapplication.data.entity.darksky.City
-import com.synexoit.weatherapplication.data.entity.darksky.DayData
 import com.synexoit.weatherapplication.data.exceptions.Failure
 import com.synexoit.weatherapplication.data.extensions.empty
 import com.synexoit.weatherapplication.data.extensions.failure
@@ -30,7 +30,6 @@ import com.synexoit.weatherapplication.databinding.FragmentCityBinding
 import com.synexoit.weatherapplication.ui.base.BaseFragment
 import com.synexoit.weatherapplication.ui.base.adapter.UniversalAdapter
 import com.synexoit.weatherapplication.ui.base.navigator.FragmentNavigator
-import com.synexoit.weatherapplication.ui.city.CityViewModel
 import com.synexoit.weatherapplication.ui.settings.SettingsActivity
 import com.synexoit.weatherapplication.util.chart.AxisValueFormatter
 import com.synexoit.weatherapplication.util.chart.ValueFormatter

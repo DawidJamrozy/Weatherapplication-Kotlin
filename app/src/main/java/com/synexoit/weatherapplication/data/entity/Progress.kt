@@ -1,5 +1,6 @@
 package com.synexoit.weatherapplication.data.entity
 
+import com.synexoit.weatherapplication.R
 import com.synexoit.weatherapplication.util.ViewType
 
 class Progress : ViewType {
@@ -9,7 +10,7 @@ class Progress : ViewType {
     }
 
     override val viewType: Int
-        get() = 2
+        get() = R.layout.item_progress
 
     override val uniqueId: String
         get() = ID

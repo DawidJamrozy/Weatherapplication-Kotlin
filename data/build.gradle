@@ -13,6 +13,7 @@ android {
         targetSdkVersion globalConfiguration["android_target_sdk_version"]
         versionCode globalConfiguration["android_version_code"]
         versionName globalConfiguration["android_version_name"]
+        multiDexEnabled true
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -44,6 +45,9 @@ dependencies {
 
     api project(":remote")
     api project(":cache")
+
+    // Multidex
+    implementation dataDependencies.multidex
 
     // Kotlin
     implementation dataDependencies.kotlin

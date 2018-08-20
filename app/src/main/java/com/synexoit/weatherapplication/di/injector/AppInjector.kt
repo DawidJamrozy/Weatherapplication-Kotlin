@@ -19,7 +19,12 @@ class AppInjector {
     companion object {
 
         fun init(application: WeatherApplication) {
-            DaggerApplicationComponent.builder().application(application).context(application).build().inject(application)
+            //TODO 20.08.2018 by Dawid Jamroży
+            DaggerApplicationComponent.builder()
+                    .application(application)
+                    .context(application)
+                    .build()
+                    .inject(application)
 
             application.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
                 override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {

@@ -2,7 +2,7 @@ package com.synexoit.weatherapplication.ui.city
 
 import android.arch.lifecycle.ViewModel
 import android.support.v7.widget.RecyclerView
-import com.synexoit.weatherapplication.data.entity.darksky.DayData
+import com.synexoit.weatherapplication.data.entity.DayData
 import com.synexoit.weatherapplication.databinding.ItemDayBinding
 import com.synexoit.weatherapplication.ui.base.adapter.BaseBindingAdapter
 import com.synexoit.weatherapplication.util.ViewType

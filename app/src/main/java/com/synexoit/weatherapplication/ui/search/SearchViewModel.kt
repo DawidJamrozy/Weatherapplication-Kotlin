@@ -9,11 +9,11 @@ import com.synexoit.weatherapplication.data.exceptions.Failure
 import com.synexoit.weatherapplication.data.repository.CityPreviewRepository
 import com.synexoit.weatherapplication.data.repository.CityRepository
 import com.synexoit.weatherapplication.data.repository.WeatherRepository
+import com.synexoit.weatherapplication.data.util.Resource
+import com.synexoit.weatherapplication.data.util.Status
 import com.synexoit.weatherapplication.ui.base.BaseAndroidViewModel
 import com.synexoit.weatherapplication.util.ListStatus
 import com.synexoit.weatherapplication.util.ListWrapper
-import com.synexoit.weatherapplication.util.Resource
-import com.synexoit.weatherapplication.util.Status
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.*
@@ -63,7 +63,7 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError { handleFailure(Failure.UnknownAppError(it.message)) }
-                .subscribe({ processResponse(it, lastItemPosition) }))
+                .subscribe { processResponse(it, lastItemPosition) })
     }
 
     private fun getCityListFromDatabase() {
@@ -71,7 +71,11 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { setCityPreviewListValue(ListWrapper(ListStatus.New(), it.toMutableList())) },
+                        {
+                            setCityPreviewListValue(ListWrapper(ListStatus.New(),
+                                    it.map { CityPreview(it.name, it.address, it.placeId, it.sortPosition) }
+                                            .toMutableList()))
+                        },
                         { handleFailure(Failure.UnknownAppError(it.message)) }
                 ))
     }
