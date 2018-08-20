@@ -5,14 +5,15 @@ import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.f2prateek.dart.Dart
 import com.synexoit.weatherapplication.R
 import com.synexoit.weatherapplication.cache.manager.SharedPreferencesManager
+import com.synexoit.weatherapplication.data.extensions.invisible
 import com.synexoit.weatherapplication.data.extensions.onClick
+import com.synexoit.weatherapplication.data.extensions.visible
 import com.synexoit.weatherapplication.ui.base.navigator.Navigator
 import com.synexoit.weatherapplication.util.SingleToast
 import dagger.android.AndroidInjection
@@ -24,8 +25,6 @@ import javax.inject.Inject
  */
 abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity() {
 
-	protected lateinit var binding: B
-
     @Inject
     protected lateinit var navigator: Navigator
 
@@ -35,39 +34,39 @@ abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity() {
     @Inject
     protected lateinit var sharedPreferencesManager: SharedPreferencesManager
 
+    protected lateinit var binding: B
+
+    abstract val layoutResId: Int
+
+    abstract val screenTitle: String
+
+    protected open val isDisplayingBackArrow: Boolean
+        get() = true
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		AndroidInjection.inject(this)
 		super.onCreate(savedInstanceState)
         Icepick.restoreInstanceState(this, savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, getLayoutResId())
+        binding = DataBindingUtil.setContentView(this, layoutResId)
         binding.setLifecycleOwner(this)
 
 		Dart.inject(this)
 	}
-
-	abstract fun getLayoutResId(): Int
-
-	abstract fun getScreenTitle(): String
 
 	private fun setUpCustomToolbar() {
 		val arrowBack: ImageView? = findViewById(R.id.toolbar_back_arrow)
 		val toolbarTitle: TextView? = findViewById(R.id.toolbar_title)
 
 		arrowBack?.run {
-			visibility = if (isDisplayingBackArrow()) View.VISIBLE else View.INVISIBLE
+			if (isDisplayingBackArrow) visible() else invisible()
 			onClick { onBackPressed() }
 		}
-		toolbarTitle?.run { text = getScreenTitle() }
-	}
-
-	open protected fun isDisplayingBackArrow(): Boolean {
-		return true
+		toolbarTitle?.run { text = screenTitle }
 	}
 
 	override fun onPostCreate(savedInstanceState: Bundle?) {
 		super.onPostCreate(savedInstanceState)
-		if (!getScreenTitle().isEmpty())
-			setUpCustomToolbar()
+		if (!screenTitle.isEmpty()) setUpCustomToolbar()
 	}
 
 	override fun onSaveInstanceState(outState: Bundle?) {

@@ -8,9 +8,7 @@ import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
 import android.view.View
 import com.synexoit.weatherapplication.Henson
-import com.synexoit.weatherapplication.R
 import com.synexoit.weatherapplication.ui.base.BaseFragmentActivity
-import com.synexoit.weatherapplication.ui.base.navigator.Navigator
 import javax.inject.Inject
 
 /**
@@ -59,7 +57,7 @@ open class ANavigator @Inject constructor(private val mActivity: FragmentActivit
 		val fragmentManager = mActivity.supportFragmentManager
 
 		val currentActivity = mActivity as BaseFragmentActivity<*>
-		val currentFragment = fragmentManager.findFragmentById(currentActivity.getContentResId())
+		val currentFragment = fragmentManager.findFragmentById(currentActivity.contentResId)
 
 		// fragment to replace is same as current, do nothing
 		if (currentFragment != null && currentFragment.javaClass == fragment.javaClass)
@@ -70,7 +68,7 @@ open class ANavigator @Inject constructor(private val mActivity: FragmentActivit
 		if (clearBackStack) fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 
 
-		val fragmentTransaction = fragmentManager.beginTransaction().replace(currentActivity.getContentResId(), fragment, null)
+		val fragmentTransaction = fragmentManager.beginTransaction().replace(currentActivity.contentResId, fragment, null)
 
 		sharedElement?.run {
 			fragmentTransaction.addSharedElement(first, second)

@@ -12,7 +12,9 @@ import android.widget.TextView
 import android.widget.Toast
 import com.hannesdorfmann.fragmentargs.FragmentArgs
 import com.synexoit.weatherapplication.R
+import com.synexoit.weatherapplication.data.extensions.invisible
 import com.synexoit.weatherapplication.data.extensions.onClick
+import com.synexoit.weatherapplication.data.extensions.visible
 import com.synexoit.weatherapplication.di.Injectable
 import com.synexoit.weatherapplication.ui.base.navigator.FragmentNavigator
 import com.synexoit.weatherapplication.util.SingleToast
@@ -25,69 +27,70 @@ import javax.inject.Inject
  */
 abstract class BaseFragment<B : ViewDataBinding> : ViewLifecycleFragment(), Injectable {
 
-	protected lateinit var binding: B
+    companion object {
+        const val NO_CHILD_CONTENT: Int = 0
+    }
+
+    protected lateinit var binding: B
 
     @Inject
     protected lateinit var navigator: FragmentNavigator
 
-	@Inject
-	protected lateinit var viewModelFactory: ViewModelProvider.Factory
-
-	companion object {
-		val NO_CHILD_CONTENT: Int = 0
-	}
-
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-        Icepick.restoreInstanceState(this, savedInstanceState)
-		FragmentArgs.inject(this)
-	}
-
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, getLayoutResId(), container, false)
-        binding.setLifecycleOwner(this)
-		return binding.root
-	}
+    @Inject
+    protected lateinit var viewModelFactory: ViewModelProvider.Factory
 
     /**
      * Fragment layout resource id
      */
-	abstract fun getLayoutResId(): Int
+    abstract val layoutResId: Int
 
-	override fun onSaveInstanceState(outState: Bundle) {
-		super.onSaveInstanceState(outState)
-		Icepick.saveInstanceState(this, outState)
-	}
+    abstract val screenTitle: String
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-		if (getScreenTitle().isNotEmpty())
-			setUpCustomToolbar()
-	}
+    protected open val isDisplayingBackArrow: Boolean
+        get() = true
 
-	protected fun navigateBack() = (activity as BaseFragmentActivity<*>).navigateBack()
+    open val childContentResId: Int = NO_CHILD_CONTENT
 
-	private fun setUpCustomToolbar() {
-		val arrowBack: ImageView? = view?.findViewById(R.id.toolbar_back_arrow)
-		val toolbarTitle: TextView? = view?.findViewById(R.id.toolbar_title)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Icepick.restoreInstanceState(this, savedInstanceState)
+        FragmentArgs.inject(this)
+    }
 
-		arrowBack?.run {
-			visibility = if (isDisplayingBackArrow()) View.VISIBLE else View.INVISIBLE
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
+        binding.setLifecycleOwner(this)
+        return binding.root
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Icepick.saveInstanceState(this, outState)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (screenTitle.isNotEmpty())
+            setUpCustomToolbar()
+    }
+
+    protected fun navigateBack() = (activity as BaseFragmentActivity<*>).navigateBack()
+
+    private fun setUpCustomToolbar() {
+        val arrowBack: ImageView? = view?.findViewById(R.id.toolbar_back_arrow)
+        val toolbarTitle: TextView? = view?.findViewById(R.id.toolbar_title)
+
+        arrowBack?.run {
+            if (isDisplayingBackArrow) visible() else invisible()
             onClick { navigateBack() }
-		}
-		toolbarTitle?.run { text = getScreenTitle() }
-	}
+        }
+        toolbarTitle?.run { text = screenTitle }
+    }
 
-	abstract fun getScreenTitle(): String
+    open fun onBackPressed() = false
 
-	protected open fun isDisplayingBackArrow() = false
-
-	fun getChildContentResId(): Int = NO_CHILD_CONTENT
-
-	open fun onBackPressed() = false
-
-	protected fun showToast(text: String? = "ERROR", stringId: Int? = null, time: Int = Toast.LENGTH_SHORT) {
-		val message = if (stringId == null) text ?: "ERROR" else getString(stringId)
-		context?.let { SingleToast.show(it, message, time) }
-	}
+    protected fun showToast(text: String? = "ERROR", stringId: Int? = null, time: Int = Toast.LENGTH_SHORT) {
+        val message = if (stringId == null) text ?: "ERROR" else getString(stringId)
+        context?.let { SingleToast.show(it, message, time) }
+    }
 }

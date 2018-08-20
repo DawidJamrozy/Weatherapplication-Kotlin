@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager
 import android.view.View
 import com.synexoit.weatherapplication.Henson
 import com.synexoit.weatherapplication.ui.base.BaseFragmentActivity
-import com.synexoit.weatherapplication.ui.base.navigator.FragmentNavigator
 import javax.inject.Inject
 
 /**
@@ -32,7 +31,7 @@ class FNavigator @Inject constructor(private val mFragment: Fragment) : ANavigat
 
 		if (clearBackStack) fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 
-		val ft = fm.beginTransaction().replace(parentActivity.getContentResId(), fragment, null)
+		val ft = fm.beginTransaction().replace(parentActivity.contentResId, fragment, null)
 
 		sharedElement?.run {
 			ft.addSharedElement(first, second)

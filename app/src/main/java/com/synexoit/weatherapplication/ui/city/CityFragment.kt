@@ -29,13 +29,11 @@ import com.synexoit.weatherapplication.data.extensions.observe
 import com.synexoit.weatherapplication.databinding.FragmentCityBinding
 import com.synexoit.weatherapplication.ui.base.BaseFragment
 import com.synexoit.weatherapplication.ui.base.adapter.UniversalAdapter
-import com.synexoit.weatherapplication.ui.base.navigator.FragmentNavigator
 import com.synexoit.weatherapplication.ui.settings.SettingsActivity
 import com.synexoit.weatherapplication.util.chart.AxisValueFormatter
 import com.synexoit.weatherapplication.util.chart.ValueFormatter
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.inject.Inject
 
 /**
  * Created by Dawid on 05.05.2018.
@@ -54,15 +52,21 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
     private val dayRecyclerAdapter = UniversalAdapter()
     private val dayDetailsRecyclerAdapter = UniversalAdapter()
 
+    override val layoutResId: Int
+        get() =  R.layout.fragment_city
+
+    override val screenTitle: String
+        get() =  String.empty()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = getViewModel(viewModelFactory, {
+        viewModel = getViewModel(viewModelFactory) {
             observe(city, ::handleCity)
             observe(onClickEvent, ::handleOnClick)
             observe(dayDataList, ::handleDayData)
             observe(dayDetailsList, ::handleDayDetails)
             failure(failure, ::handleFailure)
-        })
+        }
 
         binding.vm = viewModel
 
@@ -70,10 +74,6 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         binding.swipeRefreshLayout.setOnRefreshListener(this)
         initRecyclerView()
     }
-
-    override fun getScreenTitle(): String = String.empty()
-
-    override fun getLayoutResId(): Int = R.layout.fragment_city
 
     override fun onRefresh() {
         setSwipeRefreshIndicator(true)

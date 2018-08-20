@@ -22,18 +22,20 @@ class MainActivity : BaseFragmentActivity<ActivityMainBinding>() {
 
     private lateinit var viewModel: MainViewModel
 
+    override val contentResId: Int
+        get() = 0
+
+    override val layoutResId: Int
+        get() =  R.layout.activity_main
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = getViewModel(viewModelFactory, {
+        viewModel = getViewModel(viewModelFactory) {
             observe(cityIdList, ::handleCityIdList)
             observe(onClickEvent, ::handleOnClick)
-        })
+        }
         binding.vm = viewModel
     }
-
-    override fun getLayoutResId(): Int = R.layout.activity_main
-
-    override fun getContentResId(): Int  = 0
 
     private fun setUpViewPagerAdapter(cityIdList: List<String>) {
         val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)

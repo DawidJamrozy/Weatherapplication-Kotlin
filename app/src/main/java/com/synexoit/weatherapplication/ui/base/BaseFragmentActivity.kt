@@ -13,6 +13,9 @@ import javax.inject.Inject
  */
 abstract class BaseFragmentActivity<B: ViewDataBinding> : BaseActivity<B>(), HasSupportFragmentInjector {
 
+    override val screenTitle: String
+        get() = String.empty()
+
     @Inject
     protected lateinit var mDispatchAndroidInjector: DispatchingAndroidInjector<Fragment>
 
@@ -21,9 +24,7 @@ abstract class BaseFragmentActivity<B: ViewDataBinding> : BaseActivity<B>(), Has
     /**
      * Layout resource id of View which will be used to change content
      */
-    abstract fun getContentResId(): Int
-
-    override fun getScreenTitle(): String = String.empty()
+    abstract val contentResId: Int
 
     override fun onBackPressed() = navigateBack()
 
@@ -31,17 +32,17 @@ abstract class BaseFragmentActivity<B: ViewDataBinding> : BaseActivity<B>(), Has
 
         val fragmentManager = supportFragmentManager
 
-        val currentFragment: BaseFragment<*>? = fragmentManager.findFragmentById(getContentResId()) as? BaseFragment<*>
+        val currentFragment: BaseFragment<*>? = fragmentManager.findFragmentById(contentResId) as? BaseFragment<*>
         val flgFragmentBackDone = currentFragment != null && currentFragment.onBackPressed()
 
         if (flgFragmentBackDone)
             return
 
-        if (currentFragment != null && currentFragment.getChildContentResId() != BaseFragment.NO_CHILD_CONTENT) {
+        if (currentFragment != null && currentFragment.childContentResId != BaseFragment.NO_CHILD_CONTENT) {
 
             val childFragmentManager = currentFragment.childFragmentManager
 
-            val currentChildFragment: BaseFragment<*>? = childFragmentManager.findFragmentById(currentFragment.getChildContentResId()) as BaseFragment<*>
+            val currentChildFragment: BaseFragment<*>? = childFragmentManager.findFragmentById(currentFragment.childContentResId) as BaseFragment<*>
 
             val flgChildFragmentBackDone = currentChildFragment != null && currentChildFragment.onBackPressed()
 

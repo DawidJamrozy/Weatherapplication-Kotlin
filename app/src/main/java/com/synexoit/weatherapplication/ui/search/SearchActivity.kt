@@ -31,6 +31,11 @@ import timber.log.Timber
 @HensonNavigable
 class SearchActivity : BaseActivity<ActivitySearchBinding>() {
 
+    override val layoutResId: Int
+        get() = R.layout.activity_search
+    override val screenTitle: String
+        get() = getString(R.string.fragment_search_toolbar_title)
+
     private lateinit var viewModel: SearchViewModel
 
     private val recyclerAdapter = UniversalAdapter()
@@ -47,12 +52,6 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
         initAutoComplete()
         initRecyclerView()
     }
-
-    override fun getLayoutResId(): Int = R.layout.activity_search
-
-    override fun getScreenTitle(): String = getString(R.string.fragment_search_toolbar_title)
-
-    override fun isDisplayingBackArrow(): Boolean = true
 
     private fun handleCityPreviewList(cityList: ListWrapper<CityPreview>?) {
         cityList?.run {
