@@ -4,11 +4,11 @@ import android.arch.lifecycle.ViewModelProvider
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.synexoit.weatherapplication.cache.manager.SharedPreferencesManager
 import com.synexoit.weatherapplication.data.exceptions.Failure
 import com.synexoit.weatherapplication.data.extensions.failure
 import com.synexoit.weatherapplication.data.extensions.getViewModel
 import com.synexoit.weatherapplication.data.extensions.observe
-import com.synexoit.weatherapplication.data.manager.SharedPreferencesManager
 import com.synexoit.weatherapplication.ui.base.navigator.Navigator
 import com.synexoit.weatherapplication.ui.main.MainActivity
 import com.synexoit.weatherapplication.ui.search.SearchActivity

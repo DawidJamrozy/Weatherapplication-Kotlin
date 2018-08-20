@@ -1,14 +1,12 @@
 package com.synexoit.weatherapplication.data.repository
 
-import com.synexoit.weatherapplication.data.api.WeatherApi
+import com.synexoit.weatherapplication.cache.manager.SharedPreferencesManager
 import com.synexoit.weatherapplication.data.entity.CityPlace
 import com.synexoit.weatherapplication.data.entity.darksky.City
-import com.synexoit.weatherapplication.data.manager.SharedPreferencesManager
-import com.synexoit.weatherapplication.util.ObservableResponse
+import com.synexoit.weatherapplication.remote.api.WeatherApi
 import com.synexoit.weatherapplication.util.RateLimiter
 import com.synexoit.weatherapplication.util.Resource
 import io.reactivex.Maybe
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -23,7 +21,7 @@ class WeatherRepositoryImpl @Inject constructor(private val mWeatherApi: Weather
 
     private val repoListRateLimit = RateLimiter<String>(60, TimeUnit.SECONDS)
 
-    override fun getCity(cityPlace: CityPlace): Maybe<Resource<City>> {
+    /* override fun getCity(cityPlace: CityPlace): Maybe<Resource<City>> {
         return object : ObservableResponse<City>() {
             override fun saveCallAndReturnResult(item: City): Resource<City> {
                 Timber.d("saveCallAndReturnResult(): ")
@@ -50,5 +48,8 @@ class WeatherRepositoryImpl @Inject constructor(private val mWeatherApi: Weather
                         .map { Resource.success(it.copy(name = cityPlace.name, placeId = cityPlace.id, address = cityPlace.address)) }
             }
         }.fetchData()
+    }*/
+    override fun getCity(cityPlace: CityPlace): Maybe<Resource<City>> {
+        TODO("not implemented")
     }
 }

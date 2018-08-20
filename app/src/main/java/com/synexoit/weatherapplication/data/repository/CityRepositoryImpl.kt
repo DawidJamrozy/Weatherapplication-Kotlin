@@ -1,7 +1,7 @@
 package com.synexoit.weatherapplication.data.repository
 
-import com.synexoit.weatherapplication.data.db.AppDatabase
-import com.synexoit.weatherapplication.data.entity.darksky.*
+import com.synexoit.weatherapplication.cache.db.AppDatabase
+import com.synexoit.weatherapplication.data.entity.darksky.City
 import io.reactivex.Maybe
 import io.reactivex.Single
 import javax.inject.Inject
@@ -11,7 +11,28 @@ import javax.inject.Inject
  */
 class CityRepositoryImpl @Inject constructor(private val mDatabase: AppDatabase) : CityRepository {
 
-    override fun getCityPlaceIdList(): Maybe<List<String>> = mDatabase.getCityDao().getCityPlaceIdList()
+    //TODO 20.08.2018 by Dawid Jamroży
+    override fun getCityPlaceIdList(): Maybe<List<String>> {
+        TODO("not implemented")
+    }
+
+    override fun getCity(placeId: String): Maybe<City> {
+        TODO("not implemented")
+    }
+
+    override fun insertCity(city: City) {
+        TODO("not implemented")
+    }
+
+    override fun changeItemsPosition(pair: List<Pair<String, Int>>): Single<Unit> {
+        TODO("not implemented")
+    }
+
+    override fun updateCity(city: City) {
+        TODO("not implemented")
+    }
+
+    /*override fun getCityPlaceIdList(): Maybe<List<String>> = mDatabase.getCityDao().getCityPlaceIdList()
 
     override fun getCity(placeId: String): Maybe<City> {
         return mDatabase.getCityDao()
@@ -92,5 +113,5 @@ class CityRepositoryImpl @Inject constructor(private val mDatabase: AppDatabase)
 
     private fun getDailyData(id: Long): Maybe<List<DailyData>> =
             mDatabase.getDailyDataDao().getDailyData(id)
-
+*/
 }

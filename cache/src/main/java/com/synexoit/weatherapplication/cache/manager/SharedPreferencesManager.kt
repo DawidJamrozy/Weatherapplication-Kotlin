@@ -1,4 +1,4 @@
-package com.synexoit.weatherapplication.data.manager
+package com.synexoit.weatherapplication.cache.manager
 
 import android.content.SharedPreferences
 

@@ -1,10 +1,9 @@
-package com.synexoit.weatherapplication.data.db.dao
+package com.synexoit.weatherapplication.cache.dao
 
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Query
-import com.synexoit.weatherapplication.data.entity.CityPreview
-import com.synexoit.weatherapplication.data.entity.darksky.City
-import com.synexoit.weathweatherapplicationerapp.data.db.dao.BaseDao
+import com.synexoit.weatherapplication.cache.entity.CityCache
+import com.synexoit.weatherapplication.cache.entity.CityPreviewCache
 import io.reactivex.Maybe
 import io.reactivex.Single
 
@@ -12,13 +11,13 @@ import io.reactivex.Single
  * Created by Dawid on 05.05.2018.
  */
 @Dao
-abstract class CityDao : BaseDao<City> {
+abstract class CityDao : BaseDao<CityCache> {
 
     @Query("SELECT * FROM city WHERE placeId = :placeId LIMIT 1")
-    abstract fun getCity(placeId: String): Maybe<City>
+    abstract fun getCity(placeId: String): Maybe<CityCache>
 
     @Query("SELECT name, address, placeId, sortPosition FROM city ORDER BY sortPosition ASC")
-    abstract fun getCityPreviewList(): Maybe<List<CityPreview>>
+    abstract fun getCityPreviewList(): Maybe<List<CityPreviewCache>>
 
     @Query("SELECT placeId FROM city ORDER BY sortPosition ASC")
     abstract fun getCityPlaceIdList(): Maybe<List<String>>

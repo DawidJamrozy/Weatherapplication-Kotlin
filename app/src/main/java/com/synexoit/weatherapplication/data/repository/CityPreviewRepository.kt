@@ -1,6 +1,6 @@
 package com.synexoit.weatherapplication.data.repository
 
-import com.synexoit.weatherapplication.data.db.AppDatabase
+import com.synexoit.weatherapplication.cache.db.AppDatabase
 import com.synexoit.weatherapplication.data.entity.CityPreview
 import io.reactivex.Maybe
 import io.reactivex.Single
@@ -12,7 +12,9 @@ import javax.inject.Inject
 class CityPreviewRepositoryImpl @Inject constructor(private val appDatabase: AppDatabase) : CityPreviewRepository {
 
     override fun getCityPreviewList(): Maybe<List<CityPreview>> =
-            appDatabase.getCityDao().getCityPreviewList()
+    //TODO 20.08.2018 by Dawid Jamroży
+//            appDatabase.getCityDao().getCityPreviewList()
+             Maybe.just(listOf())
 
     override fun deleteCity(placeId: String): Single<Unit> =
             Single.fromCallable { appDatabase.getCityDao().deleteCity(placeId) }

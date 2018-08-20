@@ -1,4 +1,4 @@
-package com.synexoit.weathweatherapplicationerapp.data.db.dao
+package com.synexoit.weatherapplication.cache.dao
 
 import android.arch.persistence.room.Delete
 import android.arch.persistence.room.Insert

@@ -11,8 +11,8 @@ import android.widget.TextView
 import android.widget.Toast
 import com.f2prateek.dart.Dart
 import com.synexoit.weatherapplication.R
+import com.synexoit.weatherapplication.cache.manager.SharedPreferencesManager
 import com.synexoit.weatherapplication.data.extensions.onClick
-import com.synexoit.weatherapplication.data.manager.SharedPreferencesManager
 import com.synexoit.weatherapplication.util.SingleToast
 import dagger.android.AndroidInjection
 import icepick.Icepick
@@ -29,7 +29,7 @@ abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity() {
 	protected lateinit var viewModelFactory: ViewModelProvider.Factory
 
     @Inject
-    protected lateinit var sharedPreferencesManager:SharedPreferencesManager
+    protected lateinit var sharedPreferencesManager: SharedPreferencesManager
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		AndroidInjection.inject(this)

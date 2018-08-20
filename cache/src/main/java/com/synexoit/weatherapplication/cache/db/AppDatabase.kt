@@ -1,14 +1,14 @@
-package com.synexoit.weatherapplication.data.db
+package com.synexoit.weatherapplication.cache.db
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverter
 import android.arch.persistence.room.TypeConverters
-import com.synexoit.weatherapplication.data.db.dao.*
-import com.synexoit.weatherapplication.data.entity.darksky.*
+import com.synexoit.weatherapplication.cache.dao.*
+import com.synexoit.weatherapplication.cache.entity.*
 import java.util.*
 
-@Database(entities = [City::class, Hourly::class, Currently::class, Daily::class, HourlyData::class, DailyData::class], version = 1)
+@Database(entities = [CityCache::class, HourlyCache::class, CurrentlyCache::class, DailyCache::class, HourlyDataCache::class, DailyDataCache::class], version = 1)
 @TypeConverters(RoomConverters::class)
 abstract class AppDatabase : RoomDatabase() {
 

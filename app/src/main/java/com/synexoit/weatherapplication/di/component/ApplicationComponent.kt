@@ -1,5 +1,6 @@
 package com.synexoit.weatherapplication.di.component
 
+import android.content.Context
 import com.synexoit.weatherapplication.WeatherApplication
 import com.synexoit.weatherapplication.di.module.ActivityModuleBuilder
 import com.synexoit.weatherapplication.di.module.ApplicationModule
@@ -22,6 +23,9 @@ interface ApplicationComponent {
 
         @BindsInstance
         fun application(application: WeatherApplication): Builder
+
+        @BindsInstance
+        fun context(application: Context): Builder
 
         fun build(): ApplicationComponent
     }
