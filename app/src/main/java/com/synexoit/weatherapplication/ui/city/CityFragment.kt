@@ -50,8 +50,6 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
     @Arg(required = true)
     lateinit var id: String
 
-    @Inject
-    protected lateinit var navigator: FragmentNavigator
     private lateinit var viewModel: CityViewModel
     private val dayRecyclerAdapter = UniversalAdapter()
     private val dayDetailsRecyclerAdapter = UniversalAdapter()

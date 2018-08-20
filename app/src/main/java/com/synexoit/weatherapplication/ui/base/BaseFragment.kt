@@ -14,6 +14,7 @@ import com.hannesdorfmann.fragmentargs.FragmentArgs
 import com.synexoit.weatherapplication.R
 import com.synexoit.weatherapplication.data.extensions.onClick
 import com.synexoit.weatherapplication.di.Injectable
+import com.synexoit.weatherapplication.ui.base.navigator.FragmentNavigator
 import com.synexoit.weatherapplication.util.SingleToast
 import icepick.Icepick
 import javax.inject.Inject
@@ -25,6 +26,9 @@ import javax.inject.Inject
 abstract class BaseFragment<B : ViewDataBinding> : ViewLifecycleFragment(), Injectable {
 
 	protected lateinit var binding: B
+
+    @Inject
+    protected lateinit var navigator: FragmentNavigator
 
 	@Inject
 	protected lateinit var viewModelFactory: ViewModelProvider.Factory

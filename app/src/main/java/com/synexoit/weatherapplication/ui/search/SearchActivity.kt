@@ -21,20 +21,15 @@ import com.synexoit.weatherapplication.data.extensions.observe
 import com.synexoit.weatherapplication.databinding.ActivitySearchBinding
 import com.synexoit.weatherapplication.ui.base.BaseActivity
 import com.synexoit.weatherapplication.ui.base.adapter.UniversalAdapter
-import com.synexoit.weatherapplication.ui.base.navigator.Navigator
 import com.synexoit.weatherapplication.ui.main.MainActivity
 import com.synexoit.weatherapplication.ui.search.adapter.CityPreviewDelegateAdapter
 import com.synexoit.weatherapplication.util.ListStatus
 import com.synexoit.weatherapplication.util.ListWrapper
 import com.synexoit.weatherapplication.util.RecyclerViewTouchHelper
 import timber.log.Timber
-import javax.inject.Inject
 
 @HensonNavigable
 class SearchActivity : BaseActivity<ActivitySearchBinding>() {
-
-    @Inject
-    protected lateinit var navigator: Navigator
 
     private lateinit var viewModel: SearchViewModel
 

@@ -9,12 +9,9 @@ import com.synexoit.weatherapplication.data.extensions.getViewModel
 import com.synexoit.weatherapplication.data.extensions.observe
 import com.synexoit.weatherapplication.databinding.ActivityMainBinding
 import com.synexoit.weatherapplication.ui.base.BaseFragmentActivity
-import com.synexoit.weatherapplication.ui.base.navigator.Navigator
 import com.synexoit.weatherapplication.ui.city.CityFragmentBuilder
-import com.synexoit.weatherapplication.ui.main.MainViewModel
 import com.synexoit.weatherapplication.util.ViewPagerAdapter
 import timber.log.Timber
-import javax.inject.Inject
 
 @HensonNavigable
 class MainActivity : BaseFragmentActivity<ActivityMainBinding>() {
@@ -22,9 +19,6 @@ class MainActivity : BaseFragmentActivity<ActivityMainBinding>() {
     companion object {
         const val SETTINGS_REQUEST_CODE = 10001
     }
-
-    @Inject
-    protected lateinit var navigator: Navigator
 
     private lateinit var viewModel: MainViewModel
 

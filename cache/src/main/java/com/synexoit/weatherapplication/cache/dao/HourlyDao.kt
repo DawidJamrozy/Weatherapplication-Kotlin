@@ -12,7 +12,7 @@ import io.reactivex.Maybe
 @Dao
 abstract class HourlyDao : BaseDao<HourlyCache> {
 
-    @Query("SELECT * FROM hourlyCache WHERE id = :id LIMIT 1")
+    @Query("SELECT * FROM hourly WHERE id = :id LIMIT 1")
     abstract fun getHourly(id: Long): Maybe<HourlyCache>
 
 }

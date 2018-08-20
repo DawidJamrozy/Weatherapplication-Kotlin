@@ -6,7 +6,7 @@ import android.arch.persistence.room.ForeignKey.CASCADE
 import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
 
-@Entity(tableName = "hourlyCache",
+@Entity(tableName = "hourly",
         foreignKeys = [ForeignKey(entity = CityCache::class, parentColumns = ["id"], childColumns = ["cityId"], onDelete = CASCADE, onUpdate = CASCADE)])
 data class HourlyCache(@PrimaryKey(autoGenerate = true) var id: Long = 0,
                        var summary: String?,

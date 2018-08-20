@@ -13,6 +13,7 @@ import com.f2prateek.dart.Dart
 import com.synexoit.weatherapplication.R
 import com.synexoit.weatherapplication.cache.manager.SharedPreferencesManager
 import com.synexoit.weatherapplication.data.extensions.onClick
+import com.synexoit.weatherapplication.ui.base.navigator.Navigator
 import com.synexoit.weatherapplication.util.SingleToast
 import dagger.android.AndroidInjection
 import icepick.Icepick
@@ -24,6 +25,9 @@ import javax.inject.Inject
 abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity() {
 
 	protected lateinit var binding: B
+
+    @Inject
+    protected lateinit var navigator: Navigator
 
 	@Inject
 	protected lateinit var viewModelFactory: ViewModelProvider.Factory

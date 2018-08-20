@@ -11,7 +11,7 @@ import io.reactivex.Maybe
 @Dao
 abstract class CurrentlyDao : BaseDao<CurrentlyCache> {
 
-    @Query("SELECT * FROM currentlyCache WHERE id = :id LIMIT 1")
+    @Query("SELECT * FROM currently WHERE id = :id LIMIT 1")
     abstract fun getCurrently(id: Long): Maybe<CurrentlyCache>
 
 }
