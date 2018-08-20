@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     def globalConfiguration = rootProject.extensions.getByName("ext")
@@ -28,13 +30,46 @@ android {
         }
     }
 
+    kapt {
+        useBuildCache = true
+    }
+
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    // Support libraries
+    implementation dataDependencies.appcompatV7
+
+    api project(":remote")
+    api project(":cache")
+
+    // Kotlin
+    implementation dataDependencies.kotlin
+
+    // Dagger
+    implementation dataDependencies.dagger
+    implementation dataDependencies.daggerAndroid
+    implementation dataDependencies.daggerAndroidSupport
+    kapt dataDependencies.daggerCompiler
+    kapt dataDependencies.daggerProcessor
+    kaptAndroidTest dataDependencies.daggerCompiler
+
+    // Room
+    implementation dataDependencies.room
+    implementation dataDependencies.roomRxJava2
+    kapt dataDependencies.roomCompiler
+    annotationProcessor dataDependencies.roomCompiler
+
+    // Jackson
+    implementation dataDependencies.jacksonCore
+    implementation dataDependencies.jacksonDatabind
+    implementation dataDependencies.jacksonAnnotations
+    implementation dataDependencies.jacksonKotlin
+    implementation dataDependencies.jacksonDataFormat
+
+    // RxJava
+    implementation dataDependencies.rxJava
+    implementation dataDependencies.rxAndroid
 }

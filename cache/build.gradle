@@ -1,0 +1,75 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["android_compile_sdk_version"]
+    buildToolsVersion globalConfiguration["android_build_tools_version"]
+
+    defaultConfig {
+        minSdkVersion globalConfiguration["android_min_sdk_version"]
+        targetSdkVersion globalConfiguration["android_target_sdk_version"]
+        versionCode globalConfiguration["android_version_code"]
+        versionName globalConfiguration["android_version_name"]
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            postprocessing {
+                removeUnusedCode false
+                removeUnusedResources false
+                obfuscate false
+                optimizeCode false
+                proguardFile 'proguard-rules.pro'
+            }
+        }
+    }
+
+    kapt {
+        useBuildCache = true
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Support libraries
+    implementation cacheDependencies.appcompatV7
+
+    // Kotlin
+    implementation cacheDependencies.kotlin
+
+    // Dagger
+    implementation cacheDependencies.dagger
+    implementation cacheDependencies.daggerAndroid
+    implementation cacheDependencies.daggerAndroidSupport
+    kapt cacheDependencies.daggerCompiler
+    kapt cacheDependencies.daggerProcessor
+    kaptAndroidTest cacheDependencies.daggerCompiler
+
+    // Jackson
+    implementation cacheDependencies.jacksonCore
+    implementation cacheDependencies.jacksonDatabind
+    implementation cacheDependencies.jacksonAnnotations
+    implementation cacheDependencies.jacksonKotlin
+    implementation cacheDependencies.jacksonDataFormat
+
+    // RxJava
+    implementation cacheDependencies.rxJava
+    implementation cacheDependencies.rxAndroid
+
+    // Room
+    implementation cacheDependencies.room
+    implementation cacheDependencies.roomRxJava2
+    kapt cacheDependencies.roomCompiler
+    annotationProcessor cacheDependencies.roomCompiler
+
+    // Debug database
+    implementation cacheDependencies.debugDatabase
+
+}

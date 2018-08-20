@@ -1,6 +1,6 @@
 package com.synexoit.weatherapplication.di.component
 
-import android.app.Application
+import com.synexoit.weatherapplication.WeatherApplication
 import com.synexoit.weatherapplication.di.module.ActivityModuleBuilder
 import com.synexoit.weatherapplication.di.module.ApplicationModule
 import com.synexoit.weatherapplication.di.module.ServiceModuleBuilder
@@ -21,10 +21,10 @@ interface ApplicationComponent {
     interface Builder {
 
         @BindsInstance
-        fun application(application: Application): Builder
+        fun application(application: WeatherApplication): Builder
 
         fun build(): ApplicationComponent
     }
 
-    fun inject(application: Application)
+    fun inject(application: WeatherApplication)
 }

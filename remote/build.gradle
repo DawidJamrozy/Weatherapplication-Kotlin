@@ -1,0 +1,74 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["android_compile_sdk_version"]
+    buildToolsVersion globalConfiguration["android_build_tools_version"]
+
+    defaultConfig {
+        minSdkVersion globalConfiguration["android_min_sdk_version"]
+        targetSdkVersion globalConfiguration["android_target_sdk_version"]
+        versionCode globalConfiguration["android_version_code"]
+        versionName globalConfiguration["android_version_name"]
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            postprocessing {
+                removeUnusedCode false
+                removeUnusedResources false
+                obfuscate false
+                optimizeCode false
+                proguardFile 'proguard-rules.pro'
+            }
+        }
+    }
+
+    kapt {
+        useBuildCache = true
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Support libraries
+    implementation remoteDependencies.appcompatV7
+
+    // Kotlin
+    implementation remoteDependencies.kotlin
+
+    // Dagger
+    implementation remoteDependencies.dagger
+    implementation remoteDependencies.daggerAndroid
+    implementation remoteDependencies.daggerAndroidSupport
+    kapt remoteDependencies.daggerCompiler
+    kapt remoteDependencies.daggerProcessor
+    kaptAndroidTest remoteDependencies.daggerCompiler
+
+    // Retrofit
+    implementation remoteDependencies.retrofit
+    implementation remoteDependencies.retrofitJacksonConverter
+    implementation remoteDependencies.retrofitRx2Adapter
+
+    // RxJava
+    implementation remoteDependencies.rxJava
+    implementation remoteDependencies.rxAndroid
+
+    // Jackson
+    implementation remoteDependencies.jacksonCore
+    implementation remoteDependencies.jacksonDatabind
+    implementation remoteDependencies.jacksonAnnotations
+    implementation remoteDependencies.jacksonKotlin
+    implementation remoteDependencies.jacksonDataFormat
+
+    // OkHttp
+    implementation remoteDependencies.okhttp
+    implementation remoteDependencies.okhttpInterceptor
+}

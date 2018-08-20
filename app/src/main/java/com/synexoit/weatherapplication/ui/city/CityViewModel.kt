@@ -1,8 +1,8 @@
 package com.synexoit.weatherapplication.ui.city
 
-import android.app.Application
 import android.arch.lifecycle.MutableLiveData
 import com.synexoit.weatherapplication.R
+import com.synexoit.weatherapplication.WeatherApplication
 import com.synexoit.weatherapplication.data.entity.DayDetails
 import com.synexoit.weatherapplication.data.entity.darksky.City
 import com.synexoit.weatherapplication.data.entity.darksky.Currently
@@ -22,7 +22,7 @@ import javax.inject.Inject
  */
 class CityViewModel @Inject constructor(private val cityRepository: CityRepository,
                                         private val weatherRepository: WeatherRepository,
-                                        weatherApplication: Application) : BaseAndroidViewModel(weatherApplication) {
+                                        weatherApplication: WeatherApplication) : BaseAndroidViewModel(weatherApplication) {
 
     companion object {
         const val OPEN_WEBSITE = 1000
@@ -42,7 +42,7 @@ class CityViewModel @Inject constructor(private val cityRepository: CityReposito
                 .observeOn(AndroidSchedulers.mainThread())
                 //TODO 14.05.2018 by Dawid Jamroży
                 .doOnError { handleFailure(Failure.UnknownAppError()) }
-                .subscribe({ processResponse(it) }))
+                .subscribe { processResponse(it) })
     }
 
     fun refreshWeatherData() {
@@ -52,7 +52,7 @@ class CityViewModel @Inject constructor(private val cityRepository: CityReposito
                     .observeOn(AndroidSchedulers.mainThread())
                     //TODO 14.05.2018 by Dawid Jamroży
                     .doOnError { handleFailure(Failure.UnknownAppError()) }
-                    .subscribe({ processResponse(it.data) }))
+                    .subscribe { processResponse(it.data) })
         }
     }
 

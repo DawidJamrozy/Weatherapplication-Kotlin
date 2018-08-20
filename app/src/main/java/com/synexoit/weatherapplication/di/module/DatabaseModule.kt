@@ -1,10 +1,10 @@
 package com.synexoit.weatherapplication.di.module
 
-import android.app.Application
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
 import android.content.SharedPreferences
+import com.synexoit.weatherapplication.WeatherApplication
 import com.synexoit.weatherapplication.data.db.AppDatabase
 import com.synexoit.weatherapplication.data.manager.SharedPreferencesManager
 import dagger.Module
@@ -16,7 +16,7 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideDatabaseInstance(application: Application): AppDatabase {
+    fun provideDatabaseInstance(application: WeatherApplication): AppDatabase {
         return Room.databaseBuilder(application, AppDatabase::class.java, "database")
                 .setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
                 .fallbackToDestructiveMigration()
@@ -25,7 +25,7 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideSharedPreferences(application: Application): SharedPreferences {
+    fun provideSharedPreferences(application: WeatherApplication): SharedPreferences {
         return application.getSharedPreferences("com.synexoit.weatherapp_preferences", Context.MODE_PRIVATE)
     }
 

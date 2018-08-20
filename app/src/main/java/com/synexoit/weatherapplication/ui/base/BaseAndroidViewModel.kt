@@ -4,6 +4,7 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
 import android.support.annotation.StringRes
+import com.synexoit.weatherapplication.WeatherApplication
 import com.synexoit.weatherapplication.data.exceptions.Failure
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -11,7 +12,7 @@ import io.reactivex.disposables.Disposable
 /**
  * Created by Dawid on 13.01.2018.
  */
-abstract class BaseAndroidViewModel(application: Application) : AndroidViewModel(application) {
+abstract class BaseAndroidViewModel(application: WeatherApplication) : AndroidViewModel(application) {
 
 	private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     val failure = MutableLiveData<Failure>()

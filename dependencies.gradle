@@ -65,21 +65,68 @@ ext {
     testOrchestratorVersion = '1.0.2'
 
     dataDependencies = [
-            kotlin            : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}",
-            rxJava            : "io.reactivex.rxjava2:rxjava:${rx_java_version}",
-            retrofit          : "com.squareup.retrofit2:retrofit:${retrofit_version}",
-            jacksonCore       : "com.fasterxml.jackson.core:jackson-core:${jackson_version}",
-            jacksonDatabind   : "com.fasterxml.jackson.core:jackson-databind:${jackson_version}",
-            jacksonAnnotations: "com.fasterxml.jackson.core:jackson-annotations:${jackson_version}",
-            jacksonDataFormat : "com.fasterxml.jackson.dataformat:jackson-dataformat-smile:$jackson_version",
-            timber            : "com.jakewharton.timber:timber:${timber_version}",
+            appcompatV7             : "com.android.support:appcompat-v7:${support_library_version}",
+            kotlin                  : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}",
+            rxJava                  : "io.reactivex.rxjava2:rxjava:${rx_java_version}",
+            rxAndroid               : "io.reactivex.rxjava2:rxandroid:${rx_android_version}",
+            retrofit                : "com.squareup.retrofit2:retrofit:${retrofit_version}",
+            jacksonCore             : "com.fasterxml.jackson.core:jackson-core:${jackson_version}",
+            jacksonDatabind         : "com.fasterxml.jackson.core:jackson-databind:${jackson_version}",
+            dagger                  : "com.google.dagger:dagger:${dagger_version}",
+            daggerAndroid           : "com.google.dagger:dagger-android:${dagger_version}",
+            jacksonKotlin           : "com.fasterxml.jackson.module:jackson-module-kotlin:${jackson_version}",
+            daggerAndroidSupport    : "com.google.dagger:dagger-android-support:${dagger_version}",
+            daggerCompiler          : "com.google.dagger:dagger-compiler:${dagger_version}",
+            daggerProcessor         : "com.google.dagger:dagger-android-processor:${dagger_version}",
+            jacksonAnnotations      : "com.fasterxml.jackson.core:jackson-annotations:${jackson_version}",
+            jacksonDataFormat       : "com.fasterxml.jackson.dataformat:jackson-dataformat-smile:$jackson_version",
+            timber                  : "com.jakewharton.timber:timber:${timber_version}",
+            room                    : "android.arch.persistence.room:runtime:${room_version}",
+            roomCompiler            : "android.arch.persistence.room:compiler:${room_version}",
+            roomRxJava2             : "android.arch.persistence.room:rxjava2:${room_version}"
     ]
 
-    domainDependencies = [
-            kotlin            : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}",
-            rxJava            : "io.reactivex.rxjava2:rxjava:${rx_java_version}",
-            jacksonAnnotations: "com.fasterxml.jackson.core:jackson-annotations:${jackson_version}",
-            retrofit          : "com.squareup.retrofit2:retrofit:${retrofit_version}",
+    remoteDependencies = [
+            appcompatV7             : "com.android.support:appcompat-v7:${support_library_version}",
+            kotlin                  : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}",
+            dagger                  : "com.google.dagger:dagger:${dagger_version}",
+            daggerAndroid           : "com.google.dagger:dagger-android:${dagger_version}",
+            daggerAndroidSupport    : "com.google.dagger:dagger-android-support:${dagger_version}",
+            daggerCompiler          : "com.google.dagger:dagger-compiler:${dagger_version}",
+            daggerProcessor         : "com.google.dagger:dagger-android-processor:${dagger_version}",
+            okhttp                  : "com.squareup.okhttp3:okhttp:${okhttp_version}",
+            okhttpInterceptor       : "com.squareup.okhttp3:logging-interceptor:${okhttp_version}",
+            retrofit                : "com.squareup.retrofit2:retrofit:${retrofit_version}",
+            retrofitJacksonConverter: "com.squareup.retrofit2:converter-jackson:${retrofit_version}",
+            retrofitRx2Adapter      : "com.squareup.retrofit2:adapter-rxjava2:${retrofit_version}",
+            rxJava                  : "io.reactivex.rxjava2:rxjava:${rx_java_version}",
+            rxAndroid               : "io.reactivex.rxjava2:rxandroid:${rx_android_version}",
+            jacksonCore             : "com.fasterxml.jackson.core:jackson-core:${jackson_version}",
+            jacksonDatabind         : "com.fasterxml.jackson.core:jackson-databind:${jackson_version}",
+            jacksonAnnotations      : "com.fasterxml.jackson.core:jackson-annotations:${jackson_version}",
+            jacksonDataFormat       : "com.fasterxml.jackson.dataformat:jackson-dataformat-smile:${jackson_version}",
+            jacksonKotlin           : "com.fasterxml.jackson.module:jackson-module-kotlin:${jackson_version}",
+    ]
+
+    cacheDependencies = [
+            appcompatV7             : "com.android.support:appcompat-v7:${support_library_version}",
+            kotlin                  : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}",
+            room                    : "android.arch.persistence.room:runtime:${room_version}",
+            roomCompiler            : "android.arch.persistence.room:compiler:${room_version}",
+            roomRxJava2             : "android.arch.persistence.room:rxjava2:${room_version}",
+            debugDatabase           : "com.amitshekhar.android:debug-db:${android_debug_database_version}",
+            dagger                  : "com.google.dagger:dagger:${dagger_version}",
+            daggerAndroid           : "com.google.dagger:dagger-android:${dagger_version}",
+            daggerAndroidSupport    : "com.google.dagger:dagger-android-support:${dagger_version}",
+            daggerCompiler          : "com.google.dagger:dagger-compiler:${dagger_version}",
+            daggerProcessor         : "com.google.dagger:dagger-android-processor:${dagger_version}",
+            jacksonCore             : "com.fasterxml.jackson.core:jackson-core:${jackson_version}",
+            jacksonDatabind         : "com.fasterxml.jackson.core:jackson-databind:${jackson_version}",
+            jacksonAnnotations      : "com.fasterxml.jackson.core:jackson-annotations:${jackson_version}",
+            jacksonDataFormat       : "com.fasterxml.jackson.dataformat:jackson-dataformat-smile:${jackson_version}",
+            jacksonKotlin           : "com.fasterxml.jackson.module:jackson-module-kotlin:${jackson_version}",
+            rxJava                  : "io.reactivex.rxjava2:rxjava:${rx_java_version}",
+            rxAndroid               : "io.reactivex.rxjava2:rxandroid:${rx_android_version}"
     ]
 
     mobileDependencies = [

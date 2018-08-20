@@ -1,7 +1,7 @@
 package com.synexoit.weatherapplication.ui.search
 
-import android.app.Application
 import android.arch.lifecycle.MutableLiveData
+import com.synexoit.weatherapplication.WeatherApplication
 import com.synexoit.weatherapplication.data.entity.CityPlace
 import com.synexoit.weatherapplication.data.entity.CityPreview
 import com.synexoit.weatherapplication.data.entity.darksky.City
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(private val mWeatherRepository: WeatherRepository,
                                           private val mCityPreviewRepository: CityPreviewRepository,
                                           private val cityRepository: CityRepository,
-                                          application: Application) : BaseAndroidViewModel(application) {
+                                          application: WeatherApplication) : BaseAndroidViewModel(application) {
 
     companion object {
         const val GO_TO_MAIN_ACTIVITY = 1000

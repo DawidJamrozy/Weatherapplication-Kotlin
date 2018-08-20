@@ -12,7 +12,6 @@ import com.synexoit.weatherapplication.data.manager.SharedPreferencesManager
 import com.synexoit.weatherapplication.ui.base.navigator.Navigator
 import com.synexoit.weatherapplication.ui.main.MainActivity
 import com.synexoit.weatherapplication.ui.search.SearchActivity
-import com.synexoit.weatherapplication.ui.splash.SplashViewModel
 import dagger.android.AndroidInjection
 import java.util.*
 import javax.inject.Inject
@@ -42,10 +41,10 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        viewModel = getViewModel(viewModelFactory, {
+        viewModel = getViewModel(viewModelFactory) {
             observe(isCityTableEmpty, ::handleResponse)
             failure(failure, ::handleFailure)
-        })
+        }
 
         setUnitAndLanguageSettings()
     }
