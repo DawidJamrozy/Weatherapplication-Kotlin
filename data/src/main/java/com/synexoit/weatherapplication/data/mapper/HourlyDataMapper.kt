@@ -2,10 +2,10 @@ package com.synexoit.weatherapplication.data.mapper
 
 import com.synexoit.weatherapplication.cache.entity.HourlyDataCache
 import com.synexoit.weatherapplication.data.entity.darksky.HourlyData
-import com.synexoit.weatherapplication.remote.entity.HourlyDataRemote
+import com.synexoit.weatherapplication.remote.entity.darksky.HourlyDataRemote
 import javax.inject.Inject
 
-class HourlyDataMapper @Inject constructor() : Mapper<HourlyDataCache,HourlyDataRemote, HourlyData> {
+class HourlyDataMapper @Inject constructor() : Mapper<HourlyDataCache, HourlyDataRemote, HourlyData> {
 
     override fun fromCache(type: HourlyDataCache): HourlyData {
         return type.run {

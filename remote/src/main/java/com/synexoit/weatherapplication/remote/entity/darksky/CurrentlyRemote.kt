@@ -1,4 +1,4 @@
-package com.synexoit.weatherapplication.remote.entity
+package com.synexoit.weatherapplication.remote.entity.darksky
 
 data class CurrentlyRemote(var time: Long = 0,
                            var summary: String = "",

@@ -15,4 +15,7 @@ abstract class RepositoryModule {
 
     @Binds
     internal abstract fun bindCityPreviewRepository(repository: CityPreviewRepositoryImpl): CityPreviewRepository
+
+    @Binds
+    internal abstract fun bindGeocodeRepository(repository: GeocodeRepositoryImpl): GeocodeRepository
 }

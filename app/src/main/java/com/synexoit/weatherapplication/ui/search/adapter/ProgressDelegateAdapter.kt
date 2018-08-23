@@ -11,7 +11,7 @@ import com.synexoit.weatherapplication.ui.base.adapter.BaseBindingAdapter
 class ProgressDelegateAdapter : BaseBindingAdapter<ItemProgressBinding>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, viewModel: ViewModel?) {
-        @Suppress("UNCHECKED_CAST")
-        holder as BindingViewHolder<ItemProgressBinding>
+        // ignore
     }
+
 }

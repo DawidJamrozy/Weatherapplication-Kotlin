@@ -1,4 +1,4 @@
-package com.synexoit.weatherapplication.remote.entity
+package com.synexoit.weatherapplication.remote.entity.darksky
 
 import com.fasterxml.jackson.annotation.JsonProperty
 

@@ -2,12 +2,12 @@ package com.synexoit.weatherapplication.data.mapper
 
 import com.synexoit.weatherapplication.cache.entity.CityCache
 import com.synexoit.weatherapplication.data.entity.darksky.City
-import com.synexoit.weatherapplication.remote.entity.CityRemote
+import com.synexoit.weatherapplication.remote.entity.darksky.CityRemote
 import javax.inject.Inject
 
 class CityMapper @Inject constructor(private val hourlyMapper: HourlyMapper,
                                      private val dailyMapper: DailyMapper,
-                                     private val currentlyMapper: CurrentlyMapper) : Mapper<CityCache,CityRemote, City> {
+                                     private val currentlyMapper: CurrentlyMapper) : Mapper<CityCache, CityRemote, City> {
 
     override fun fromCache(type: CityCache): City {
         return type.run {

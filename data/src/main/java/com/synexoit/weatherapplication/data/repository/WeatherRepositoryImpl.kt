@@ -9,6 +9,7 @@ import com.synexoit.weatherapplication.data.util.RateLimiter
 import com.synexoit.weatherapplication.data.util.Resource
 import com.synexoit.weatherapplication.remote.api.WeatherApi
 import io.reactivex.Maybe
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -17,44 +18,48 @@ class WeatherRepositoryImpl @Inject constructor(private val weatherApi: WeatherA
                                                 private val sharedPreferencesManager: SharedPreferencesManager,
                                                 private val cityMapper: CityMapper) : WeatherRepository {
 
-    //TODO 05.05.2018 Dawid Jamroży change to config
-    private val LANGUAGE = "language"
-    private val EXCLUDE = "flags,alerts,minutely"
-    private val UNITS = "unit"
+    companion object {
+        private const val LANGUAGE = "language"
+        private const val EXCLUDE = "flags,alerts,minutely"
+        private const val UNITS = "unit"
+    }
 
+    //TODO 23.08.2018 by Dawid Jamroży set info when not reloaded from web
     private val repoListRateLimit = RateLimiter<String>(60, TimeUnit.SECONDS)
 
     override fun getCity(cityPlace: CityPlace): Maybe<Resource<City>> {
         return object : ObservableResponse<City>() {
             override fun saveCallAndReturnResult(item: City): Resource<City> {
-                //Timber.d("saveCallAndReturnResult(): ")
+                Timber.d("saveCallAndReturnResult():")
                 cityRepository.insertCity(item)
                 repoListRateLimit.addTimeStamp(item.placeId)
                 return Resource.success(item)
             }
 
             override fun shouldFetch(data: City?): Boolean {
-                //Timber.d("shouldFetch(): ")
+                Timber.d("shouldFetch():")
                 return data == null || repoListRateLimit.shouldFetch(cityPlace.id)
             }
 
             override fun loadFromDb(): Maybe<City> {
-                //Timber.d("loadFromDb(): ")
+                Timber.d("loadFromDb():")
                 return cityRepository.getCity(cityPlace.id)
             }
 
             override fun createCall(): Maybe<Resource<City>> {
-               // Timber.d("createCall(): ")
+                Timber.d("createCall():")
                 val language = sharedPreferencesManager.getString(LANGUAGE)
                 val units = sharedPreferencesManager.getString(UNITS)
                 return weatherApi.getCity(cityPlace.latitude.toString(), cityPlace.longitude.toString(), language, EXCLUDE, units)
-                        .map {
-                            cityMapper.fromRemote(it)
-                        }
-                        .map {
-                            Resource.success(it.copy(name = cityPlace.name, placeId = cityPlace.id, address = cityPlace.address))
-                        }
+                        .map { cityMapper.fromRemote(it) }
+                        .map { Resource.success(it.copy(name = cityPlace.name, placeId = cityPlace.id, address = cityPlace.address)) }
             }
         }.fetchData()
     }
+}
+
+interface WeatherRepository {
+
+    fun getCity(cityPlace: CityPlace): Maybe<Resource<City>>
+
 }

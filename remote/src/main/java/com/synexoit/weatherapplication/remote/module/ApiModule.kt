@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.synexoit.weatherapplication.remote.R
+import com.synexoit.weatherapplication.remote.api.GoogleApi
 import com.synexoit.weatherapplication.remote.api.WeatherApi
 import dagger.Module
 import dagger.Provides
@@ -15,12 +16,16 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.jackson.JacksonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 
 @Module
 class ApiModule {
 
+    /**
+     * Provides JSONObjectMapper
+     */
     @Provides
     @Singleton
     fun provideJSONObjectMapper(): ObjectMapper {
@@ -50,22 +55,60 @@ class ApiModule {
         return builder.build()
     }
 
+
+    /**
+     * Provides Retrofit client for darksky API
+     */
     @Provides
     @Singleton
+    @Named("darksky")
     internal fun provideDarkSkyClient(context: Context, okHttpClient: OkHttpClient, objectMapper: ObjectMapper): Retrofit {
-        //TODO 30.07.2018 Dawid Jamroży save key to config
         return Retrofit.Builder()
-                .baseUrl(context.getString(R.string.API_KEY))
+                .baseUrl(context.getString(R.string.DARKSKY_API_KEY))
                 .addConverterFactory(JacksonConverterFactory.create(objectMapper))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
                 .build()
     }
 
+    /**
+     * Provides Retrofit client for google API
+     */
     @Provides
     @Singleton
-    internal fun provideDarkSkyApi(retrofit: Retrofit): WeatherApi {
+    @Named("google")
+    internal fun provideGoogleClient(context: Context, okHttpClient: OkHttpClient, objectMapper: ObjectMapper): Retrofit {
+        return Retrofit.Builder()
+                .baseUrl(context.getString(R.string.GOOGLE_URL))
+                .addConverterFactory(JacksonConverterFactory.create(objectMapper))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(okHttpClient)
+                .build()
+    }
+
+    /**
+     * Provides WeatherApi
+     */
+    @Provides
+    @Singleton
+    internal fun provideDarkSkyApi(@Named("darksky") retrofit: Retrofit): WeatherApi {
         return retrofit.create<WeatherApi>(WeatherApi::class.java)
     }
+
+    /**
+     * Provides GoogleApi
+     */
+    @Provides
+    @Singleton
+    internal fun provideGoogleApi(@Named("google") retrofit: Retrofit): GoogleApi {
+        return retrofit.create<GoogleApi>(GoogleApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideGoogleApiKey(context: Context): String {
+        return context.getString(R.string.GOOGLE_API_KEY)
+    }
+
 
 }

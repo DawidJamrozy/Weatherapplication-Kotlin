@@ -76,4 +76,7 @@ dependencies {
     // RxJava
     implementation dataDependencies.rxJava
     implementation dataDependencies.rxAndroid
+
+    // Logging
+    implementation dataDependencies.timber
 }

@@ -2,7 +2,7 @@ package com.synexoit.weatherapplication.data.mapper
 
 import com.synexoit.weatherapplication.cache.entity.HourlyCache
 import com.synexoit.weatherapplication.data.entity.darksky.Hourly
-import com.synexoit.weatherapplication.remote.entity.HourlyRemote
+import com.synexoit.weatherapplication.remote.entity.darksky.HourlyRemote
 import javax.inject.Inject
 
 class HourlyMapper @Inject constructor(private val mapper: HourlyDataMapper) : Mapper<HourlyCache, HourlyRemote, Hourly> {

@@ -34,6 +34,7 @@ class MainActivity : BaseFragmentActivity<ActivityMainBinding>() {
             observe(cityIdList, ::handleCityIdList)
             observe(onClickEvent, ::handleOnClick)
         }
+
         binding.vm = viewModel
     }
 

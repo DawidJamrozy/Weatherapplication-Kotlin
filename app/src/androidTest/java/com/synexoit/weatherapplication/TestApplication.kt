@@ -32,15 +32,15 @@ class TestApplication : Application(), HasActivityInjector, HasServiceInjector {
                 .application(this)
                 .build()
 
-        AppInjector.init(this, applicationComponent)
+        AppInjector.init(this)
 
         Timber.plant(Timber.DebugTree())
 
-        RxJavaPlugins.setErrorHandler({ e ->
+        RxJavaPlugins.setErrorHandler { e ->
             if (e is UndeliverableException) {
                 Timber.d("WeatherApplication caught UndeliverableException : ${e.localizedMessage}")
             }
-        })
+        }
     }
 
 

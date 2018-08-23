@@ -12,7 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.hannesdorfmann.fragmentargs.FragmentArgs
 import com.synexoit.weatherapplication.R
-import com.synexoit.weatherapplication.data.extensions.invisible
+import com.synexoit.weatherapplication.data.extensions.gone
 import com.synexoit.weatherapplication.data.extensions.onClick
 import com.synexoit.weatherapplication.data.extensions.visible
 import com.synexoit.weatherapplication.di.Injectable
@@ -81,7 +81,7 @@ abstract class BaseFragment<B : ViewDataBinding> : ViewLifecycleFragment(), Inje
         val toolbarTitle: TextView? = view?.findViewById(R.id.toolbar_title)
 
         arrowBack?.run {
-            if (isDisplayingBackArrow) visible() else invisible()
+            if (isDisplayingBackArrow) visible() else gone()
             onClick { navigateBack() }
         }
         toolbarTitle?.run { text = screenTitle }

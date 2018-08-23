@@ -45,18 +45,18 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         private const val HOUR_FORMAT = "HH:mm"
     }
 
-    @Arg(required = true)
-    lateinit var id: String
-
-    private lateinit var viewModel: CityViewModel
-    private val dayRecyclerAdapter = UniversalAdapter()
-    private val dayDetailsRecyclerAdapter = UniversalAdapter()
-
     override val layoutResId: Int
         get() =  R.layout.fragment_city
 
     override val screenTitle: String
         get() =  String.empty()
+
+    @Arg(required = true) lateinit var id: String
+
+    private lateinit var viewModel: CityViewModel
+
+    private val dayRecyclerAdapter = UniversalAdapter()
+    private val dayDetailsRecyclerAdapter = UniversalAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

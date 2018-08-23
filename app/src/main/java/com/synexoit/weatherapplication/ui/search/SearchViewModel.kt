@@ -8,6 +8,7 @@ import com.synexoit.weatherapplication.data.entity.darksky.City
 import com.synexoit.weatherapplication.data.exceptions.Failure
 import com.synexoit.weatherapplication.data.repository.CityPreviewRepository
 import com.synexoit.weatherapplication.data.repository.CityRepository
+import com.synexoit.weatherapplication.data.repository.GeocodeRepository
 import com.synexoit.weatherapplication.data.repository.WeatherRepository
 import com.synexoit.weatherapplication.data.util.Resource
 import com.synexoit.weatherapplication.data.util.Status
@@ -16,12 +17,14 @@ import com.synexoit.weatherapplication.util.ListStatus
 import com.synexoit.weatherapplication.util.ListWrapper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(private val mWeatherRepository: WeatherRepository,
                                           private val mCityPreviewRepository: CityPreviewRepository,
                                           private val cityRepository: CityRepository,
+                                          private val geocodeRepository: GeocodeRepository,
                                           application: WeatherApplication) : BaseAndroidViewModel(application) {
 
     companion object {
@@ -48,6 +51,16 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
 
             is Status.Error -> handleFailure(Failure.UnknownAppError(response.message))
         }
+    }
+
+    fun getGeocodeCity(lat: Double, lng: Double, lastItemPosition: Int) {
+        addDisposable(geocodeRepository.getGeocodeCityData(lat, lng)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { getCity(it, lastItemPosition) },
+                        { Timber.d("getGeocodeCity(): $it") })
+        )
     }
 
     fun getCity(cityPlace: CityPlace, lastItemPosition: Int) {

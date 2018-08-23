@@ -1,7 +1,11 @@
 package com.synexoit.weatherapplication.ui.search
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
@@ -14,10 +18,11 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener
 import com.synexoit.weatherapplication.R
 import com.synexoit.weatherapplication.data.entity.CityPlace
 import com.synexoit.weatherapplication.data.entity.CityPreview
+import com.synexoit.weatherapplication.data.entity.CurrentLocation
 import com.synexoit.weatherapplication.data.exceptions.Failure
-import com.synexoit.weatherapplication.data.extensions.failure
-import com.synexoit.weatherapplication.data.extensions.getViewModel
-import com.synexoit.weatherapplication.data.extensions.observe
+import com.synexoit.weatherapplication.data.extensions.*
+import com.synexoit.weatherapplication.data.repository.LocationListener
+import com.synexoit.weatherapplication.data.repository.LocationRepository
 import com.synexoit.weatherapplication.databinding.ActivitySearchBinding
 import com.synexoit.weatherapplication.ui.base.BaseActivity
 import com.synexoit.weatherapplication.ui.base.adapter.UniversalAdapter
@@ -26,15 +31,24 @@ import com.synexoit.weatherapplication.ui.search.adapter.CityPreviewDelegateAdap
 import com.synexoit.weatherapplication.util.ListStatus
 import com.synexoit.weatherapplication.util.ListWrapper
 import com.synexoit.weatherapplication.util.RecyclerViewTouchHelper
+import kotlinx.android.synthetic.main.basic_custom_toolbar.*
 import timber.log.Timber
+import javax.inject.Inject
 
 @HensonNavigable
-class SearchActivity : BaseActivity<ActivitySearchBinding>() {
+class SearchActivity : BaseActivity<ActivitySearchBinding>(), LocationListener {
+
+    companion object {
+        private const val LOCATION_PERMISSIONS_REQUEST_CODE = 1000
+    }
 
     override val layoutResId: Int
         get() = R.layout.activity_search
     override val screenTitle: String
         get() = getString(R.string.fragment_search_toolbar_title)
+
+    @Inject
+    protected lateinit var locationProvider: LocationRepository
 
     private lateinit var viewModel: SearchViewModel
 
@@ -51,6 +65,39 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
 
         initAutoComplete()
         initRecyclerView()
+        initLocationButton()
+    }
+
+    private fun initLocationButton() {
+        if (isLocationPermissionGranted() && locationProvider.isLocationEnabled()) {
+            extra_button.background = ContextCompat.getDrawable(this, R.drawable.location)
+            extra_button.visible()
+            extra_button.onClick { getUserLocation() }
+        } else {
+            extra_button.gone()
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSIONS_REQUEST_CODE)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == LOCATION_PERMISSIONS_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                getUserLocation()
+        }
+    }
+
+    private fun getUserLocation() {
+        recyclerAdapter.showProgressAtLastPosition()
+        locationProvider.getUserLocation()
+    }
+
+    override fun onLocationUpdate(currentLocation: CurrentLocation) {
+        viewModel.getGeocodeCity(currentLocation.lat, currentLocation.lng, recyclerAdapter.getListSize())
+    }
+
+    override fun onLocationError(error: Throwable) {
+        Timber.d("onLocationError(): $error")
     }
 
     private fun handleCityPreviewList(cityList: ListWrapper<CityPreview>?) {
@@ -78,7 +125,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
 
     private fun handleOnClick(onClickEvent: Int?) {
         onClickEvent?.let {
-            when(it) {
+            when (it) {
                 SearchViewModel.GO_TO_MAIN_ACTIVITY -> goToMainActivity()
             }
         }
@@ -97,7 +144,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
     }
 
     private fun initRecyclerView() {
-      with(binding.recyclerView) {
+        with(binding.recyclerView) {
             adapter = recyclerAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
@@ -129,4 +176,12 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
         else
             finish()
     }
+
+    /**
+     * Returns true if location permissions are granted
+     *
+     * @return [Boolean]
+     */
+    private fun isLocationPermissionGranted(): Boolean =
+            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
 }

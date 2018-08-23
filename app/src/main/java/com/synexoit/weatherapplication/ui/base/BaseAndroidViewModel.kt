@@ -34,9 +34,9 @@ abstract class BaseAndroidViewModel(application: WeatherApplication) : AndroidVi
         compositeDisposable.add(disposable)
 	}
 
-    fun getString(@StringRes stringResId: Int)
+    protected fun getString(@StringRes stringResId: Int)
             = getApplication<Application>().getString(stringResId)
 
-    fun getString(@StringRes stringResId: Int, vararg  formatArgs: Any)
+    protected fun getString(@StringRes stringResId: Int, vararg  formatArgs: Any)
             = getApplication<Application>().getString(stringResId, formatArgs)
 }

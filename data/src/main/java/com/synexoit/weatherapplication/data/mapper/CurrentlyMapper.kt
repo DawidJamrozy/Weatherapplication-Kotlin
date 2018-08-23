@@ -2,7 +2,7 @@ package com.synexoit.weatherapplication.data.mapper
 
 import com.synexoit.weatherapplication.cache.entity.CurrentlyCache
 import com.synexoit.weatherapplication.data.entity.darksky.Currently
-import com.synexoit.weatherapplication.remote.entity.CurrentlyRemote
+import com.synexoit.weatherapplication.remote.entity.darksky.CurrentlyRemote
 import javax.inject.Inject
 
 class CurrentlyMapper @Inject constructor(): Mapper<CurrentlyCache, CurrentlyRemote, Currently> {

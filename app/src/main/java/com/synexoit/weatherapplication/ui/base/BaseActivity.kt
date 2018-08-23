@@ -11,7 +11,7 @@ import android.widget.Toast
 import com.f2prateek.dart.Dart
 import com.synexoit.weatherapplication.R
 import com.synexoit.weatherapplication.cache.manager.SharedPreferencesManager
-import com.synexoit.weatherapplication.data.extensions.invisible
+import com.synexoit.weatherapplication.data.extensions.gone
 import com.synexoit.weatherapplication.data.extensions.onClick
 import com.synexoit.weatherapplication.data.extensions.visible
 import com.synexoit.weatherapplication.ui.base.navigator.Navigator
@@ -58,7 +58,7 @@ abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity() {
 		val toolbarTitle: TextView? = findViewById(R.id.toolbar_title)
 
 		arrowBack?.run {
-			if (isDisplayingBackArrow) visible() else invisible()
+			if (isDisplayingBackArrow) visible() else gone()
 			onClick { onBackPressed() }
 		}
 		toolbarTitle?.run { text = screenTitle }

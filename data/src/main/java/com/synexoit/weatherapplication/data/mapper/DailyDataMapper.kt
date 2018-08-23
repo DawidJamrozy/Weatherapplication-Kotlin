@@ -2,7 +2,7 @@ package com.synexoit.weatherapplication.data.mapper
 
 import com.synexoit.weatherapplication.cache.entity.DailyDataCache
 import com.synexoit.weatherapplication.data.entity.darksky.DailyData
-import com.synexoit.weatherapplication.remote.entity.DailyDataRemote
+import com.synexoit.weatherapplication.remote.entity.darksky.DailyDataRemote
 import javax.inject.Inject
 
 class DailyDataMapper @Inject constructor() : Mapper<DailyDataCache, DailyDataRemote, DailyData> {

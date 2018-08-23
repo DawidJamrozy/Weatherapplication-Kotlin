@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="API_KEY">https://api.darksky.net/forecast/1ad91179e9e9c43706a162bbaaf735fd/</string>
+    <string name="DARKSKY_API_KEY">https://api.darksky.net/forecast/1ad91179e9e9c43706a162bbaaf735fd/</string>
+    <string name="GOOGLE_API_KEY">AIzaSyCDDJdiCzUPfK6bkOZq_DNBz8ZxDRcFzIM</string>
+    <string name="GOOGLE_URL">https://maps.googleapis.com/maps/api/geocode/</string>
     <string name="app_name">remote</string>
 </resources>

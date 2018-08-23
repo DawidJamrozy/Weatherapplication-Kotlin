@@ -13,10 +13,15 @@ import javax.inject.Singleton
 @Module
 class DatabaseModule {
 
+    companion object {
+        private const val SHARED_PREFERENCES = "com.synexoit.weatherapplication_preferences"
+        private const val DATABASE_NAME = "weatherapplication_database"
+    }
+
     @Singleton
     @Provides
     fun provideDatabaseInstance(application: Context): AppDatabase {
-        return Room.databaseBuilder(application, AppDatabase::class.java, "database")
+        return Room.databaseBuilder(application, AppDatabase::class.java, DATABASE_NAME)
                 .setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
                 .fallbackToDestructiveMigration()
                 .build()
@@ -25,7 +30,7 @@ class DatabaseModule {
     @Singleton
     @Provides
     fun provideSharedPreferences(application: Context): SharedPreferences {
-        return application.getSharedPreferences("com.synexoit.weatherapplication_preferences", Context.MODE_PRIVATE)
+        return application.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
     }
 
     @Provides

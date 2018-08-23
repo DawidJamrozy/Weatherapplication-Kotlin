@@ -19,7 +19,7 @@ class CityRepositoryImpl @Inject constructor(private val mDatabase: AppDatabase,
                                              private val dailyMapper: DailyMapper,
                                              private val dailyDataMapper: DailyDataMapper) : CityRepository {
 
-     override fun getCityPlaceIdList(): Maybe<List<String>> = mDatabase.getCityDao().getCityPlaceIdList()
+    override fun getCityPlaceIdList(): Maybe<List<String>> = mDatabase.getCityDao().getCityPlaceIdList()
 
     override fun getCity(placeId: String): Maybe<City> {
         return mDatabase.getCityDao()
@@ -74,12 +74,10 @@ class CityRepositoryImpl @Inject constructor(private val mDatabase: AppDatabase,
         return mDatabase.getCurrentlyDao().insert(currentlyMapper.toCache(copy))
     }
 
-
     private fun insertHourly(cityId: Long, hourly: Hourly): Long {
         val copy = hourly.copy(cityId = cityId)
         return mDatabase.getHourlyDao().insert(hourlyMapper.toCache(copy))
     }
-
 
     private fun insertHourlyData(hourlyId: Long, list: List<HourlyData>) {
         list.forEach { it.hourlyId = hourlyId }

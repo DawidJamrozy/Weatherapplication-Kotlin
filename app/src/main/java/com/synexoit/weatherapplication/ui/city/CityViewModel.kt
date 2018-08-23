@@ -27,8 +27,8 @@ class CityViewModel @Inject constructor(private val cityRepository: CityReposito
     companion object {
         const val OPEN_WEBSITE = 1000
         const val OPEN_SETTINGS = 1001
-        const val DATE_FORMAT = "HH:mm dd.MM.yyyy"
-        const val DAY_FORMAT = "EEEE"
+        private const val DATE_FORMAT = "HH:mm dd.MM.yyyy"
+        private const val DAY_FORMAT = "EEEE"
     }
 
     val city = MutableLiveData<City>()

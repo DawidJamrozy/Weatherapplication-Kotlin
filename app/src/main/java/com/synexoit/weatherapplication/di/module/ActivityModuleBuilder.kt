@@ -1,6 +1,6 @@
 package com.synexoit.weatherapplication.di.module
 
-import com.synexoit.weatherapplication.di.module.FragmentModuleBuilder
+import com.synexoit.weatherapplication.data.module.LocationModule
 import com.synexoit.weatherapplication.ui.main.MainActivity
 import com.synexoit.weatherapplication.ui.main.MainModule
 import com.synexoit.weatherapplication.ui.search.SearchActivity
@@ -19,6 +19,7 @@ abstract class ActivityModuleBuilder {
     @ContributesAndroidInjector(modules = [SplashModule::class])
     abstract fun contributeSplashActivity(): SplashActivity
 
-    @ContributesAndroidInjector(modules = [(SearchModule::class)])
+    @ContributesAndroidInjector(modules = [SearchModule::class, LocationModule::class])
     abstract fun contributeSearchActivity(): SearchActivity
+
 }

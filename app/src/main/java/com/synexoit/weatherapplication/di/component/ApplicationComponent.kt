@@ -4,7 +4,6 @@ import android.content.Context
 import com.synexoit.weatherapplication.WeatherApplication
 import com.synexoit.weatherapplication.di.module.ActivityModuleBuilder
 import com.synexoit.weatherapplication.di.module.ApplicationModule
-import com.synexoit.weatherapplication.di.module.ServiceModuleBuilder
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -14,8 +13,7 @@ import javax.inject.Singleton
 @Component(modules = [
     AndroidInjectionModule::class,
     ApplicationModule::class,
-    ActivityModuleBuilder::class,
-    ServiceModuleBuilder::class])
+    ActivityModuleBuilder::class])
 interface ApplicationComponent {
 
     @Component.Builder

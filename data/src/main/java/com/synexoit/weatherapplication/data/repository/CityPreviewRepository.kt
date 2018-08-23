@@ -17,9 +17,9 @@ class CityPreviewRepositoryImpl @Inject constructor(private val appDatabase: App
     override fun deleteCity(placeId: String): Single<Unit> =
             Single.fromCallable { appDatabase.getCityDao().deleteCity(placeId) }
 
-    override fun isAnyCityInDatabase(): Single<Boolean> {
-        return appDatabase.getCityDao().isAnyCityInDatabase()
-    }
+    override fun isAnyCityInDatabase(): Single<Boolean> =
+            appDatabase.getCityDao().isAnyCityInDatabase()
+
 }
 
 interface CityPreviewRepository {
