@@ -8,5 +8,5 @@
 		</shape>
 	</item>
 
-	<item android:drawable="@drawable/arrow_back"/>
+	<item android:drawable="@drawable/ic_arrow_back"/>
 </ripple>

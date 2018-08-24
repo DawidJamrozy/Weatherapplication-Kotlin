@@ -1,35 +1,21 @@
 package com.synexoit.weatherapplication.ui.settings
 
-import android.preference.PreferenceActivity
-import android.widget.ImageView
-import android.widget.TextView
+import android.os.Bundle
 import com.synexoit.weatherapplication.R
-import com.synexoit.weatherapplication.data.extensions.onClick
-import com.synexoit.weatherapplication.data.extensions.visible
+import com.synexoit.weatherapplication.databinding.ActivitySettingsBinding
+import com.synexoit.weatherapplication.ui.base.BaseFragmentActivity
 
-class SettingsActivity : PreferenceActivity() {
+class SettingsActivity : BaseFragmentActivity<ActivitySettingsBinding>() {
 
-    override fun onBuildHeaders(target: MutableList<Header>?) {
-        super.onBuildHeaders(target)
-        // setContentView in onCreate cause error
-        setContentView(R.layout.activity_settings)
-        setUpCustomToolbar()
-        loadHeadersFromResource(R.xml.headers_preference, target)
+    override val contentResId: Int
+        get() = R.id.fragment_container
+    override val layoutResId: Int
+        get() = R.layout.activity_settings
+    override val screenTitle: String
+        get() = getString(R.string.settings_title)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        navigator.replaceFragment(SettingsFragment(), true)
     }
-
-    override fun isValidFragment(fragmentName: String?): Boolean = SettingsFragment::class.java.name == fragmentName
-
-    private fun setUpCustomToolbar() {
-        val arrowBack: ImageView? = findViewById(R.id.toolbar_back_arrow)
-        val toolbarTitle: TextView? = findViewById(R.id.toolbar_title)
-
-        arrowBack?.run {
-            visible()
-            onClick { onBackPressed() }
-        }
-        toolbarTitle?.run { text = getScreenTitle() }
-    }
-
-    private fun getScreenTitle() = getString(R.string.settings_title)
-
 }

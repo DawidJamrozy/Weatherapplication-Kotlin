@@ -2,7 +2,7 @@
     <string name="app_name">weatherapplication</string>
 
     <!--common-->
-    <string name="degree" translatable="false">%1$s&#176;</string>
+    <string name="degree" translatable="false">%1$d&#176;</string>
     <string name="degree_unit" translatable="false">&#176;</string>
     <string name="speed_unit">mp/h</string>
     <string name="pressure_unit" translatable="false">hPa</string>
@@ -51,5 +51,12 @@
     <string name="set_unit">Set unit</string>
     <string name="application_settings">Application settings</string>
     <string name="set_application_settings">Change application settings</string>
+    <string name="localization_dialog_title">Localization</string>
+    <string name="localization_dialog_message">Localization is turned off. Do you want to turn it on?</string>
+    <string name="common_yes">YES</string>
+    <string name="common_no">NO</string>
+    <string name="operation_in_progress">Operation is in progress</string>
+    <string name="place_listener_error">Place listener error</string>
+    <string name="common_forwards">Forward</string>
 
 </resources>

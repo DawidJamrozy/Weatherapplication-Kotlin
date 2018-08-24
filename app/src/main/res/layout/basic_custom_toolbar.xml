@@ -26,10 +26,9 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="start|center"
-                android:background="@drawable/toolbar_arrow_ripple"
+                android:background="@drawable/ic_arrow_back_ripple"
                 android:clickable="true"
                 android:focusable="true"
-                android:padding="20dp"
                 android:scaleType="centerInside"/>
 
             <TextView
@@ -47,10 +46,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center"
-                android:background="@drawable/location"
+                android:background="@drawable/ic_location_ripple"
                 android:clickable="true"
                 android:focusable="true"
-                android:padding="15dp"
+                android:padding="18dp"
                 android:layout_marginEnd="5dp"
                 android:scaleType="centerInside"
                 android:visibility="gone"

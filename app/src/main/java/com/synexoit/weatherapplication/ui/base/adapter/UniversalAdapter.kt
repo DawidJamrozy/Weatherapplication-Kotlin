@@ -6,6 +6,7 @@ import com.synexoit.weatherapplication.ui.city.DayDetailsDelegateAdapter
 import com.synexoit.weatherapplication.ui.search.adapter.CityPreviewDelegateAdapter
 import com.synexoit.weatherapplication.ui.search.adapter.ProgressDelegateAdapter
 import com.synexoit.weatherapplication.util.ViewType
+import com.synexoit.weatherapplication.util.ViewTypeDelegateInterface
 
 open class UniversalAdapter(list: MutableList<ViewType> = mutableListOf()) : BaseRecyclerAdapter<ViewType>(list) {
 
@@ -25,6 +26,6 @@ open class UniversalAdapter(list: MutableList<ViewType> = mutableListOf()) : Bas
         }
     }
 
-    fun getDelegateAdapter(viewResId: Int) = mDelegateAdapters[viewResId]
+    fun getDelegateAdapter(viewResId: Int): ViewTypeDelegateInterface = mDelegateAdapters[viewResId]
 
 }

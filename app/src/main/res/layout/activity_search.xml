@@ -36,7 +36,7 @@
             android:id="@+id/start_main_activity"
             android:layout_margin="15dp"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:text="Start Main Activity"
+            android:text="@string/common_forwards"
             android:visibility="@{vm.isButtonVisible ? View.GONE : View.VISIBLE}"
             android:onClick="@{() -> vm.startMainActivity()}"
             android:layout_width="match_parent"

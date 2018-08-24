@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.preference.CheckBoxPreference
 import android.preference.EditTextPreference
 import android.preference.ListPreference
-import android.preference.PreferenceFragment
+import android.support.v7.preference.PreferenceFragmentCompat
 import com.synexoit.weatherapplication.R
 
-class SettingsFragment : PreferenceFragment(), OnSharedPreferenceChangeListener {
+class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,5 +37,9 @@ class SettingsFragment : PreferenceFragment(), OnSharedPreferenceChangeListener 
         }
 
         sharedPreferenceEditor.apply()
+    }
+
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        TODO("not implemented")
     }
 }

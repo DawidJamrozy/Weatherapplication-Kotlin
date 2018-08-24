@@ -5,10 +5,11 @@
 
         <variable
             name="day"
-            type="com.synexoit.weatherapplication.data.entity.DayData" />
+            type="com.synexoit.weatherapplication.data.entity.DayData"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -22,10 +23,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             app:imageSrc="@{day.imageSrc}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/conditionOne"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:background="@drawable/cloudy"/>
+            app:layout_constraintTop_toTopOf="@+id/dayOne"
+            tools:background="@drawable/ic_cloudy"/>
 
         <TextView
             android:id="@+id/dayOne"
@@ -33,14 +34,14 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:text="@{day.dayName}"
             android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.010"
+            app:layout_constraintEnd_toStartOf="@+id/tempOne"
+            app:layout_constraintHorizontal_bias="0.03"
             app:layout_constraintStart_toEndOf="@+id/imageOne"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Czwartek" />
+            tools:text="Czwartek"/>
 
         <TextView
             android:id="@+id/conditionOne"
@@ -66,14 +67,11 @@
             android:layout_alignTop="@id/imageOne"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@{@string/max_min_temp(day.tempMax, day.tempMin)}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/conditionOne"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.962"
-            app:layout_constraintStart_toEndOf="@+id/dayOne"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/dayOne"
             tools:text="24 / 13"/>
 
     </android.support.constraint.ConstraintLayout>

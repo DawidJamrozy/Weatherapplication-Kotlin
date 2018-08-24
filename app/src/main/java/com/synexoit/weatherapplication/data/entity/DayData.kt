@@ -60,16 +60,16 @@ data class DayData(var tempMin: Int,
 
     fun getImageSrc(): Int {
         return when (icon) {
-            RAIN -> R.drawable.rain
-            FOG -> R.drawable.fog
-            PARTLY_CLOUDY_DAY -> R.drawable.partly_cloudy_day
-            PARTLY_CLOUDY_NIGHT -> R.drawable.partly_cloudy_night
-            SNOW -> R.drawable.snow
-            SLEET -> R.drawable.sleet
-            CLEAR_DAY -> R.drawable.clear_day
-            CLEAR_NIGHT -> R.drawable.clear_night
-            WIND -> R.drawable.wind
-            CLOUDY -> R.drawable.cloudy
+            RAIN -> R.drawable.ic_rain
+            FOG -> R.drawable.ic_fog
+            PARTLY_CLOUDY_DAY -> R.drawable.ic_partly_cloudy_day
+            PARTLY_CLOUDY_NIGHT -> R.drawable.ic_partly_cloudy_night
+            SNOW -> R.drawable.ic_snow
+            SLEET -> R.drawable.ic_sleet
+            CLEAR_DAY -> R.drawable.ic_clear_day
+            CLEAR_NIGHT -> R.drawable.ic_clear_night
+            WIND -> R.drawable.ic_wind
+            CLOUDY -> R.drawable.ic_cloudy
             else -> 0
         }
     }

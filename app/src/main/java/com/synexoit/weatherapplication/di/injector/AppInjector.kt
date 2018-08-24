@@ -19,7 +19,6 @@ class AppInjector {
     companion object {
 
         fun init(application: WeatherApplication) {
-            //TODO 20.08.2018 by Dawid Jamroży
             DaggerApplicationComponent.builder()
                     .application(application)
                     .context(application)

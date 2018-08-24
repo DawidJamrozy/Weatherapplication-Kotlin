@@ -15,4 +15,9 @@ data class Currently(var id: Long = 0,
                      var cloudCover: Double = 0.0,
                      var pressure: Double = 0.0,
                      var ozone: Double = 0.0,
-                     var cityId: Long = 0)
+                     var cityId: Long = 0) {
+
+    fun toIntTemperature(): Int {
+        return temperature.toInt()
+    }
+}

@@ -75,6 +75,9 @@ dependencies {
     implementation mobileDependencies.cardView
     implementation mobileDependencies.recyclerView
 
+    // Preference Fragment
+    implementation mobileDependencies.preferenceFragment
+
     // Glide
     implementation mobileDependencies.glide
     kapt mobileDependencies.glideCompiler

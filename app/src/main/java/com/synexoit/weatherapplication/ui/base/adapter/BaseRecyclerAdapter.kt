@@ -74,7 +74,7 @@ abstract class BaseRecyclerAdapter<in T : ViewType>(private val mList: MutableLi
     }
 
     fun showProgressAtPosition(position: Int) {
-        if (mList.contains(progress)) return
+        if (isProgressVisible()) return
 
         mList.add(position, progress)
         notifyItemInserted(position)
@@ -85,7 +85,7 @@ abstract class BaseRecyclerAdapter<in T : ViewType>(private val mList: MutableLi
     }
 
     fun showProgress() {
-     if (mList.contains(progress)) return
+     if (isProgressVisible()) return
 
         mList.clear()
         mList.add(progress)
@@ -95,7 +95,7 @@ abstract class BaseRecyclerAdapter<in T : ViewType>(private val mList: MutableLi
     fun getListSize() = mList.size
 
     fun hideProgress() {
-      if (!mList.contains(progress)) return
+      if (!isProgressVisible()) return
 
         val index = mList.indexOfFirst { it is Progress }
 
@@ -104,4 +104,6 @@ abstract class BaseRecyclerAdapter<in T : ViewType>(private val mList: MutableLi
             notifyItemRemoved(index)
         }
     }
+
+    fun isProgressVisible() = mList.contains(progress)
 }

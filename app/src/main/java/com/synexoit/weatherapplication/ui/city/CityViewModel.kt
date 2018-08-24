@@ -83,11 +83,11 @@ class CityViewModel @Inject constructor(private val cityRepository: CityReposito
         currently?.let { nonNullCurrently ->
             val list = mutableListOf<DayDetails>()
             list.run {
-                add(DayDetails(getString(R.string.wind), nonNullCurrently.windSpeed.toInt(), getString(R.string.speed_unit), R.drawable.wind))
-                add(DayDetails(getString(R.string.humidity), (nonNullCurrently.humidity * 100).toInt(), getString(R.string.percent_unit), R.drawable.humidity))
-                add(DayDetails(getString(R.string.apparent), nonNullCurrently.apparentTemperature.toInt(), getString(R.string.degree_unit), R.drawable.temperature))
-                add(DayDetails(getString(R.string.precip), nonNullCurrently.precipIntensity.toInt(), getString(R.string.precip_unit), R.drawable.drop))
-                add(DayDetails(getString(R.string.pressure), nonNullCurrently.pressure.toInt(), getString(R.string.pressure_unit), R.drawable.pressure))
+                add(DayDetails(getString(R.string.wind), nonNullCurrently.windSpeed.toInt(), getString(R.string.speed_unit), R.drawable.ic_wind))
+                add(DayDetails(getString(R.string.humidity), (nonNullCurrently.humidity * 100).toInt(), getString(R.string.percent_unit), R.drawable.ic_humidity))
+                add(DayDetails(getString(R.string.apparent), nonNullCurrently.apparentTemperature.toInt(), getString(R.string.degree_unit), R.drawable.ic_temperature))
+                add(DayDetails(getString(R.string.precip), nonNullCurrently.precipIntensity.toInt(), getString(R.string.precip_unit), R.drawable.ic_drop))
+                add(DayDetails(getString(R.string.pressure), nonNullCurrently.pressure.toInt(), getString(R.string.pressure_unit), R.drawable.ic_pressure))
             }
 
             dayDetailsList.value = list

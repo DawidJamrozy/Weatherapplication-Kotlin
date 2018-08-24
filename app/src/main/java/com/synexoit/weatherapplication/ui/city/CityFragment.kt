@@ -2,6 +2,7 @@ package com.synexoit.weatherapplication.ui.city
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DividerItemDecoration
@@ -35,6 +36,8 @@ import com.synexoit.weatherapplication.util.chart.ValueFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 
+
+
 /**
  * Created by Dawid on 05.05.2018.
  */
@@ -46,12 +49,13 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
     }
 
     override val layoutResId: Int
-        get() =  R.layout.fragment_city
+        get() = R.layout.fragment_city
 
     override val screenTitle: String
-        get() =  String.empty()
+        get() = String.empty()
 
-    @Arg(required = true) lateinit var id: String
+    @Arg(required = true)
+    lateinit var id: String
 
     private lateinit var viewModel: CityViewModel
 
@@ -73,6 +77,7 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         viewModel.loadCityFromDatabase(id)
         binding.swipeRefreshLayout.setOnRefreshListener(this)
         initRecyclerView()
+        setFakeStatusBarHeight()
     }
 
     override fun onRefresh() {
@@ -139,7 +144,7 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
 
         for (i in 0..24) {
             val data = city.hourly!!.data!![i]
-            //temp - add data to calculate min temperature for chart axis
+            //temp - add data to calculate min ic_temperature for chart axis
             temperatureList.add(data.temperature.toInt())
             //entries - add data to display temp for every hour
             entries.add(Entry(i.toFloat(), data.temperature.toFloat()))
@@ -198,6 +203,24 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
             setDrawLabels(false)
             axisMinimum = (Collections.min(temp) - 2).toFloat()
             axisMaximum = (Collections.max(temp) + 2).toFloat()
+        }
+    }
+
+    private fun setFakeStatusBarHeight(){
+        /*context?.run {
+            val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
+            val height = if (resourceId > 0) resources.getDimensionPixelSize(resourceId) else 0
+            val layoutParams = binding.fakeStatusBar.layoutParams
+            layoutParams.height = height
+            binding.fakeStatusBar.layoutParams = layoutParams
+        }*/
+        activity?.run {
+            val rectangle = Rect()
+            window.decorView.getWindowVisibleDisplayFrame(rectangle)
+            val statusBarHeight = rectangle.top
+            val layoutParams = binding.fakeStatusBar.layoutParams
+            layoutParams.height = statusBarHeight
+            binding.fakeStatusBar.layoutParams = layoutParams
         }
     }
 }

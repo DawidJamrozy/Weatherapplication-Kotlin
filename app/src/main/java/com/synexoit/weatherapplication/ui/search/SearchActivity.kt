@@ -1,9 +1,11 @@
 package com.synexoit.weatherapplication.ui.search
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.provider.Settings
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
@@ -32,8 +34,8 @@ import com.synexoit.weatherapplication.util.ListStatus
 import com.synexoit.weatherapplication.util.ListWrapper
 import com.synexoit.weatherapplication.util.RecyclerViewTouchHelper
 import kotlinx.android.synthetic.main.basic_custom_toolbar.*
-import timber.log.Timber
 import javax.inject.Inject
+
 
 @HensonNavigable
 class SearchActivity : BaseActivity<ActivitySearchBinding>(), LocationListener {
@@ -69,13 +71,10 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(), LocationListener {
     }
 
     private fun initLocationButton() {
-        if (isLocationPermissionGranted() && locationProvider.isLocationEnabled()) {
-            extra_button.background = ContextCompat.getDrawable(this, R.drawable.location)
-            extra_button.visible()
-            extra_button.onClick { getUserLocation() }
-        } else {
-            extra_button.gone()
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSIONS_REQUEST_CODE)
+        extra_button.run {
+            visible()
+            background = ContextCompat.getDrawable(context, R.drawable.ic_location_ripple)
+            onClick { getUserLocation() }
         }
     }
 
@@ -88,8 +87,35 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(), LocationListener {
     }
 
     private fun getUserLocation() {
-        recyclerAdapter.showProgressAtLastPosition()
-        locationProvider.getUserLocation()
+        if (isLocationPermissionGranted()) {
+            if (locationProvider.isLocationEnabled()) {
+                startLocatingUser()
+            } else {
+                showLocalizationOffDialog()
+            }
+        } else {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSIONS_REQUEST_CODE)
+        }
+    }
+
+    private fun startLocatingUser() {
+        if (!recyclerAdapter.isProgressVisible()) {
+            recyclerAdapter.showProgressAtLastPosition()
+            locationProvider.getUserLocation()
+        } else {
+            showToast(getString(R.string.operation_in_progress))
+        }
+    }
+
+    private fun showLocalizationOffDialog() {
+        AlertDialog.Builder(this)
+                .setTitle(getString(R.string.localization_dialog_title))
+                .setMessage(getString(R.string.localization_dialog_message))
+                .setPositiveButton(getString(R.string.common_yes)) { _, _ ->
+                    navigator.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                }.setNegativeButton(getString(R.string.common_no)) { _, _ -> }
+                .create()
+                .show()
     }
 
     override fun onLocationUpdate(currentLocation: CurrentLocation) {
@@ -97,7 +123,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(), LocationListener {
     }
 
     override fun onLocationError(error: Throwable) {
-        Timber.d("onLocationError(): $error")
+        showToast(error.message)
     }
 
     private fun handleCityPreviewList(cityList: ListWrapper<CityPreview>?) {
@@ -138,8 +164,10 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(), LocationListener {
                     .setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES)
                     .build()
 
-            autoComplete.setOnPlaceSelectedListener(placeListener)
-            autoComplete.setFilter(filter)
+            autoComplete.run {
+                setOnPlaceSelectedListener(placeListener)
+                setFilter(filter)
+            }
         }
     }
 
@@ -166,7 +194,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(), LocationListener {
         }
 
         override fun onError(place: Status?) {
-            Timber.d("onError(): ${place.toString()}")
+            showToast(getString(R.string.place_listener_error) + ":${place.toString()}")
         }
     }
 
@@ -178,10 +206,11 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(), LocationListener {
     }
 
     /**
-     * Returns true if location permissions are granted
+     * Returns true if ic_location permissions are granted
      *
      * @return [Boolean]
      */
     private fun isLocationPermissionGranted(): Boolean =
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+            ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
 }
