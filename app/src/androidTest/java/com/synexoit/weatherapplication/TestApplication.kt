@@ -1,21 +1,6 @@
 package com.synexoit.weatherapplication
 
-import android.app.Activity
-import android.app.Application
-import android.app.Service
-import com.synexoit.weatherapplication.di.component.DaggerTestApplicationComponent
-import com.synexoit.weatherapplication.di.component.TestApplicationComponent
-import com.synexoit.weatherapplication.di.injector.AppInjector
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
-import dagger.android.HasServiceInjector
-import io.reactivex.exceptions.UndeliverableException
-import io.reactivex.plugins.RxJavaPlugins
-import timber.log.Timber
-import javax.inject.Inject
-
-class TestApplication : Application(), HasActivityInjector, HasServiceInjector {
+/*class TestApplication : Application(), HasActivityInjector, HasServiceInjector {
 
     @Inject
     lateinit var mDispatchingAndroidActivityInjector: DispatchingAndroidInjector<Activity>
@@ -47,4 +32,4 @@ class TestApplication : Application(), HasActivityInjector, HasServiceInjector {
     override fun activityInjector(): AndroidInjector<Activity> = mDispatchingAndroidActivityInjector
 
     override fun serviceInjector(): AndroidInjector<Service> = mDispatchingAndroidServiceInjector
-}
+}*/

@@ -169,4 +169,7 @@ dependencies {
     androidTestImplementation mobileUiTestDependencies.mockitoAndroid
     androidTestImplementation mobileUiTestDependencies.mockitoKotlin
 
+    // JUnit
+    testImplementation mobileUiTestDependencies.junit
+
 }

@@ -4,16 +4,18 @@ import android.app.Activity
 import android.app.Application
 import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
+import com.synexoit.weatherapplication.ui.base.BaseActivity
 
-class DaggerActivityTestRule<T : Activity>(activityClass: Class<T>, initialTouchMode: Boolean,
+class DaggerActivityTestRule<T : BaseActivity<*>>(activityClass: Class<T>, initialTouchMode: Boolean,
                                            launchActivity: Boolean,
-                                           private val mListener: ActivityLaunchedListener<T>?) : ActivityTestRule<T>(activityClass, initialTouchMode, launchActivity) {
+                                           private val mListener: ActivityLaunchedListener<T>?)
+    : ActivityTestRule<T>(activityClass, initialTouchMode, launchActivity) {
 
-    constructor(activityClass: Class<T>,
-                listener: ActivityLaunchedListener<T>?) : this(activityClass, false, listener)
+    constructor(activityClass: Class<T>, listener: ActivityLaunchedListener<T>?)
+            : this(activityClass, false, listener)
 
-    constructor(activityClass: Class<T>, initialTouchMode: Boolean,
-                listener: ActivityLaunchedListener<T>?) : this(activityClass, initialTouchMode, true, listener)
+    constructor(activityClass: Class<T>, initialTouchMode: Boolean, listener: ActivityLaunchedListener<T>?)
+            : this(activityClass, initialTouchMode, true, listener)
 
     override fun beforeActivityLaunched() {
         mListener?.beforeActivityLaunched(InstrumentationRegistry.getInstrumentation()

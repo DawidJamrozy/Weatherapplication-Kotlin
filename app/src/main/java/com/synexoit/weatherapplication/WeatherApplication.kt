@@ -5,6 +5,7 @@ import android.app.Application
 import android.app.Service
 import android.support.annotation.VisibleForTesting
 import com.synexoit.weatherapplication.di.component.ApplicationComponent
+import com.synexoit.weatherapplication.di.component.DaggerApplicationComponent
 import com.synexoit.weatherapplication.di.injector.AppInjector
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -23,12 +24,19 @@ class WeatherApplication : Application(), HasActivityInjector, HasServiceInjecto
     @Inject
     lateinit var mDispatchingAndroidServiceInjector: DispatchingAndroidInjector<Service>
 
+    private lateinit var applicationComponent: ApplicationComponent
+
     override fun onCreate() {
         super.onCreate()
 
-        AppInjector.init(this)
+        applicationComponent = DaggerApplicationComponent.builder()
+                .application(this)
+                .context(this)
+                .build()
 
-        Timber.plant(Timber.DebugTree())
+        AppInjector.init(this, applicationComponent)
+
+        initTimber()
 
         RxJavaPlugins.setErrorHandler { e ->
             if (e is UndeliverableException) {
@@ -37,8 +45,14 @@ class WeatherApplication : Application(), HasActivityInjector, HasServiceInjecto
         }
     }
 
+    fun initTimber() {
+        Timber.plant(Timber.DebugTree())
+    }
+
     @VisibleForTesting
     fun setApplicationComponent(applicationComponent: ApplicationComponent) {
+        this.applicationComponent = applicationComponent
+        AppInjector.init(this, applicationComponent)
     }
 
     override fun activityInjector(): AndroidInjector<Activity> = mDispatchingAndroidActivityInjector

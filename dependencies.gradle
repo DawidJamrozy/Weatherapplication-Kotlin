@@ -33,7 +33,7 @@ ext {
     room_version = '1.1.0'
     lifecycle_version = '1.1.1'
     parceler_version = '1.1.9'
-    preference_fragment = "27.1.1"
+    preference_fragment_version = "27.1.1"
     glide_version = '4.7.1'
     dart_version = '2.0.2'
     henson_version = '2.0.2'
@@ -55,15 +55,15 @@ ext {
     google_maps_version = "15.0.1"
 
     // Testing
-    espressoVersion = "3.0.2"
-    runnerVersion = '1.0.2'
-    jUnitVersion = '4.12'
-    mockitoAndroidVersion = '2.8.47'
-    mockitoKotlinVersion = '1.5.0'
-    restMockVersion = '0.3.1'
-    rxIdlerVersion = '0.9.0'
-    uiAutomatorVersion = '2.1.3'
-    testOrchestratorVersion = '1.0.2'
+    espresso_version = "3.0.2"
+    runner_version = '1.0.2'
+    junit_version = '4.12'
+    mockito_android_version = '2.8.47'
+    mockito_kotlin_version = '1.5.0'
+    rest_mock_version = '0.3.1'
+    rx_idler_version = '0.9.0'
+    ui_automator_version = '2.1.3'
+    test_vrchestrator_version = '1.0.2'
 
     dataDependencies = [
             multidex                : "com.android.support:multidex:${multidex_version}",
@@ -148,7 +148,7 @@ ext {
             jacksonDatabind         : "com.fasterxml.jackson.core:jackson-databind:${jackson_version}",
             jacksonAnnotations      : "com.fasterxml.jackson.core:jackson-annotations:${jackson_version}",
             jacksonDataFormat       : "com.fasterxml.jackson.dataformat:jackson-dataformat-smile:${jackson_version}",
-            preferenceFragment      : "com.android.support:preference-v7:${preference_fragment}",
+            preferenceFragment      : "com.android.support:preference-v7:${preference_fragment_version}",
             jacksonKotlin           : "com.fasterxml.jackson.module:jackson-module-kotlin:${jackson_version}",
             henson                  : "com.f2prateek.dart:henson:${henson_version}",
             hensonProcessor         : "com.f2prateek.dart:henson-processor:${henson_version}",
@@ -189,18 +189,23 @@ ext {
     ]
 
     mobileUiTestDependencies = [
-            /*        junit           : "junit:junit:${junit_version}",
-                    testRunner      : "com.android.support.test:runner:${runnerVersion}",
-                    testRules       : "com.android.support.test:rules:${runnerVersion}",
-                    espressoCore    : "com.android.support.test.espresso:espresso-core:${espressoVersion}",
-                    espressoIntents : "com.android.support.test.espresso:espresso-intents:${espressoVersion}",
-                    espressoContrib : "com.android.support.test.espresso:espresso-contrib:${espressoVersion}",
-                    mockitoAndroid  : "org.mockito:mockito-android:${mockitoAndroidVersion}",
-                    mockitoKotlin   : "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
-                    restMock        : "com.github.andrzejchm.RESTMock:android:${restMockVersion}",
-                    uiAutomator     : "com.android.support.test.uiautomator:uiautomator-v18:${uiAutomatorVersion}",
-                    daggerCompiler  : "com.google.dagger:dagger-compiler:${daggerVersion}",
-                    testOrchestrator: "com.android.support.test:orchestrator:${testOrchestratorVersion}",*/
+
+            archRuntime:        "android.arch.lifecycle:runtime:${room_version}",
+            archExtensions:     "android.arch.lifecycle:extensions:${room_version}",
+            archCompiler: "android.arch.lifecycle:compiler:${room_version}",
+
+                    junit           : "junit:junit:${junit_version}",
+                    /*testRunner      : "com.android.support.test:runner:${runner_version}",
+                    testRules       : "com.android.support.test:rules:${runner_version}",*/
+                    espressoCore    : "com.android.support.test.espresso:espresso-core:${espresso_version}",
+                    espressoIntents : "com.android.support.test.espresso:espresso-intents:${espresso_version}",
+                    espressoContrib : "com.android.support.test.espresso:espresso-contrib:${espresso_version}",
+                    mockitoAndroid  : "org.mockito:mockito-android:${mockito_android_version}",
+                    mockitoKotlin   : "com.nhaarman:mockito-kotlin:${mockito_kotlin_version}",
+                    restMock        : "com.github.andrzejchm.RESTMock:android:${rest_mock_version}",
+                    uiAutomator     : "com.android.support.test.uiautomator:uiautomator-v18:${ui_automator_version}",
+                    daggerCompiler  : "com.google.dagger:dagger-compiler:${dagger_version}",
+                    /*testOrchestrator: "com.android.support.test:orchestrator:${testOrchestratorVersion}",*/
             mockitoAndroid          : "org.mockito:mockito-android:${mockito_android_version}",
             mockitoKotlin           : "com.nhaarman:mockito-kotlin:${mockito_kotlin_version}",
             rx2Idler                : "com.squareup.rx.idler:rx2-idler:${rx_idler_version}",
