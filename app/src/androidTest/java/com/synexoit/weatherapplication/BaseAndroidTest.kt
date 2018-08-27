@@ -1,7 +1,9 @@
 package com.synexoit.weatherapplication
 
 import android.app.Application
+import android.content.Intent
 import android.support.test.InstrumentationRegistry
+import com.synexoit.weatherapplication.di.component.TestApplicationComponent
 import com.synexoit.weatherapplication.ui.base.BaseActivity
 import org.junit.Rule
 
@@ -10,21 +12,28 @@ abstract class BaseAndroidTest<A : BaseActivity<*>>(clazz: Class<A>, initialTouc
 
     protected val context = InstrumentationRegistry.getTargetContext()
 
+    lateinit var testApplicationComponent: TestApplicationComponent
+
     protected fun replaceApplicationTestComponent(application: WeatherApplication) {
-        val applicationComponent = TestClient.obtainApplicationTestComponent(application)
-        application.setApplicationComponent(applicationComponent)
+        testApplicationComponent = TestClient.obtainApplicationTestComponent(application)
+        application.setApplicationComponent(testApplicationComponent)
     }
 
-    @get:Rule open val activityTestRule
-            = DaggerActivityTestRule(clazz, initialTouchMode, launchActivity, activityLaunchedListener())
+    @Rule
+    @JvmField
+    val activityTestRule = DaggerActivityTestRule(clazz, initialTouchMode, launchActivity,
+            object : DaggerActivityTestRule.ActivityLaunchedListener<A> {
 
-    protected open fun activityLaunchedListener(): DaggerActivityTestRule.ActivityLaunchedListener<A> {
-        return object : DaggerActivityTestRule.ActivityLaunchedListener<A> {
-            override fun beforeActivityLaunched(application: Application, activity: A) {
-                replaceApplicationTestComponent(application as WeatherApplication)
-            }
+                override fun beforeActivityLaunched(application: Application, activity: A) {
+                    replaceApplicationTestComponent(application as WeatherApplication)
+                }
 
-            override fun afterActivityLaunched() {}
-        }
-    }
+                override fun afterActivityLaunched() {}
+
+                override fun getActivityIntent(): Intent {
+                    return createIntent()
+                }
+            })
+
+    abstract fun createIntent(): Intent
 }

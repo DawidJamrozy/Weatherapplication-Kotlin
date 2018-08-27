@@ -1,6 +1,7 @@
 package com.synexoit.weatherapplication.di.component
 
 import android.content.Context
+import com.synexoit.weatherapplication.SearchActivityTest
 import com.synexoit.weatherapplication.WeatherApplication
 import com.synexoit.weatherapplication.di.module.ActivityModuleBuilder
 import com.synexoit.weatherapplication.di.module.TestApplicationModule
@@ -28,4 +29,6 @@ interface TestApplicationComponent : ApplicationComponent {
 
         fun build(): TestApplicationComponent
     }
+
+    fun injectt(test: SearchActivityTest)
 }

@@ -1,7 +1,7 @@
 package com.synexoit.weatherapplication
 
-import android.app.Activity
 import android.app.Application
+import android.content.Intent
 import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
 import com.synexoit.weatherapplication.ui.base.BaseActivity
@@ -26,10 +26,17 @@ class DaggerActivityTestRule<T : BaseActivity<*>>(activityClass: Class<T>, initi
         mListener?.afterActivityLaunched()
     }
 
+    override fun getActivityIntent(): Intent {
+        return mListener!!.getActivityIntent()
+    }
+
+
     interface ActivityLaunchedListener<T> {
 
         fun beforeActivityLaunched(application: Application, activity: T)
 
         fun afterActivityLaunched()
+
+        fun getActivityIntent(): Intent
     }
 }
