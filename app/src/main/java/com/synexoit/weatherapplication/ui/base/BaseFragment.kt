@@ -31,8 +31,6 @@ abstract class BaseFragment<B : ViewDataBinding> : ViewLifecycleFragment(), Inje
         const val NO_CHILD_CONTENT: Int = 0
     }
 
-    protected lateinit var binding: B
-
     @Inject
     protected lateinit var navigator: FragmentNavigator
 
@@ -40,12 +38,23 @@ abstract class BaseFragment<B : ViewDataBinding> : ViewLifecycleFragment(), Inje
     protected lateinit var viewModelFactory: ViewModelProvider.Factory
 
     /**
-     * Fragment layout resource id
+     * Base binding generic object
+     */
+    protected lateinit var binding: B
+
+    /**
+     * Provides layout resource id to set content view by data binding
      */
     abstract val layoutResId: Int
 
+    /**
+     * Provides default title which will by used in activity toolbar
+     */
     abstract val screenTitle: String
 
+    /**
+     * @return if Toolbar back arrow should be displayed
+     */
     protected open val isDisplayingBackArrow: Boolean
         get() = true
 
@@ -76,6 +85,9 @@ abstract class BaseFragment<B : ViewDataBinding> : ViewLifecycleFragment(), Inje
 
     protected fun navigateBack() = (activity as BaseFragmentActivity<*>).navigateBack()
 
+    /**
+     * Sets custom toolbar
+     */
     private fun setUpCustomToolbar() {
         val arrowBack: ImageView? = view?.findViewById(R.id.toolbar_back_arrow)
         val toolbarTitle: TextView? = view?.findViewById(R.id.toolbar_title)
@@ -87,8 +99,14 @@ abstract class BaseFragment<B : ViewDataBinding> : ViewLifecycleFragment(), Inje
         toolbarTitle?.run { text = screenTitle }
     }
 
+    /**
+     * Method called by navigator, can be override to add custom on back pressed flow in app
+     */
     open fun onBackPressed() = false
 
+    /**
+     * Show basic toast message with fragment context
+     */
     protected fun showToast(text: String? = "ERROR", stringId: Int? = null, time: Int = Toast.LENGTH_SHORT) {
         val message = if (stringId == null) text ?: "ERROR" else getString(stringId)
         context?.let { SingleToast.show(it, message, time) }

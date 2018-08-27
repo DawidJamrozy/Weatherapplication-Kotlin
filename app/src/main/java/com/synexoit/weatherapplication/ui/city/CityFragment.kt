@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
@@ -61,6 +62,7 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
 
     private val dayRecyclerAdapter = UniversalAdapter()
     private val dayDetailsRecyclerAdapter = UniversalAdapter()
+    private val handler = Handler()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -78,6 +80,8 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         binding.swipeRefreshLayout.setOnRefreshListener(this)
         initRecyclerView()
         setFakeStatusBarHeight()
+        // run with delay to be sure that getWindowVisibleDisplayFrame wont return 0
+        handler.postDelayed({setFakeStatusBarHeight()}, 100)
     }
 
     override fun onRefresh() {
@@ -85,6 +89,14 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         viewModel.refreshWeatherData()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacksAndMessages(null)
+    }
+
+    /**
+     * Initialize recycler view
+     */
     private fun initRecyclerView() {
         binding.dayRecyclerView.run {
             adapter = dayRecyclerAdapter
@@ -133,6 +145,9 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         binding.swipeRefreshLayout.isRefreshing = isRefreshing
     }
 
+    /**
+     * Set linear chart view and data
+     */
     private fun setChart(city: City) {
         val entries = mutableListOf<Entry>()
         val temperatureList = mutableListOf<Int>()
@@ -163,6 +178,9 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         }
     }
 
+    /**
+     * Set linear chart data
+     */
     private fun customizeLineDataSet(lineDataSet: LineDataSet) {
         with(lineDataSet) {
             valueTextSize = 12f
@@ -174,6 +192,9 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         }
     }
 
+    /**
+     * Set linear chart options
+     */
     private fun customizeLineChart(lineChart: LineChart, lineData: LineData) {
         val emptyDescription = Description()
         emptyDescription.text = ""
@@ -188,6 +209,9 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         }
     }
 
+    /**
+    * Set linear chart X axis options
+    */
     private fun setXAxis(axis: XAxis, hours: MutableList<String>) {
         with(axis) {
             labelCount = 25
@@ -197,6 +221,9 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         }
     }
 
+    /**
+     * Set linear chart Y axis options
+     */
     private fun setYAxis(axis: YAxis, temp: MutableList<Int>) {
         with(axis) {
             setDrawGridLines(false)
@@ -206,14 +233,10 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         }
     }
 
+    /**
+     * Set fake status bar height to proper value cause fragment is using transparent status bar
+     */
     private fun setFakeStatusBarHeight(){
-        /*context?.run {
-            val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
-            val height = if (resourceId > 0) resources.getDimensionPixelSize(resourceId) else 0
-            val layoutParams = binding.fakeStatusBar.layoutParams
-            layoutParams.height = height
-            binding.fakeStatusBar.layoutParams = layoutParams
-        }*/
         activity?.run {
             val rectangle = Rect()
             window.decorView.getWindowVisibleDisplayFrame(rectangle)

@@ -13,6 +13,10 @@ import javax.inject.Inject
  */
 abstract class BaseFragmentActivity<B: ViewDataBinding> : BaseActivity<B>(), HasSupportFragmentInjector {
 
+    /**
+     * Provides default title which will by used in activity toolbar
+     * On default set empty cause in most cases fragment is using its own title
+     */
     override val screenTitle: String
         get() = String.empty()
 
@@ -22,7 +26,7 @@ abstract class BaseFragmentActivity<B: ViewDataBinding> : BaseActivity<B>(), Has
     override fun supportFragmentInjector(): AndroidInjector<Fragment> = mDispatchAndroidInjector
 
     /**
-     * Layout resource id of View which will be used to change content
+     * Layout resource id of View which will be used to change activity content
      */
     abstract val contentResId: Int
 

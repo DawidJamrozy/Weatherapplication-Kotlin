@@ -34,12 +34,24 @@ abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity() {
     @Inject
     protected lateinit var sharedPreferencesManager: SharedPreferencesManager
 
+    /**
+     * Base binding generic object
+     */
     protected lateinit var binding: B
 
+    /**
+     * Provides layout resource id to set content view by data binding
+     */
     abstract val layoutResId: Int
 
+    /**
+     * Provides default title which will by used in activity toolbar
+     */
     abstract val screenTitle: String
 
+    /**
+     * @return if Toolbar back arrow should be displayed
+     */
     protected open val isDisplayingBackArrow: Boolean
         get() = true
 
@@ -53,6 +65,9 @@ abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity() {
 		Dart.inject(this)
 	}
 
+    /**
+     * Sets custom toolbar
+     */
 	private fun setUpCustomToolbar() {
 		val arrowBack: ImageView? = findViewById(R.id.toolbar_back_arrow)
 		val toolbarTitle: TextView? = findViewById(R.id.toolbar_title)
@@ -74,6 +89,9 @@ abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity() {
         outState?.let { Icepick.saveInstanceState(this, it) }
 	}
 
+    /**
+     * Show basic toast message with activity context
+     */
 	protected fun showToast(text: String? = "ERROR", stringId: Int? = null, time: Int = Toast.LENGTH_SHORT) {
 		val message = if (stringId != null) getString(stringId) else text ?: "ERROR"
 		SingleToast.show(this, message, time)

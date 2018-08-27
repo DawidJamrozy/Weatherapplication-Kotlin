@@ -10,19 +10,18 @@ abstract class BaseAndroidTest<A : BaseActivity<*>>(clazz: Class<A>, initialTouc
 
     protected val context = InstrumentationRegistry.getTargetContext()
 
-    protected fun replaceApplicationTestComponent(application: Application) {
+    protected fun replaceApplicationTestComponent(application: WeatherApplication) {
         val applicationComponent = TestClient.obtainApplicationTestComponent(application)
-        (application as WeatherApplication).setApplicationComponent(applicationComponent)
+        application.setApplicationComponent(applicationComponent)
     }
 
-    @get:Rule
-    protected open val activityTestRule
+    @get:Rule open val activityTestRule
             = DaggerActivityTestRule(clazz, initialTouchMode, launchActivity, activityLaunchedListener())
 
     protected open fun activityLaunchedListener(): DaggerActivityTestRule.ActivityLaunchedListener<A> {
         return object : DaggerActivityTestRule.ActivityLaunchedListener<A> {
             override fun beforeActivityLaunched(application: Application, activity: A) {
-                replaceApplicationTestComponent(application)
+                replaceApplicationTestComponent(application as WeatherApplication)
             }
 
             override fun afterActivityLaunched() {}

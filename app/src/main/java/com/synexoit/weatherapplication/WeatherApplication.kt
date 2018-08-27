@@ -38,17 +38,21 @@ class WeatherApplication : Application(), HasActivityInjector, HasServiceInjecto
 
         initTimber()
 
-        RxJavaPlugins.setErrorHandler { e ->
-            if (e is UndeliverableException) {
-                Timber.d("WeatherApplication caught UndeliverableException : ${e.localizedMessage}")
-            }
+        RxJavaPlugins.setErrorHandler {
+            if (it is UndeliverableException) Timber.d("UndeliverableException caught: ${it.localizedMessage}")
         }
     }
 
-    fun initTimber() {
-        Timber.plant(Timber.DebugTree())
+    /**
+     * Initialize timber logs
+     */
+    private fun initTimber() {
+        if(BuildConfig.USE_TIMBER) Timber.plant(Timber.DebugTree())
     }
 
+    /**
+     * Swaps application component for testing purposes
+     */
     @VisibleForTesting
     fun setApplicationComponent(applicationComponent: ApplicationComponent) {
         this.applicationComponent = applicationComponent

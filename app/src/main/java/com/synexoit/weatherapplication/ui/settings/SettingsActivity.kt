@@ -16,6 +16,6 @@ class SettingsActivity : BaseFragmentActivity<ActivitySettingsBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        navigator.replaceFragment(SettingsFragment(), true)
+        if(savedInstanceState == null) navigator.replaceFragment(SettingsFragment())
     }
 }

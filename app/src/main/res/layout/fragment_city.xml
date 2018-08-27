@@ -34,7 +34,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:background="@drawable/bg_city"
-                    android:padding="15dp">
+                    android:paddingBottom="15dp"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp">
 
                     <View
                         android:id="@+id/fake_status_bar"
@@ -56,6 +58,7 @@
                         app:layout_constraintTop_toTopOf="@+id/temperature"/>
 
                     <TextView
+                        android:layout_marginTop="15dp"
                         android:id="@+id/temperature"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

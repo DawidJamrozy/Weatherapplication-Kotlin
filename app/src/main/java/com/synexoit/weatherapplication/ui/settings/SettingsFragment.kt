@@ -11,11 +11,6 @@ import com.synexoit.weatherapplication.R
 
 class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        addPreferencesFromResource(R.xml.settings_preferences)
-    }
-
     override fun onResume() {
         super.onResume()
         preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
@@ -40,6 +35,6 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        TODO("not implemented")
+        addPreferencesFromResource(R.xml.settings_preferences)
     }
 }
