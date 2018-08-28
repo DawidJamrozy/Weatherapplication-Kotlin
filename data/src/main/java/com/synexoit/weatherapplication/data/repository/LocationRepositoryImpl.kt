@@ -19,7 +19,10 @@ class LocationRepositoryImpl @Inject constructor(private val locationListener: L
                         .subscribeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 { locationListener.onLocationUpdate(it) },
-                                { locationListener.onLocationError(it) }
+                                {
+                                    locationListener.onLocationError(it)
+                                    it.printStackTrace()
+                                }
                         )
         )
     }

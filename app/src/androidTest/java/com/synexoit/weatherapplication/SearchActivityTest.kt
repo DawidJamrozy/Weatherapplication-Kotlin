@@ -8,7 +8,7 @@ import com.synexoit.weatherapplication.data.repository.CityRepository
 import com.synexoit.weatherapplication.data.repository.GeocodeRepository
 import com.synexoit.weatherapplication.data.repository.WeatherRepository
 import com.synexoit.weatherapplication.ui.search.SearchActivity
-import com.synexoit.weatherapplication.ui.search.SearchViewModel
+import com.synexoit.weatherapplication.presentation.viewmodel.search.SearchViewModel
 import io.reactivex.Maybe
 import org.junit.Before
 import org.junit.Test

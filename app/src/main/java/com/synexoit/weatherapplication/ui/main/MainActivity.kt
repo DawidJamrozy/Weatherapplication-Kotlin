@@ -8,6 +8,7 @@ import com.synexoit.weatherapplication.R
 import com.synexoit.weatherapplication.data.extensions.getViewModel
 import com.synexoit.weatherapplication.data.extensions.observe
 import com.synexoit.weatherapplication.databinding.ActivityMainBinding
+import com.synexoit.weatherapplication.presentation.viewmodel.main.MainViewModel
 import com.synexoit.weatherapplication.ui.base.BaseFragmentActivity
 import com.synexoit.weatherapplication.ui.city.CityFragmentBuilder
 import com.synexoit.weatherapplication.util.ViewPagerAdapter

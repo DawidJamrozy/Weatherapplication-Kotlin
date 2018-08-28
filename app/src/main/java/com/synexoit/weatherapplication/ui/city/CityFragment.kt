@@ -20,8 +20,6 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.hannesdorfmann.fragmentargs.annotation.Arg
 import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs
 import com.synexoit.weatherapplication.R
-import com.synexoit.weatherapplication.presentation.data.entity.DayData
-import com.synexoit.weatherapplication.presentation.data.entity.DayDetails
 import com.synexoit.weatherapplication.data.entity.darksky.City
 import com.synexoit.weatherapplication.data.exceptions.Failure
 import com.synexoit.weatherapplication.data.extensions.empty
@@ -29,6 +27,9 @@ import com.synexoit.weatherapplication.data.extensions.failure
 import com.synexoit.weatherapplication.data.extensions.getViewModel
 import com.synexoit.weatherapplication.data.extensions.observe
 import com.synexoit.weatherapplication.databinding.FragmentCityBinding
+import com.synexoit.weatherapplication.presentation.data.entity.DayData
+import com.synexoit.weatherapplication.presentation.data.entity.DayDetails
+import com.synexoit.weatherapplication.presentation.viewmodel.city.CityViewModel
 import com.synexoit.weatherapplication.ui.base.BaseFragment
 import com.synexoit.weatherapplication.ui.base.adapter.UniversalAdapter
 import com.synexoit.weatherapplication.ui.settings.SettingsActivity
@@ -36,7 +37,6 @@ import com.synexoit.weatherapplication.util.chart.AxisValueFormatter
 import com.synexoit.weatherapplication.util.chart.ValueFormatter
 import java.text.SimpleDateFormat
 import java.util.*
-
 
 
 /**
@@ -47,6 +47,8 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
 
     companion object {
         private const val HOUR_FORMAT = "HH:mm"
+        private const val DATE_FORMAT = "HH:mm dd.MM.yyyy"
+        private const val DAY_FORMAT = "EEEE"
     }
 
     override val layoutResId: Int
@@ -69,8 +71,6 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         viewModel = getViewModel(viewModelFactory) {
             observe(city, ::handleCity)
             observe(onClickEvent, ::handleOnClick)
-            observe(dayDataList, ::handleDayData)
-            observe(dayDetailsList, ::handleDayDetails)
             failure(failure, ::handleFailure)
         }
 
@@ -81,7 +81,7 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         initRecyclerView()
         setFakeStatusBarHeight()
         // run with delay to be sure that getWindowVisibleDisplayFrame wont return 0
-        handler.postDelayed({setFakeStatusBarHeight()}, 100)
+        handler.postDelayed({ setFakeStatusBarHeight() }, 100)
     }
 
     override fun onRefresh() {
@@ -113,15 +113,38 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         city?.let {
             setSwipeRefreshIndicator(false)
             setChart(it)
+            createDayData(it)
+            createDayDetails(it)
         }
     }
 
-    private fun handleDayData(list: MutableList<DayData>?) {
-        list?.let { dayRecyclerAdapter.addNewList(it) }
+    private fun createDayData(city: City) {
+        val temporaryDayDataList = mutableListOf<DayData>()
+        val sdf = SimpleDateFormat(DAY_FORMAT, Locale.getDefault())
+        sdf.timeZone = TimeZone.getTimeZone(city.timezone)
+        city.daily.data.let { list ->
+            list.take(7).forEach {
+                val dayName = sdf.format(Date(it.time * 1000L))
+                dayName.apply { substring(0, 1).toUpperCase() + substring(1) }
+                temporaryDayDataList.add(DayData(it.temperatureMin.toInt(),
+                        it.temperatureMax.toInt(), it.icon, dayName))
+            }
+            dayRecyclerAdapter.addNewList(temporaryDayDataList)
+        }
     }
 
-    private fun handleDayDetails(list: MutableList<DayDetails>?) {
-        list?.let { dayDetailsRecyclerAdapter.addNewList(it) }
+    private fun createDayDetails(city: City) {
+        city.currently.let { nonNullCurrently ->
+            val list = mutableListOf<DayDetails>()
+            list.apply {
+                add(DayDetails(R.string.wind, nonNullCurrently.windSpeed.toInt(), R.string.speed_unit, R.drawable.ic_wind))
+                add(DayDetails(R.string.humidity, (nonNullCurrently.humidity * 100).toInt(), R.string.percent_unit, R.drawable.ic_humidity))
+                add(DayDetails(R.string.apparent, nonNullCurrently.apparentTemperature.toInt(), R.string.degree_unit, R.drawable.ic_temperature))
+                add(DayDetails(R.string.precip, nonNullCurrently.precipIntensity.toInt(), R.string.precip_unit, R.drawable.ic_drop))
+                add(DayDetails(R.string.pressure, nonNullCurrently.pressure.toInt(), R.string.pressure_unit, R.drawable.ic_pressure))
+            }
+            dayDetailsRecyclerAdapter.addNewList(list)
+        }
     }
 
     private fun handleFailure(failure: Failure?) {
@@ -158,7 +181,7 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         sdf.timeZone = TimeZone.getTimeZone(city.timezone)
 
         for (i in 0..24) {
-            val data = city.hourly!!.data!![i]
+            val data = city.hourly.data[i]
             //temp - add data to calculate min ic_temperature for chart axis
             temperatureList.add(data.temperature.toInt())
             //entries - add data to display temp for every hour
@@ -210,8 +233,8 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
     }
 
     /**
-    * Set linear chart X axis options
-    */
+     * Set linear chart X axis options
+     */
     private fun setXAxis(axis: XAxis, hours: MutableList<String>) {
         with(axis) {
             labelCount = 25
@@ -236,7 +259,7 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
     /**
      * Set fake status bar height to proper value cause fragment is using transparent status bar
      */
-    private fun setFakeStatusBarHeight(){
+    private fun setFakeStatusBarHeight() {
         activity?.run {
             val rectangle = Rect()
             window.decorView.getWindowVisibleDisplayFrame(rectangle)

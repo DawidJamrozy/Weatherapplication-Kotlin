@@ -12,10 +12,10 @@ class DailyMapper @Inject constructor(private val dailyDataMapper: DailyDataMapp
     }
 
     override fun toCache(type: Daily): DailyCache {
-        return type.run { DailyCache(id,summary,icon, data!!.map { dailyDataMapper.toCache(it) }, cityId) }
+        return type.run { DailyCache(id,summary,icon, data.map { dailyDataMapper.toCache(it) }, cityId) }
     }
 
     override fun fromRemote(type: DailyRemote): Daily {
-        return type.run { Daily(0 ,summary,icon, data!!.map { dailyDataMapper.fromRemote(it) }, 0) }
+        return type.run { Daily(0 ,summary,icon, data.map { dailyDataMapper.fromRemote(it) }, 0) }
     }
 }

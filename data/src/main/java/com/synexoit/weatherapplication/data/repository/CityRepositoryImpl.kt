@@ -58,11 +58,11 @@ class CityRepositoryImpl @Inject constructor(private val mDatabase: AppDatabase,
 
     override fun insertCity(city: City) {
         val id = mDatabase.getCityDao().insert(cityMapper.toCache(city))
-        insertCurrently(city.currently!!.copy(id = id))
-        val hourlyId = insertHourly(city.hourly!!.copy(id = id))
-        insertHourlyData(hourlyId, city.hourly!!.data!!)
-        val dailyId = insertDaily(city.daily!!.copy(id = id))
-        insertDailyData(dailyId, city.daily!!.data!!)
+        insertCurrently(city.currently.copy(cityId = id))
+        val hourlyId = insertHourly(city.hourly.copy(cityId = id))
+        insertHourlyData(hourlyId, city.hourly.data)
+        val dailyId = insertDaily(city.daily.copy(cityId = id))
+        insertDailyData(dailyId, city.daily.data)
     }
 
     private fun insertCurrently(currently: Currently): Long =

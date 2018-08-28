@@ -1,14 +1,14 @@
-package com.synexoit.weatherapplication.di.module
+package com.synexoit.weatherapplication.presentation.module
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import com.synexoit.weatherapplication.ui.city.CityViewModel
-import com.synexoit.weatherapplication.ui.main.MainViewModel
-import com.synexoit.weatherapplication.ui.search.SearchViewModel
-import com.synexoit.weatherapplication.ui.settings.SettingsViewModel
-import com.synexoit.weatherapplication.ui.splash.SplashViewModel
-import com.synexoit.weatherapplication.util.ViewModelFactory
-import com.synexoit.weatherapplication.util.ViewModelKey
+import com.synexoit.weatherapplication.presentation.data.util.ViewModelFactory
+import com.synexoit.weatherapplication.presentation.data.util.ViewModelKey
+import com.synexoit.weatherapplication.presentation.viewmodel.city.CityViewModel
+import com.synexoit.weatherapplication.presentation.viewmodel.main.MainViewModel
+import com.synexoit.weatherapplication.presentation.viewmodel.search.SearchViewModel
+import com.synexoit.weatherapplication.presentation.viewmodel.settings.SettingsViewModel
+import com.synexoit.weatherapplication.presentation.viewmodel.splash.SplashViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

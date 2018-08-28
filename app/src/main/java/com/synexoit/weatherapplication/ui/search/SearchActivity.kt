@@ -26,12 +26,13 @@ import com.synexoit.weatherapplication.data.repository.LocationListener
 import com.synexoit.weatherapplication.data.repository.LocationRepository
 import com.synexoit.weatherapplication.databinding.ActivitySearchBinding
 import com.synexoit.weatherapplication.presentation.data.entity.CityPreview
+import com.synexoit.weatherapplication.presentation.viewmodel.search.SearchViewModel
 import com.synexoit.weatherapplication.ui.base.BaseActivity
 import com.synexoit.weatherapplication.ui.base.adapter.UniversalAdapter
 import com.synexoit.weatherapplication.ui.main.MainActivity
 import com.synexoit.weatherapplication.ui.search.adapter.CityPreviewDelegateAdapter
-import com.synexoit.weatherapplication.util.ListStatus
-import com.synexoit.weatherapplication.util.ListWrapper
+import com.synexoit.weatherapplication.presentation.data.util.ListStatus
+import com.synexoit.weatherapplication.presentation.data.util.ListWrapper
 import com.synexoit.weatherapplication.util.RecyclerViewTouchHelper
 import kotlinx.android.synthetic.main.basic_custom_toolbar.*
 import javax.inject.Inject
@@ -124,6 +125,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(), LocationListener {
 
     override fun onLocationError(error: Throwable) {
         showToast(error.message)
+        recyclerAdapter.hideProgress()
     }
 
     private fun handleCityPreviewList(cityList: ListWrapper<CityPreview>?) {

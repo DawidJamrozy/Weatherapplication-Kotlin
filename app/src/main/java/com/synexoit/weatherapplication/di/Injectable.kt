@@ -1,6 +1,6 @@
 package com.synexoit.weatherapplication.di
 
 /**
- * Interface which must be implemented by fragment which will be used in activity
+ * This Interface must be implemented by fragment which will be used in FragmentActivity
  */
 interface Injectable

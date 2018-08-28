@@ -10,7 +10,7 @@
 
         <variable
             name="vm"
-            type="com.synexoit.weatherapplication.ui.search.SearchViewModel" />
+            type="com.synexoit.weatherapplication.presentation.viewmodel.search.SearchViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

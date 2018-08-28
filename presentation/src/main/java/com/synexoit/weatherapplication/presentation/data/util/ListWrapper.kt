@@ -1,10 +1,10 @@
-package com.synexoit.weatherapplication.util
+package com.synexoit.weatherapplication.presentation.data.util
 
 /**
  * Created by dawidjamrozy on 09.05.2018.
  */
 sealed class ListStatus {
-    class New :ListStatus()
+    class New : ListStatus()
     class Refresh: ListStatus()
 }
 

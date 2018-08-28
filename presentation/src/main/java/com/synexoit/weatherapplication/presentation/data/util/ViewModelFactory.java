@@ -1,4 +1,4 @@
-package com.synexoit.weatherapplication.util;
+package com.synexoit.weatherapplication.presentation.data.util;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;

@@ -5,7 +5,7 @@
 
         <variable
             name="vm"
-            type="com.synexoit.weatherapplication.ui.settings.SettingsViewModel"/>
+            type="com.synexoit.weatherapplication.presentation.viewmodel.settings.SettingsViewModel"/>
     </data>
 
     <LinearLayout

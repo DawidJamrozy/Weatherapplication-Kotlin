@@ -12,9 +12,9 @@ data class City(var id: Long = 0,
                 var latitude: Double = 0.0,
                 var longitude: Double = 0.0,
                 var timezone: String = "",
-                var currently: Currently?,
-                var hourly: Hourly?,
-                var daily: Daily?)  {
+                var currently: Currently,
+                var hourly: Hourly,
+                var daily: Daily)  {
 
 
     fun toCityPlace(): CityPlace {

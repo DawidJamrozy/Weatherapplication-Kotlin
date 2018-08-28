@@ -13,8 +13,8 @@ data class CityRemote(var placeId: String = "",
                       var longitude: Double = 0.0,
                       var timezone: String = "",
                       @JsonProperty("currently")
-                      var currentlyCache: CurrentlyRemote?,
+                      var currentlyCache: CurrentlyRemote,
                       @JsonProperty("hourly")
-                      var hourlyCache: HourlyRemote?,
+                      var hourlyCache: HourlyRemote,
                       @JsonProperty("daily")
-                      var dailyCache: DailyRemote?)
+                      var dailyCache: DailyRemote)

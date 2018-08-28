@@ -1,4 +1,4 @@
-package com.synexoit.weatherapplication.ui.search
+package com.synexoit.weatherapplication.presentation.viewmodel.search
 
 import android.arch.lifecycle.MutableLiveData
 import com.synexoit.weatherapplication.data.entity.CityPlace
@@ -11,12 +11,11 @@ import com.synexoit.weatherapplication.data.repository.GeocodeRepository
 import com.synexoit.weatherapplication.data.repository.WeatherRepository
 import com.synexoit.weatherapplication.data.util.Resource
 import com.synexoit.weatherapplication.data.util.Status
-import com.synexoit.weatherapplication.ui.base.BaseViewModel
-import com.synexoit.weatherapplication.util.ListStatus
-import com.synexoit.weatherapplication.util.ListWrapper
+import com.synexoit.weatherapplication.presentation.data.util.ListStatus
+import com.synexoit.weatherapplication.presentation.data.util.ListWrapper
+import com.synexoit.weatherapplication.presentation.viewmodel.base.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -40,9 +39,7 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
         when (response.status) {
             is Status.Success -> {
                 cityList.value?.let { wrapper ->
-                    response.data?.run {
-                        wrapper.list.add(CityPreview(name, address, placeId, lastItemPosition))
-                    }
+                    response.data?.run { wrapper.list.add(CityPreview(name, address, placeId, lastItemPosition)) }
                     setCityPreviewListValue(ListWrapper(ListStatus.Refresh(), wrapper.list))
                 }
             }
@@ -57,7 +54,8 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { getCity(it, lastItemPosition) },
-                        { Timber.d("getGeocodeCity(): $it") })
+                        //TODO 28.08.2018 Dawid Jamroży add error handling
+                        { /*ignore*/ })
         )
     }
 

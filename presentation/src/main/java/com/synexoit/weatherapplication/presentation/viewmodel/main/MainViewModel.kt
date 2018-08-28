@@ -1,9 +1,9 @@
-package com.synexoit.weatherapplication.ui.main
+package com.synexoit.weatherapplication.presentation.viewmodel.main
 
 import android.arch.lifecycle.MutableLiveData
 import com.synexoit.weatherapplication.data.exceptions.Failure
 import com.synexoit.weatherapplication.data.usecase.MainActivityUseCase
-import com.synexoit.weatherapplication.ui.base.BaseViewModel
+import com.synexoit.weatherapplication.presentation.viewmodel.base.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject

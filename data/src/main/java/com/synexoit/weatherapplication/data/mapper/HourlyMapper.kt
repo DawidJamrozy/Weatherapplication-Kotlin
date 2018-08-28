@@ -12,10 +12,10 @@ class HourlyMapper @Inject constructor(private val mapper: HourlyDataMapper) : M
     }
 
     override fun toCache(type: Hourly): HourlyCache {
-        return type.run { HourlyCache(id, summary, icon, data!!.map { mapper.toCache(it) }, cityId) }
+        return type.run { HourlyCache(id, summary, icon, data.map { mapper.toCache(it) }, cityId) }
     }
 
     override fun fromRemote(type: HourlyRemote): Hourly {
-        return type.run { Hourly(0, summary, icon, data!!.map { mapper.fromRemote(it) }, 0) }
+        return type.run { Hourly(0, summary, icon, data.map { mapper.fromRemote(it) }, 0) }
     }
 }

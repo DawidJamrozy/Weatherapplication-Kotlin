@@ -1,4 +1,4 @@
-package com.synexoit.weatherapplication.ui.base
+package com.synexoit.weatherapplication.presentation.viewmodel.base
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
