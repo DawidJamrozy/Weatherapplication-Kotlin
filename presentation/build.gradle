@@ -1,0 +1,70 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["android_compile_sdk_version"]
+    buildToolsVersion globalConfiguration["android_build_tools_version"]
+
+    defaultConfig {
+        minSdkVersion globalConfiguration["android_min_sdk_version"]
+        targetSdkVersion globalConfiguration["android_target_sdk_version"]
+        versionCode globalConfiguration["android_version_code"]
+        versionName globalConfiguration["android_version_name"]
+        multiDexEnabled true
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            postprocessing {
+                removeUnusedCode false
+                removeUnusedResources false
+                obfuscate false
+                optimizeCode false
+                proguardFile 'proguard-rules.pro'
+            }
+        }
+    }
+
+
+    kapt {
+        useBuildCache = true
+    }
+
+    dataBinding {
+        enabled = true
+    }
+}
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    api project(":data")
+
+    // Kotlin
+    implementation mobileDependencies.kotlin
+
+    // Multidex
+    implementation mobileDependencies.multidex
+
+    // Support libraries
+    implementation mobileDependencies.appcompatV7
+
+    // RxJava
+    implementation mobileDependencies.rxJava
+    implementation mobileDependencies.rxAndroid
+
+    // Dagger
+    implementation dataDependencies.dagger
+    implementation dataDependencies.daggerAndroid
+    implementation dataDependencies.daggerAndroidSupport
+    kapt dataDependencies.daggerCompiler
+    kapt dataDependencies.daggerProcessor
+    kaptAndroidTest dataDependencies.daggerCompiler
+
+}

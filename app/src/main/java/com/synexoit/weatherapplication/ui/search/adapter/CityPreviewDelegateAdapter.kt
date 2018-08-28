@@ -2,12 +2,12 @@ package com.synexoit.weatherapplication.ui.search.adapter
 
 import android.arch.lifecycle.ViewModel
 import android.support.v7.widget.RecyclerView
-import com.synexoit.weatherapplication.data.entity.CityPreview
+import com.synexoit.weatherapplication.presentation.data.entity.CityPreview
 import com.synexoit.weatherapplication.databinding.ItemCityPreviewBinding
 import com.synexoit.weatherapplication.ui.base.adapter.BaseBindingAdapter
 import com.synexoit.weatherapplication.ui.search.SearchViewModel
 import com.synexoit.weatherapplication.util.ItemTouchHelperAdapter
-import com.synexoit.weatherapplication.util.ViewType
+import com.synexoit.weatherapplication.presentation.data.util.ViewType
 
 class CityPreviewDelegateAdapter(private val list: List<ViewType>) : BaseBindingAdapter<ItemCityPreviewBinding>(), ItemTouchHelperAdapter {
 

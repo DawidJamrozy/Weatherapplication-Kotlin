@@ -1,9 +1,8 @@
 package com.synexoit.weatherapplication.ui.search
 
 import android.arch.lifecycle.MutableLiveData
-import com.synexoit.weatherapplication.WeatherApplication
 import com.synexoit.weatherapplication.data.entity.CityPlace
-import com.synexoit.weatherapplication.data.entity.CityPreview
+import com.synexoit.weatherapplication.presentation.data.entity.CityPreview
 import com.synexoit.weatherapplication.data.entity.darksky.City
 import com.synexoit.weatherapplication.data.exceptions.Failure
 import com.synexoit.weatherapplication.data.repository.CityPreviewRepository
@@ -12,7 +11,7 @@ import com.synexoit.weatherapplication.data.repository.GeocodeRepository
 import com.synexoit.weatherapplication.data.repository.WeatherRepository
 import com.synexoit.weatherapplication.data.util.Resource
 import com.synexoit.weatherapplication.data.util.Status
-import com.synexoit.weatherapplication.ui.base.BaseAndroidViewModel
+import com.synexoit.weatherapplication.ui.base.BaseViewModel
 import com.synexoit.weatherapplication.util.ListStatus
 import com.synexoit.weatherapplication.util.ListWrapper
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -24,8 +23,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(private val mWeatherRepository: WeatherRepository,
                                           private val mCityPreviewRepository: CityPreviewRepository,
                                           private val cityRepository: CityRepository,
-                                          private val geocodeRepository: GeocodeRepository,
-                                          application: WeatherApplication) : BaseAndroidViewModel(application) {
+                                          private val geocodeRepository: GeocodeRepository) : BaseViewModel() {
 
     companion object {
         const val GO_TO_MAIN_ACTIVITY = 1000

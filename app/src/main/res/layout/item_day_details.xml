@@ -5,7 +5,7 @@
 
         <variable
             name="item"
-            type="com.synexoit.weatherapplication.data.entity.DayDetails"/>
+            type="com.synexoit.weatherapplication.presentation.data.entity.DayDetails"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -13,15 +13,15 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:padding="15dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="15dp">
 
         <TextView
             android:id="@+id/name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="@{item.name}"
+            app:textRes="@{item.name}"
             app:layout_constraintEnd_toStartOf="@+id/image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -32,7 +32,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="@{@string/day_details(item.value, item.unit)}"
+            app:value="@{item.value}"
+            app:unit="@{item.unit}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/image"
             app:layout_constraintHorizontal_bias="0.0"

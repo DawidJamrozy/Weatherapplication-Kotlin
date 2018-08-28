@@ -68,7 +68,7 @@ configurations.all {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation project(":data")
+    implementation project(":presentation")
 
     // Kotlin
     implementation mobileDependencies.kotlin
@@ -178,6 +178,6 @@ dependencies {
     androidTestImplementation mobileUiTestDependencies.mockitoKotlin
 
     // JUnit
-    testImplementation mobileUiTestDependencies.junit
+    androidTestImplementation mobileUiTestDependencies.junit
 
 }

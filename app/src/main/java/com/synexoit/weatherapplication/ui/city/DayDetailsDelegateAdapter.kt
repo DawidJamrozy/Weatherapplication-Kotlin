@@ -2,10 +2,10 @@ package com.synexoit.weatherapplication.ui.city
 
 import android.arch.lifecycle.ViewModel
 import android.support.v7.widget.RecyclerView
-import com.synexoit.weatherapplication.data.entity.DayDetails
+import com.synexoit.weatherapplication.presentation.data.entity.DayDetails
 import com.synexoit.weatherapplication.databinding.ItemDayDetailsBinding
 import com.synexoit.weatherapplication.ui.base.adapter.BaseBindingAdapter
-import com.synexoit.weatherapplication.util.ViewType
+import com.synexoit.weatherapplication.presentation.data.util.ViewType
 
 /**
  * Created by dawidjamrozy on 14.05.2018.

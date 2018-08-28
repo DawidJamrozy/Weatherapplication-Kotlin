@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.synexoit.weatherapplication.data.entity.CityPreview" />
+            type="com.synexoit.weatherapplication.presentation.data.entity.CityPreview" />
 
         <variable
             name="vm"

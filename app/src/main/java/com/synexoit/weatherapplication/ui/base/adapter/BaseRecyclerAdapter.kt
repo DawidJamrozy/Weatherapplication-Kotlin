@@ -5,9 +5,9 @@ import android.support.v4.util.SparseArrayCompat
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
-import com.synexoit.weatherapplication.data.entity.Progress
+import com.synexoit.weatherapplication.presentation.data.entity.Progress
+import com.synexoit.weatherapplication.presentation.data.util.ViewType
 import com.synexoit.weatherapplication.util.ItemDiffCallback
-import com.synexoit.weatherapplication.util.ViewType
 import com.synexoit.weatherapplication.util.ViewTypeDelegateInterface
 
 abstract class BaseRecyclerAdapter<in T : ViewType>(private val mList: MutableList<T>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -30,7 +30,7 @@ abstract class BaseRecyclerAdapter<in T : ViewType>(private val mList: MutableLi
     }
 
     override fun getItemViewType(position: Int): Int {
-        return mList[position].viewType
+        return BindingLayoutHelper.getLayoutResource(mList[position].viewType)
     }
 
     private var mViewModel: ViewModel? = null

@@ -11,7 +11,7 @@
 
     <string name="vertical_line" translatable="false">%1$s&#160;|&#160;%2$s</string>
     <string name="max_min_temp" translatable="false">%1$d&#176;&#160;/&#160;%2$d&#176;</string>
-    <string name="day_details" translatable="false">%1$s&#160;%2$s</string>
+    <string name="day_details" translatable="false">%1$d&#160;%2$s</string>
 
     <!--activity search-->
     <string name="fragment_search_toolbar_title">Search</string>

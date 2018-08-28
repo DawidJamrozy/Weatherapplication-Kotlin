@@ -1,11 +1,11 @@
 package com.synexoit.weatherapplication.data.mapper
 
-interface Mapper<C, E, D> {
+interface Mapper<CACHE, REMOTE, DATA> {
 
-    fun fromCache(type: C): D
+    fun fromCache(type: CACHE): DATA
 
-    fun toCache(type: D): C
+    fun toCache(type: DATA): CACHE
 
-    fun fromRemote(type: E): D
+    fun fromRemote(type: REMOTE): DATA
 
 }

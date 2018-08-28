@@ -20,8 +20,8 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.hannesdorfmann.fragmentargs.annotation.Arg
 import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs
 import com.synexoit.weatherapplication.R
-import com.synexoit.weatherapplication.data.entity.DayData
-import com.synexoit.weatherapplication.data.entity.DayDetails
+import com.synexoit.weatherapplication.presentation.data.entity.DayData
+import com.synexoit.weatherapplication.presentation.data.entity.DayDetails
 import com.synexoit.weatherapplication.data.entity.darksky.City
 import com.synexoit.weatherapplication.data.exceptions.Failure
 import com.synexoit.weatherapplication.data.extensions.empty

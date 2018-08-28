@@ -58,35 +58,25 @@ class CityRepositoryImpl @Inject constructor(private val mDatabase: AppDatabase,
 
     override fun insertCity(city: City) {
         val id = mDatabase.getCityDao().insert(cityMapper.toCache(city))
-        insertCurrently(id, city.currently!!)
-        val hourlyId = insertHourly(id, city.hourly!!)
+        insertCurrently(city.currently!!.copy(id = id))
+        val hourlyId = insertHourly(city.hourly!!.copy(id = id))
         insertHourlyData(hourlyId, city.hourly!!.data!!)
-        val dailyId = insertDaily(id, city.daily!!)
+        val dailyId = insertDaily(city.daily!!.copy(id = id))
         insertDailyData(dailyId, city.daily!!.data!!)
     }
 
-    override fun updateCity(city: City) {
-        mDatabase.getCityDao().update(cityMapper.toCache(city))
-    }
+    private fun insertCurrently(currently: Currently): Long =
+            mDatabase.getCurrentlyDao().insert(currentlyMapper.toCache(currently))
 
-    private fun insertCurrently(cityId: Long, currently: Currently): Long {
-        val copy = currently.copy(cityId = cityId)
-        return mDatabase.getCurrentlyDao().insert(currentlyMapper.toCache(copy))
-    }
+    private fun insertHourly(hourly: Hourly): Long =
+            mDatabase.getHourlyDao().insert(hourlyMapper.toCache(hourly))
 
-    private fun insertHourly(cityId: Long, hourly: Hourly): Long {
-        val copy = hourly.copy(cityId = cityId)
-        return mDatabase.getHourlyDao().insert(hourlyMapper.toCache(copy))
-    }
+    private fun insertDaily(daily: Daily): Long =
+            mDatabase.getDailyDao().insert(dailyMapper.toCache(daily))
 
     private fun insertHourlyData(hourlyId: Long, list: List<HourlyData>) {
         list.forEach { it.hourlyId = hourlyId }
         mDatabase.getHourlyDataDao().insert(list.map { hourlyDataMapper.toCache(it) })
-    }
-
-    private fun insertDaily(cityId: Long, daily: Daily): Long {
-        val copy = daily.copy(cityId = cityId)
-        return mDatabase.getDailyDao().insert(dailyMapper.toCache(copy))
     }
 
     private fun insertDailyData(dailyId: Long, list: List<DailyData>) {
@@ -109,4 +99,18 @@ class CityRepositoryImpl @Inject constructor(private val mDatabase: AppDatabase,
     private fun getDailyData(id: Long): Maybe<List<DailyDataCache>> =
             mDatabase.getDailyDataDao().getDailyData(id)
 
+}
+
+/**
+ * Created by Dawid on 06.05.2018.
+ */
+interface CityRepository {
+
+    fun getCityPlaceIdList(): Maybe<List<String>>
+
+    fun getCity(placeId: String): Maybe<City>
+
+    fun insertCity(city: City)
+
+    fun changeItemsPosition(pair: List<Pair<String, Int>>): Single<Unit>
 }

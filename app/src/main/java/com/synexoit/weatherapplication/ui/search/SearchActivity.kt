@@ -19,13 +19,13 @@ import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
 import com.google.android.gms.location.places.ui.PlaceSelectionListener
 import com.synexoit.weatherapplication.R
 import com.synexoit.weatherapplication.data.entity.CityPlace
-import com.synexoit.weatherapplication.data.entity.CityPreview
 import com.synexoit.weatherapplication.data.entity.CurrentLocation
 import com.synexoit.weatherapplication.data.exceptions.Failure
 import com.synexoit.weatherapplication.data.extensions.*
 import com.synexoit.weatherapplication.data.repository.LocationListener
 import com.synexoit.weatherapplication.data.repository.LocationRepository
 import com.synexoit.weatherapplication.databinding.ActivitySearchBinding
+import com.synexoit.weatherapplication.presentation.data.entity.CityPreview
 import com.synexoit.weatherapplication.ui.base.BaseActivity
 import com.synexoit.weatherapplication.ui.base.adapter.UniversalAdapter
 import com.synexoit.weatherapplication.ui.main.MainActivity
@@ -176,7 +176,9 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(), LocationListener {
             adapter = recyclerAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
-            val touchCallback = RecyclerViewTouchHelper(recyclerAdapter.getDelegateAdapter(UniversalAdapter.VIEW_CITY_PREVIEW) as CityPreviewDelegateAdapter)
+            val delegateAdapter = recyclerAdapter.getDelegateAdapter(
+                    UniversalAdapter.VIEW_CITY_PREVIEW) as CityPreviewDelegateAdapter
+            val touchCallback = RecyclerViewTouchHelper(delegateAdapter)
             val touchHelper = ItemTouchHelper(touchCallback)
             touchHelper.attachToRecyclerView(this)
         }

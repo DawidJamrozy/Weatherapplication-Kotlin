@@ -45,12 +45,7 @@ class MainActivity : BaseFragmentActivity<ActivityMainBinding>() {
     }
 
     private fun handleCityIdList(cityIdList: List<String>?) {
-        cityIdList?.let {list ->
-            if(list.isEmpty())
-                finish()
-            else
-                setUpViewPagerAdapter(list)
-        }
+        cityIdList?.let {list -> if(list.isEmpty()) finish() else setUpViewPagerAdapter(list) }
     }
 
     private fun handleOnClick(onClickEvent: Int?) {

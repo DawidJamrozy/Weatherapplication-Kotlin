@@ -2,15 +2,14 @@ package com.synexoit.weatherapplication.ui.city
 
 import android.arch.lifecycle.MutableLiveData
 import com.synexoit.weatherapplication.R
-import com.synexoit.weatherapplication.WeatherApplication
-import com.synexoit.weatherapplication.data.entity.DayData
-import com.synexoit.weatherapplication.data.entity.DayDetails
 import com.synexoit.weatherapplication.data.entity.darksky.City
 import com.synexoit.weatherapplication.data.entity.darksky.Currently
 import com.synexoit.weatherapplication.data.exceptions.Failure
 import com.synexoit.weatherapplication.data.repository.CityRepository
 import com.synexoit.weatherapplication.data.repository.WeatherRepository
-import com.synexoit.weatherapplication.ui.base.BaseAndroidViewModel
+import com.synexoit.weatherapplication.presentation.data.entity.DayData
+import com.synexoit.weatherapplication.presentation.data.entity.DayDetails
+import com.synexoit.weatherapplication.ui.base.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
@@ -21,8 +20,7 @@ import javax.inject.Inject
  * Created by Dawid on 05.05.2018.
  */
 class CityViewModel @Inject constructor(private val cityRepository: CityRepository,
-                                        private val weatherRepository: WeatherRepository,
-                                        weatherApplication: WeatherApplication) : BaseAndroidViewModel(weatherApplication) {
+                                        private val weatherRepository: WeatherRepository) : BaseViewModel() {
 
     companion object {
         const val OPEN_WEBSITE = 1000
@@ -83,11 +81,11 @@ class CityViewModel @Inject constructor(private val cityRepository: CityReposito
         currently?.let { nonNullCurrently ->
             val list = mutableListOf<DayDetails>()
             list.run {
-                add(DayDetails(getString(R.string.wind), nonNullCurrently.windSpeed.toInt(), getString(R.string.speed_unit), R.drawable.ic_wind))
-                add(DayDetails(getString(R.string.humidity), (nonNullCurrently.humidity * 100).toInt(), getString(R.string.percent_unit), R.drawable.ic_humidity))
-                add(DayDetails(getString(R.string.apparent), nonNullCurrently.apparentTemperature.toInt(), getString(R.string.degree_unit), R.drawable.ic_temperature))
-                add(DayDetails(getString(R.string.precip), nonNullCurrently.precipIntensity.toInt(), getString(R.string.precip_unit), R.drawable.ic_drop))
-                add(DayDetails(getString(R.string.pressure), nonNullCurrently.pressure.toInt(), getString(R.string.pressure_unit), R.drawable.ic_pressure))
+                add(DayDetails(R.string.wind, nonNullCurrently.windSpeed.toInt(), R.string.speed_unit, R.drawable.ic_wind))
+                add(DayDetails(R.string.humidity, (nonNullCurrently.humidity * 100).toInt(), R.string.percent_unit, R.drawable.ic_humidity))
+                add(DayDetails(R.string.apparent, nonNullCurrently.apparentTemperature.toInt(), R.string.degree_unit, R.drawable.ic_temperature))
+                add(DayDetails(R.string.precip, nonNullCurrently.precipIntensity.toInt(), R.string.precip_unit, R.drawable.ic_drop))
+                add(DayDetails(R.string.pressure, nonNullCurrently.pressure.toInt(), R.string.pressure_unit, R.drawable.ic_pressure))
             }
 
             dayDetailsList.value = list

@@ -2,7 +2,7 @@ package com.synexoit.weatherapplication.ui.main
 
 import android.arch.lifecycle.MutableLiveData
 import com.synexoit.weatherapplication.data.exceptions.Failure
-import com.synexoit.weatherapplication.data.repository.CityRepository
+import com.synexoit.weatherapplication.data.usecase.MainActivityUseCase
 import com.synexoit.weatherapplication.ui.base.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -11,7 +11,7 @@ import javax.inject.Inject
 /**
  * Created by Dawid on 25.04.2018.
  */
-class MainViewModel @Inject constructor(private val mCityRepository: CityRepository) : BaseViewModel() {
+class MainViewModel @Inject constructor(private val mainActivityUseCase: MainActivityUseCase) : BaseViewModel() {
 
     val cityIdList = MutableLiveData<List<String>>()
 
@@ -24,7 +24,7 @@ class MainViewModel @Inject constructor(private val mCityRepository: CityReposit
     }
 
     fun loadCityIdListFromDatabase() {
-        mCityRepository.getCityPlaceIdList()
+        mainActivityUseCase.getCityPlaceIdList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

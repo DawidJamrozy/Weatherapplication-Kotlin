@@ -1,6 +1,7 @@
 package com.synexoit.weatherapplication
 
-/*class TestApplication : Application(), HasActivityInjector, HasServiceInjector {
+/*
+class TestApplication : Application(), HasActivityInjector, HasServiceInjector {
 
     @Inject
     lateinit var mDispatchingAndroidActivityInjector: DispatchingAndroidInjector<Activity>
@@ -15,6 +16,7 @@ package com.synexoit.weatherapplication
 
         applicationComponent = DaggerTestApplicationComponent.builder()
                 .application(this)
+                .context(this)
                 .build()
 
         AppInjector.init(this)
