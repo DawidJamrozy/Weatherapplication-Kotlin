@@ -47,24 +47,24 @@ dependencies {
     api project(":data")
 
     // Kotlin
-    implementation mobileDependencies.kotlin
+    implementation presentationDependences.kotlin
 
     // Multidex
-    implementation mobileDependencies.multidex
+    implementation presentationDependences.multidex
 
     // Support libraries
-    implementation mobileDependencies.appcompatV7
+    implementation presentationDependences.appcompatV7
 
     // RxJava
-    implementation mobileDependencies.rxJava
-    implementation mobileDependencies.rxAndroid
+    implementation presentationDependences.rxJava
+    implementation presentationDependences.rxAndroid
 
     // Dagger
-    implementation dataDependencies.dagger
-    implementation dataDependencies.daggerAndroid
-    implementation dataDependencies.daggerAndroidSupport
-    kapt dataDependencies.daggerCompiler
-    kapt dataDependencies.daggerProcessor
-    kaptAndroidTest dataDependencies.daggerCompiler
+    implementation presentationDependences.dagger
+    implementation presentationDependences.daggerAndroid
+    implementation presentationDependences.daggerAndroidSupport
+    kapt presentationDependences.daggerCompiler
+    kapt presentationDependences.daggerProcessor
+    kaptAndroidTest presentationDependences.daggerCompiler
 
 }
