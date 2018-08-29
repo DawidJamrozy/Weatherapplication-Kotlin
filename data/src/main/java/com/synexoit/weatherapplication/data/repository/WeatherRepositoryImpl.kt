@@ -29,19 +29,19 @@ class WeatherRepositoryImpl @Inject constructor(private val weatherApi: WeatherA
 
     override fun getCity(cityPlace: CityPlace): Maybe<Resource<City>> {
         return object : ObservableResponse<City>() {
-            override fun saveCallAndReturnResult(item: City): Resource<City> {
+            override fun saveResponseAndReturnResult(item: City): Resource<City> {
                 Timber.d("saveCallAndReturnResult():")
                 cityRepository.insertCity(item)
                 repoListRateLimit.addTimeStamp(item.placeId)
                 return Resource.success(item)
             }
 
-            override fun shouldFetch(data: City?): Boolean {
+            override fun shouldFetchNewData(data: City?): Boolean {
                 Timber.d("shouldFetch():")
                 return data == null || repoListRateLimit.shouldFetch(cityPlace.id)
             }
 
-            override fun loadFromDb(): Maybe<City> {
+            override fun loadFromDatabase(): Maybe<City> {
                 Timber.d("loadFromDb():")
                 return cityRepository.getCity(cityPlace.id)
             }

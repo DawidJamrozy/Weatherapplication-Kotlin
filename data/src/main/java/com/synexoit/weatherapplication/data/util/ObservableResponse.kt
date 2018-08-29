@@ -14,22 +14,22 @@ abstract class ObservableResponse<Result> {
     }
 
     @WorkerThread
-    protected abstract fun saveCallAndReturnResult(item: Result): Resource<Result>
+    protected abstract fun saveResponseAndReturnResult(item: Result): Resource<Result>
 
     @MainThread
-    protected abstract fun shouldFetch(data: Result?): Boolean
+    protected abstract fun shouldFetchNewData(data: Result?): Boolean
 
     @MainThread
-    protected abstract fun loadFromDb(): Maybe<Result>
+    protected abstract fun loadFromDatabase(): Maybe<Result>
 
     @MainThread
     protected abstract fun createCall(): Maybe<Resource<Result>>
 
     fun fetchData(): Maybe<Resource<Result>> {
-        return loadFromDb()
-                .filter { !shouldFetch(it) }
+        return loadFromDatabase()
+                .filter { !shouldFetchNewData(it) }
                 .map { Resource.success(it) }
-                .switchIfEmpty(createCall().map { saveCallAndReturnResult(it.data!!) })
+                .switchIfEmpty(createCall().map { saveResponseAndReturnResult(it.data!!) })
                 .onErrorReturn { Resource.error(it.message ?: ERROR_MESSAGE) }
     }
 }

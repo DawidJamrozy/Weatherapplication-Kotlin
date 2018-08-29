@@ -1,4 +1,4 @@
-package com.synexoit.weatherapplication.data.usecase
+package com.synexoit.weatherapplication.presentation.usecase
 
 import com.synexoit.weatherapplication.data.repository.CityRepository
 import io.reactivex.Maybe
