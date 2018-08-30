@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.f2prateek.dart.HensonNavigable
 import com.synexoit.weatherapplication.R
+import com.synexoit.weatherapplication.data.extensions.failure
 import com.synexoit.weatherapplication.data.extensions.getViewModel
 import com.synexoit.weatherapplication.data.extensions.observe
 import com.synexoit.weatherapplication.databinding.ActivityMainBinding
@@ -34,6 +35,7 @@ class MainActivity : BaseFragmentActivity<ActivityMainBinding>() {
         viewModel = getViewModel(viewModelFactory) {
             observe(cityIdList, ::handleCityIdList)
             observe(onClickEvent, ::handleOnClick)
+            failure(failure, ::handleError)
         }
 
         binding.vm = viewModel
@@ -47,6 +49,10 @@ class MainActivity : BaseFragmentActivity<ActivityMainBinding>() {
 
     private fun handleCityIdList(cityIdList: List<String>?) {
         cityIdList?.let {list -> if(list.isEmpty()) finish() else setUpViewPagerAdapter(list) }
+    }
+
+    private fun handleError(throwable: Throwable?) {
+        throwable?.let { showError(it) }
     }
 
     private fun handleOnClick(onClickEvent: Int?) {
@@ -65,7 +71,7 @@ class MainActivity : BaseFragmentActivity<ActivityMainBinding>() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when(resultCode) {
             Activity.RESULT_OK -> viewModel.loadCityIdListFromDatabase()
-            Activity.RESULT_CANCELED -> Timber.d("onActivityResult(): ignore")
+            else  -> Timber.d("onActivityResult(): ignore")
         }
     }
 }

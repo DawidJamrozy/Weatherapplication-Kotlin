@@ -32,8 +32,7 @@ class CityViewModel @Inject constructor(private val cityUseCase: CityUseCase,
         addDisposable(cityUseCase.getCity(placeId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                //TODO 14.05.2018 by Dawid Jamroży
-                .doOnError { handleFailure(Failure.UnknownAppError()) }
+                .doOnError { handleFailure(it) }
                 .subscribe { processResponse(it) })
     }
 
@@ -42,8 +41,7 @@ class CityViewModel @Inject constructor(private val cityUseCase: CityUseCase,
             addDisposable(weatherUseCase.getCity(CityPlace.from(city))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    //TODO 14.05.2018 by Dawid Jamroży
-                    .doOnError { handleFailure(Failure.UnknownAppError()) }
+                    .doOnError { handleFailure(it) }
                     .subscribe { processResponse(it.data) })
         }
     }

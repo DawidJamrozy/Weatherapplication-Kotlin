@@ -1,7 +1,6 @@
 package com.synexoit.weatherapplication.presentation.viewmodel.main
 
 import android.arch.lifecycle.MutableLiveData
-import com.synexoit.weatherapplication.data.exceptions.Failure
 import com.synexoit.weatherapplication.presentation.usecase.CityUseCase
 import com.synexoit.weatherapplication.presentation.viewmodel.base.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -27,10 +26,8 @@ class MainViewModel @Inject constructor(private val cityUseCase: CityUseCase) : 
         addDisposable(cityUseCase.getCityPlaceIdList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { handleResponse(it) },
-                        { handleFailure(Failure.UnknownAppError()) }
-                ))
+                .doOnError { handleFailure(it) }
+                .subscribe { handleResponse(it) })
     }
 
     private fun handleResponse(idList: List<String>) {

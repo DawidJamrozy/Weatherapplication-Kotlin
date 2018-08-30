@@ -1,7 +1,6 @@
 package com.synexoit.weatherapplication.presentation.viewmodel.splash
 
 import android.arch.lifecycle.MutableLiveData
-import com.synexoit.weatherapplication.data.exceptions.Failure
 import com.synexoit.weatherapplication.presentation.usecase.CityPreviewUseCase
 import com.synexoit.weatherapplication.presentation.viewmodel.base.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -24,10 +23,8 @@ class SplashViewModel @Inject constructor(private val cityPreviewUseCase: CityPr
         addDisposable(cityPreviewUseCase.isAnyCityInDatabase()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe (
-                        { processResponse(it) },
-                        { handleFailure(Failure.UnknownAppError())})
-        )
+                .doOnError { handleFailure(it) }
+                .subscribe { isTableEmpty -> processResponse(isTableEmpty) })
     }
 
     private fun processResponse(isTableEmpty: Boolean) {

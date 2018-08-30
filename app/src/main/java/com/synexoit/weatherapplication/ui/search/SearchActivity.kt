@@ -62,7 +62,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(), LocationListener {
         viewModel = getViewModel(viewModelFactory) {
             observe(cityList, ::handleCityPreviewList)
             observe(onClickEvent, ::handleOnClick)
-            failure(failure, ::handleFailure)
+            failure(failure, ::handleError)
         }
         binding.vm = viewModel
 
@@ -140,14 +140,8 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(), LocationListener {
         }
     }
 
-    private fun handleFailure(failure: Failure?) {
-        failure?.let {
-            when (it) {
-                is Failure.CityAlreadyInDatabaseException -> showToast(stringId = R.string.error_city_already_in_database)
-                is UnknownError -> showToast(it.message)
-                else -> showToast()
-            }
-        }
+    private fun handleError(throwable: Throwable?) {
+        throwable?.let { showError(it) }
         recyclerAdapter.hideProgress()
     }
 

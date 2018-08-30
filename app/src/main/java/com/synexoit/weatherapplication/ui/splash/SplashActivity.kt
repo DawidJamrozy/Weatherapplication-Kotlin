@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.synexoit.weatherapplication.cache.manager.SharedPreferencesManager
-import com.synexoit.weatherapplication.data.exceptions.Failure
 import com.synexoit.weatherapplication.data.extensions.failure
 import com.synexoit.weatherapplication.data.extensions.getViewModel
 import com.synexoit.weatherapplication.data.extensions.observe
@@ -44,13 +43,13 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewModel = getViewModel(viewModelFactory) {
             observe(isCityTableEmpty, ::handleResponse)
-            failure(failure, ::handleFailure)
+            failure(failure, ::handleError)
         }
 
         setUnitAndLanguageSettings()
     }
 
-    private fun setUnitAndLanguageSettings(){
+    private fun setUnitAndLanguageSettings() {
         if (sharedPreferencesManager.getString(UNIT).isEmpty())
             sharedPreferencesManager.putValue(UNIT, AUTO)
 
@@ -77,7 +76,7 @@ class SplashActivity : AppCompatActivity() {
     /**
      * Start SearchActivity in any case of error
      */
-    private fun handleFailure(failure: Failure?) {
+    private fun handleError(throwable: Throwable?) {
         navigator.startActivityAndFinishCurrent(Intent(this, SearchActivity::class.java))
     }
 }

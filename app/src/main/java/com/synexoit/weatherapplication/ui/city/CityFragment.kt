@@ -70,7 +70,7 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         viewModel = getViewModel(viewModelFactory) {
             observe(city, ::handleCity)
             observe(onClickEvent, ::handleOnClick)
-            failure(failure, ::handleFailure)
+            failure(failure, ::handleError)
         }
 
         binding.vm = viewModel
@@ -146,12 +146,8 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         }
     }
 
-    private fun handleFailure(failure: Failure?) {
-        failure?.run {
-            setSwipeRefreshIndicator(false)
-            //TODO 14.05.2018 by Dawid Jamroży
-            showToast("ERROR")
-        }
+    private fun handleError(throwable: Throwable?) {
+        throwable?.let { showError(it) }
     }
 
     private fun handleOnClick(event: Int?) {

@@ -96,4 +96,9 @@ abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity() {
 		val message = if (stringId != null) getString(stringId) else text ?: "ERROR"
 		SingleToast.show(this, message, time)
 	}
+
+	protected fun showError(throwable: Throwable) {
+		throwable.printStackTrace()
+		SingleToast.show(this, throwable.message ?: "Empty error message", Toast.LENGTH_LONG)
+	}
 }

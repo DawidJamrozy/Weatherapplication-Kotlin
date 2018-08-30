@@ -12,14 +12,14 @@ import io.reactivex.disposables.Disposable
 abstract class BaseViewModel : ViewModel() {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
-    val failure = MutableLiveData<Failure>()
+    val failure = MutableLiveData<Throwable>()
     val onClickEvent = MutableLiveData<Int>()
 
-    protected open fun handleFailure(throwable: Failure) {
+     open fun handleFailure(throwable: Throwable) {
         failure.value = throwable
     }
 
-    protected fun handleFailureFromBackgroundThread(throwable: Failure) {
+    protected fun handleFailureFromBackgroundThread(throwable: Throwable) {
         failure.postValue(throwable)
     }
 

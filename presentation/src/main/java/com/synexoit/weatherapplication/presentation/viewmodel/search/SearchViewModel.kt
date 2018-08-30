@@ -3,8 +3,6 @@ package com.synexoit.weatherapplication.presentation.viewmodel.search
 import android.arch.lifecycle.MutableLiveData
 import com.synexoit.weatherapplication.data.entity.darksky.City
 import com.synexoit.weatherapplication.data.exceptions.Failure
-import com.synexoit.weatherapplication.presentation.util.Resource
-import com.synexoit.weatherapplication.presentation.util.Status
 import com.synexoit.weatherapplication.presentation.data.entity.CityPlace
 import com.synexoit.weatherapplication.presentation.data.entity.CityPreview
 import com.synexoit.weatherapplication.presentation.usecase.CityPreviewUseCase
@@ -13,6 +11,8 @@ import com.synexoit.weatherapplication.presentation.usecase.GeocodeUseCase
 import com.synexoit.weatherapplication.presentation.usecase.WeatherUseCase
 import com.synexoit.weatherapplication.presentation.util.ListStatus
 import com.synexoit.weatherapplication.presentation.util.ListWrapper
+import com.synexoit.weatherapplication.presentation.util.Resource
+import com.synexoit.weatherapplication.presentation.util.Status
 import com.synexoit.weatherapplication.presentation.viewmodel.base.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -52,10 +52,8 @@ class SearchViewModel @Inject constructor(private val weatherUseCase: WeatherUse
         addDisposable(geocodeUseCase.getGeocodeCityData(lat, lng)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { getCity(it, lastItemPosition) },
-                        //TODO 28.08.2018 Dawid Jamroży add error handling
-                        { /*ignore*/ })
+                .doOnError { handleFailure(it) }
+                .subscribe { cityPlace -> getCity(cityPlace, lastItemPosition) }
         )
     }
 
@@ -71,7 +69,7 @@ class SearchViewModel @Inject constructor(private val weatherUseCase: WeatherUse
         addDisposable(weatherUseCase.getCity(cityPlace)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnError { handleFailure(Failure.UnknownAppError(it.message)) }
+                .doOnError { handleFailure(it) }
                 .subscribe { processResponse(it, lastItemPosition) })
     }
 
@@ -79,27 +77,21 @@ class SearchViewModel @Inject constructor(private val weatherUseCase: WeatherUse
         addDisposable(cityPreviewUseCase.getCityPreviewList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        {
-                            setCityPreviewListValue(ListWrapper(ListStatus.New(), it.toMutableList()))
-                        },
-                        { handleFailure(Failure.UnknownAppError(it.message)) }
-                ))
+                .doOnError { handleFailure(it) }
+                .subscribe { setCityPreviewListValue(ListWrapper(ListStatus.New(), it.toMutableList())) })
     }
 
     fun deleteCity(city: CityPreview) {
         addDisposable(cityPreviewUseCase.deleteCity(city.placeId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        {
-                            cityList.value?.run {
-                                list.remove(city)
-                                setCityPreviewListValue(ListWrapper(ListStatus.Refresh(), list))
-                            }
-                        },
-                        { handleFailure(Failure.UnknownAppError(it.message)) }
-                ))
+                .doOnError { handleFailure(it) }
+                .subscribe { _ ->
+                    cityList.value?.run {
+                        list.remove(city)
+                        setCityPreviewListValue(ListWrapper(ListStatus.Refresh(), list))
+                    }
+                })
     }
 
     fun itemsMoved(fromPosition: Int, toPosition: Int) {

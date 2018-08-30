@@ -5,8 +5,8 @@ import com.synexoit.weatherapplication.presentation.data.entity.DayData
 import com.synexoit.weatherapplication.presentation.data.entity.DayDetails
 import com.synexoit.weatherapplication.presentation.data.entity.Progress
 import com.synexoit.weatherapplication.presentation.util.ViewType
-import com.synexoit.weatherapplication.ui.city.DayDelegateAdapter
-import com.synexoit.weatherapplication.ui.city.DayDetailsDelegateAdapter
+import com.synexoit.weatherapplication.ui.city.adapter.DayDelegateAdapter
+import com.synexoit.weatherapplication.ui.city.adapter.DayDetailsDelegateAdapter
 import com.synexoit.weatherapplication.ui.search.adapter.CityPreviewDelegateAdapter
 import com.synexoit.weatherapplication.ui.search.adapter.ProgressDelegateAdapter
 import com.synexoit.weatherapplication.util.ViewTypeDelegateInterface

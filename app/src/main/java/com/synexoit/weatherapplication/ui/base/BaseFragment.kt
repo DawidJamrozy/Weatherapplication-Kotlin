@@ -111,4 +111,9 @@ abstract class BaseFragment<B : ViewDataBinding> : ViewLifecycleFragment(), Inje
         val message = if (stringId == null) text ?: "ERROR" else getString(stringId)
         context?.let { SingleToast.show(it, message, time) }
     }
+
+    protected fun showError(throwable: Throwable) {
+        throwable.printStackTrace()
+        activity?.let { SingleToast.show(it, throwable.message ?: "Empty error message", Toast.LENGTH_LONG) }
+    }
 }
