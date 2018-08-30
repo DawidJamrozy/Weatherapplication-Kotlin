@@ -3,8 +3,9 @@ package com.synexoit.weatherapplication.presentation.viewmodel.city
 import android.arch.lifecycle.MutableLiveData
 import com.synexoit.weatherapplication.data.entity.darksky.City
 import com.synexoit.weatherapplication.data.exceptions.Failure
-import com.synexoit.weatherapplication.data.repository.CityRepository
-import com.synexoit.weatherapplication.data.repository.WeatherRepository
+import com.synexoit.weatherapplication.presentation.data.entity.CityPlace
+import com.synexoit.weatherapplication.presentation.usecase.CityUseCase
+import com.synexoit.weatherapplication.presentation.usecase.WeatherUseCase
 import com.synexoit.weatherapplication.presentation.viewmodel.base.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -15,8 +16,8 @@ import javax.inject.Inject
 /**
  * Created by Dawid on 05.05.2018.
  */
-class CityViewModel @Inject constructor(private val cityRepository: CityRepository,
-                                        private val weatherRepository: WeatherRepository) : BaseViewModel() {
+class CityViewModel @Inject constructor(private val cityUseCase: CityUseCase,
+                                        private val weatherUseCase: WeatherUseCase) : BaseViewModel() {
 
     companion object {
         const val OPEN_WEBSITE = 1000
@@ -28,7 +29,7 @@ class CityViewModel @Inject constructor(private val cityRepository: CityReposito
     val dataTime = MutableLiveData<String>()
 
     fun loadCityFromDatabase(placeId: String) {
-        addDisposable(cityRepository.getCity(placeId)
+        addDisposable(cityUseCase.getCity(placeId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 //TODO 14.05.2018 by Dawid Jamroży
@@ -38,7 +39,7 @@ class CityViewModel @Inject constructor(private val cityRepository: CityReposito
 
     fun refreshWeatherData() {
         city.value?.let { city ->
-            addDisposable(weatherRepository.getCity(city.toCityPlace())
+            addDisposable(weatherUseCase.getCity(CityPlace.from(city))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     //TODO 14.05.2018 by Dawid Jamroży

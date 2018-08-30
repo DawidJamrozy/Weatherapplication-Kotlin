@@ -5,7 +5,6 @@ import com.synexoit.weatherapplication.cache.entity.*
 import com.synexoit.weatherapplication.data.entity.darksky.*
 import com.synexoit.weatherapplication.data.mapper.*
 import io.reactivex.Maybe
-import io.reactivex.Single
 import javax.inject.Inject
 
 /**
@@ -52,8 +51,8 @@ class CityRepositoryImpl @Inject constructor(private val mDatabase: AppDatabase,
 
     }
 
-    override fun changeItemsPosition(pair: List<Pair<String, Int>>): Single<Unit> {
-        return Single.fromCallable { pair.forEach { mDatabase.getCityDao().swapPositions(it.second, it.first) } }
+    override fun changeItemsPosition(pair: Pair<String, Int>) {
+        mDatabase.getCityDao().swapPositions(pair.second, pair.first)
     }
 
     override fun insertCity(city: City) {
@@ -112,5 +111,5 @@ interface CityRepository {
 
     fun insertCity(city: City)
 
-    fun changeItemsPosition(pair: List<Pair<String, Int>>): Single<Unit>
+    fun changeItemsPosition(pair: Pair<String, Int>)
 }

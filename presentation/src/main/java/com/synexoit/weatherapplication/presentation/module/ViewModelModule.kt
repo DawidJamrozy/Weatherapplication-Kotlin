@@ -2,8 +2,8 @@ package com.synexoit.weatherapplication.presentation.module
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import com.synexoit.weatherapplication.presentation.data.util.ViewModelFactory
-import com.synexoit.weatherapplication.presentation.data.util.ViewModelKey
+import com.synexoit.weatherapplication.presentation.util.ViewModelFactory
+import com.synexoit.weatherapplication.presentation.util.ViewModelKey
 import com.synexoit.weatherapplication.presentation.viewmodel.city.CityViewModel
 import com.synexoit.weatherapplication.presentation.viewmodel.main.MainViewModel
 import com.synexoit.weatherapplication.presentation.viewmodel.search.SearchViewModel

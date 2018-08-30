@@ -47,7 +47,6 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
 
     companion object {
         private const val HOUR_FORMAT = "HH:mm"
-        private const val DATE_FORMAT = "HH:mm dd.MM.yyyy"
         private const val DAY_FORMAT = "EEEE"
     }
 
@@ -125,7 +124,7 @@ class CityFragment : BaseFragment<FragmentCityBinding>(), SwipeRefreshLayout.OnR
         city.daily.data.let { list ->
             list.take(7).forEach {
                 val dayName = sdf.format(Date(it.time * 1000L))
-                dayName.apply { substring(0, 1).toUpperCase() + substring(1) }
+                        .run { substring(0, 1).toUpperCase() + substring(1) }
                 temporaryDayDataList.add(DayData(it.temperatureMin.toInt(),
                         it.temperatureMax.toInt(), it.icon, dayName))
             }

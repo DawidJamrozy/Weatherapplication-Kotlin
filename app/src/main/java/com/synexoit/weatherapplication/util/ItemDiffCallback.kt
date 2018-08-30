@@ -1,7 +1,7 @@
 package com.synexoit.weatherapplication.util
 
 import android.support.v7.util.DiffUtil
-import com.synexoit.weatherapplication.presentation.data.util.ViewType
+import com.synexoit.weatherapplication.presentation.util.ViewType
 
 /**
  * Created by dawidjamrozy on 09.05.2018.

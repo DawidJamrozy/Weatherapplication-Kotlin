@@ -7,7 +7,7 @@ import com.synexoit.weatherapplication.databinding.ItemCityPreviewBinding
 import com.synexoit.weatherapplication.ui.base.adapter.BaseBindingAdapter
 import com.synexoit.weatherapplication.presentation.viewmodel.search.SearchViewModel
 import com.synexoit.weatherapplication.util.ItemTouchHelperAdapter
-import com.synexoit.weatherapplication.presentation.data.util.ViewType
+import com.synexoit.weatherapplication.presentation.util.ViewType
 
 class CityPreviewDelegateAdapter(private val list: List<ViewType>) : BaseBindingAdapter<ItemCityPreviewBinding>(), ItemTouchHelperAdapter {
 

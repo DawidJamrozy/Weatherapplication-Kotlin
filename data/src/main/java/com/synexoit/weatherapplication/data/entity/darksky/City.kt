@@ -1,6 +1,5 @@
 package com.synexoit.weatherapplication.data.entity.darksky
 
-import com.synexoit.weatherapplication.data.entity.CityPlace
 
 data class City(var id: Long = 0,
                 var placeId: String = "",
@@ -16,10 +15,6 @@ data class City(var id: Long = 0,
                 var hourly: Hourly,
                 var daily: Daily)  {
 
-
-    fun toCityPlace(): CityPlace {
-        return CityPlace(name, address, latitude, longitude, placeId)
-    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

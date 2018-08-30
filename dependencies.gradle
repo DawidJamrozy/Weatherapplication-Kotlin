@@ -141,7 +141,8 @@ ext {
             daggerAndroid           : "com.google.dagger:dagger-android:${dagger_version}",
             daggerAndroidSupport    : "com.google.dagger:dagger-android-support:${dagger_version}",
             daggerCompiler          : "com.google.dagger:dagger-compiler:${dagger_version}",
-            daggerProcessor         : "com.google.dagger:dagger-android-processor:${dagger_version}"
+            daggerProcessor         : "com.google.dagger:dagger-android-processor:${dagger_version}",
+            timber                  : "com.jakewharton.timber:timber:${timber_version}"
     ]
 
     mobileDependencies = [

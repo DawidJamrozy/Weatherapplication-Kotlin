@@ -1,28 +1,28 @@
 package com.synexoit.weatherapplication.presentation.viewmodel.search
 
 import android.arch.lifecycle.MutableLiveData
-import com.synexoit.weatherapplication.data.entity.CityPlace
-import com.synexoit.weatherapplication.presentation.data.entity.CityPreview
 import com.synexoit.weatherapplication.data.entity.darksky.City
 import com.synexoit.weatherapplication.data.exceptions.Failure
-import com.synexoit.weatherapplication.data.repository.CityPreviewRepository
-import com.synexoit.weatherapplication.data.repository.CityRepository
-import com.synexoit.weatherapplication.data.repository.GeocodeRepository
-import com.synexoit.weatherapplication.data.repository.WeatherRepository
-import com.synexoit.weatherapplication.data.util.Resource
-import com.synexoit.weatherapplication.data.util.Status
-import com.synexoit.weatherapplication.presentation.data.util.ListStatus
-import com.synexoit.weatherapplication.presentation.data.util.ListWrapper
+import com.synexoit.weatherapplication.presentation.util.Resource
+import com.synexoit.weatherapplication.presentation.util.Status
+import com.synexoit.weatherapplication.presentation.data.entity.CityPlace
+import com.synexoit.weatherapplication.presentation.data.entity.CityPreview
+import com.synexoit.weatherapplication.presentation.usecase.CityPreviewUseCase
+import com.synexoit.weatherapplication.presentation.usecase.CityUseCase
+import com.synexoit.weatherapplication.presentation.usecase.GeocodeUseCase
+import com.synexoit.weatherapplication.presentation.usecase.WeatherUseCase
+import com.synexoit.weatherapplication.presentation.util.ListStatus
+import com.synexoit.weatherapplication.presentation.util.ListWrapper
 import com.synexoit.weatherapplication.presentation.viewmodel.base.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 import javax.inject.Inject
 
-class SearchViewModel @Inject constructor(private val mWeatherRepository: WeatherRepository,
-                                          private val mCityPreviewRepository: CityPreviewRepository,
-                                          private val cityRepository: CityRepository,
-                                          private val geocodeRepository: GeocodeRepository) : BaseViewModel() {
+class SearchViewModel @Inject constructor(private val weatherUseCase: WeatherUseCase,
+                                          private val cityPreviewUseCase: CityPreviewUseCase,
+                                          private val cityUseCase: CityUseCase,
+                                          private val geocodeUseCase: GeocodeUseCase) : BaseViewModel() {
 
     companion object {
         const val GO_TO_MAIN_ACTIVITY = 1000
@@ -49,7 +49,7 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
     }
 
     fun getGeocodeCity(lat: Double, lng: Double, lastItemPosition: Int) {
-        addDisposable(geocodeRepository.getGeocodeCityData(lat, lng)
+        addDisposable(geocodeUseCase.getGeocodeCityData(lat, lng)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -68,7 +68,7 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
             }
         }
 
-        addDisposable(mWeatherRepository.getCity(cityPlace)
+        addDisposable(weatherUseCase.getCity(cityPlace)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError { handleFailure(Failure.UnknownAppError(it.message)) }
@@ -76,21 +76,19 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
     }
 
     private fun getCityListFromDatabase() {
-        addDisposable(mCityPreviewRepository.getCityPreviewList()
+        addDisposable(cityPreviewUseCase.getCityPreviewList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         {
-                            setCityPreviewListValue(ListWrapper(ListStatus.New(),
-                                    it.map { CityPreview(it.name, it.address, it.placeId, it.sortPosition) }
-                                            .toMutableList()))
+                            setCityPreviewListValue(ListWrapper(ListStatus.New(), it.toMutableList()))
                         },
                         { handleFailure(Failure.UnknownAppError(it.message)) }
                 ))
     }
 
     fun deleteCity(city: CityPreview) {
-        addDisposable(mCityPreviewRepository.deleteCity(city.placeId)
+        addDisposable(cityPreviewUseCase.deleteCity(city.placeId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -117,7 +115,7 @@ class SearchViewModel @Inject constructor(private val mWeatherRepository: Weathe
                 pairList.add(Pair(it.placeId, list.indexOf(it)))
             }
 
-            addDisposable(cityRepository.changeItemsPosition(pairList)
+            addDisposable(cityUseCase.swapPositionsAndUpdateDatabase(pairList)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(

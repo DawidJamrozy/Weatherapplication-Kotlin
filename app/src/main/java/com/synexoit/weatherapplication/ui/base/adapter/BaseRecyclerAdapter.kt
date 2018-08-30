@@ -6,7 +6,7 @@ import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.synexoit.weatherapplication.presentation.data.entity.Progress
-import com.synexoit.weatherapplication.presentation.data.util.ViewType
+import com.synexoit.weatherapplication.presentation.util.ViewType
 import com.synexoit.weatherapplication.util.ItemDiffCallback
 import com.synexoit.weatherapplication.util.ViewTypeDelegateInterface
 

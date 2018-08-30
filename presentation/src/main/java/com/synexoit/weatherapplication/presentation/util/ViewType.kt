@@ -1,4 +1,4 @@
-package com.synexoit.weatherapplication.presentation.data.util
+package com.synexoit.weatherapplication.presentation.util
 
 /**
  * interface must be implemented by models which will be used in delegate adapters

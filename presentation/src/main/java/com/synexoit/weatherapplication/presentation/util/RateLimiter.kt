@@ -1,4 +1,4 @@
-package com.synexoit.weatherapplication.data.util
+package com.synexoit.weatherapplication.presentation.util
 
 import android.os.SystemClock
 import android.support.v4.util.ArrayMap

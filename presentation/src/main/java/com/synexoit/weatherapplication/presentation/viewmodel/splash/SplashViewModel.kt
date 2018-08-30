@@ -2,7 +2,7 @@ package com.synexoit.weatherapplication.presentation.viewmodel.splash
 
 import android.arch.lifecycle.MutableLiveData
 import com.synexoit.weatherapplication.data.exceptions.Failure
-import com.synexoit.weatherapplication.data.repository.CityPreviewRepository
+import com.synexoit.weatherapplication.presentation.usecase.CityPreviewUseCase
 import com.synexoit.weatherapplication.presentation.viewmodel.base.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -11,7 +11,7 @@ import javax.inject.Inject
 /**
  * Created by dawidjamrozy on 14.05.2018.
  */
-class SplashViewModel @Inject constructor(private val cityPreviewRepository: CityPreviewRepository)
+class SplashViewModel @Inject constructor(private val cityPreviewUseCase: CityPreviewUseCase)
     : BaseViewModel() {
 
     val isCityTableEmpty = MutableLiveData<Boolean>()
@@ -21,7 +21,7 @@ class SplashViewModel @Inject constructor(private val cityPreviewRepository: Cit
     }
 
     private fun checkCityTableState() {
-        addDisposable(cityPreviewRepository.isAnyCityInDatabase()
+        addDisposable(cityPreviewUseCase.isAnyCityInDatabase()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe (

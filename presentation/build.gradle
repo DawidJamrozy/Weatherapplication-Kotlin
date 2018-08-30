@@ -67,4 +67,7 @@ dependencies {
     kapt presentationDependences.daggerProcessor
     kaptAndroidTest presentationDependences.daggerCompiler
 
+    // Logging
+    implementation presentationDependences.timber
+
 }

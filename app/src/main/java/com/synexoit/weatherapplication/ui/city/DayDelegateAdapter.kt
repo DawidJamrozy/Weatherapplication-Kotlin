@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModel
 import android.support.v7.widget.RecyclerView
 import com.synexoit.weatherapplication.databinding.ItemDayBinding
 import com.synexoit.weatherapplication.presentation.data.entity.DayData
-import com.synexoit.weatherapplication.presentation.data.util.ViewType
+import com.synexoit.weatherapplication.presentation.util.ViewType
 import com.synexoit.weatherapplication.ui.base.adapter.BaseBindingAdapter
 
 /**

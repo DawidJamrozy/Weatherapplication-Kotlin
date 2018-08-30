@@ -1,6 +1,6 @@
 package com.synexoit.weatherapplication.presentation.data.entity
 
-import com.synexoit.weatherapplication.presentation.data.util.ViewType
+import com.synexoit.weatherapplication.presentation.util.ViewType
 
 /**
  * Created by dawidjamrozy on 09.05.2018.

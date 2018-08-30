@@ -2,7 +2,7 @@ package com.synexoit.weatherapplication.presentation.data.entity
 
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
-import com.synexoit.weatherapplication.presentation.data.util.ViewType
+import com.synexoit.weatherapplication.presentation.util.ViewType
 
 /**
  * Created by dawidjamrozy on 14.05.2018.

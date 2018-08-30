@@ -1,6 +1,6 @@
 package com.synexoit.weatherapplication.presentation.data.entity
 
-import com.synexoit.weatherapplication.presentation.data.util.ViewType
+import com.synexoit.weatherapplication.presentation.util.ViewType
 
 class Progress : ViewType {
 

@@ -4,7 +4,7 @@ import com.synexoit.weatherapplication.presentation.data.entity.CityPreview
 import com.synexoit.weatherapplication.presentation.data.entity.DayData
 import com.synexoit.weatherapplication.presentation.data.entity.DayDetails
 import com.synexoit.weatherapplication.presentation.data.entity.Progress
-import com.synexoit.weatherapplication.presentation.data.util.ViewType
+import com.synexoit.weatherapplication.presentation.util.ViewType
 import com.synexoit.weatherapplication.ui.city.DayDelegateAdapter
 import com.synexoit.weatherapplication.ui.city.DayDetailsDelegateAdapter
 import com.synexoit.weatherapplication.ui.search.adapter.CityPreviewDelegateAdapter
