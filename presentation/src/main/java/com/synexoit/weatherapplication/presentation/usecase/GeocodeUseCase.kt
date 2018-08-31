@@ -11,16 +11,13 @@ class GeocodeUseCase @Inject constructor(private val geocodeRepository: GeocodeR
 
     companion object {
         private const val LANGUAGE = "language"
-        private const val DELIMITER = ","
     }
 
     fun getGeocodeCityData(lat: Double, lng: Double): Single<CityPlace> {
         val language = sharedPreferencesManager.getString(LANGUAGE)
         return geocodeRepository.getGeocodeCityData(lat, lng, language)
                 .map {
-                    val city = it.results[0]
-                    val name = city.formattedAddress.substringBefore(DELIMITER)
-                    CityPlace(name, city.formattedAddress, lat, lng, city.placeId)
+                    CityPlace(it.name, it.formattedAddress, lat, lng, it.placeId)
                 }
     }
 }
