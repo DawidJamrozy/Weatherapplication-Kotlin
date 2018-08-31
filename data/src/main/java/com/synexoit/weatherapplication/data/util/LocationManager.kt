@@ -58,26 +58,32 @@ class LocationManager(context: Context) {
 
         if (isNetworkEnabled) {
             Timber.d("Using network provider.")
-            locationManager.removeUpdates(locationListener)
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, locationListener)
-            locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+            locationManager.run {
+                removeUpdates(locationListener)
+                requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, locationListener)
+                getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+            }
         }
 
         val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
         if (isGpsEnabled) {
             Timber.d("Using GPS provider.")
-            locationManager.removeUpdates(locationListener)
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
-            locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            locationManager.run {
+                removeUpdates(locationListener)
+                requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
+                getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            }
         }
 
         val criteria = Criteria()
-        criteria.accuracy = Criteria.ACCURACY_COARSE
-        criteria.isAltitudeRequired = false
-        criteria.isSpeedRequired = false
-        criteria.isBearingRequired = false
-        criteria.isCostAllowed = false
+        criteria.run {
+            accuracy = Criteria.ACCURACY_COARSE
+            isAltitudeRequired = false
+            isSpeedRequired = false
+            isBearingRequired = false
+            isCostAllowed = false
+        }
 
         locationManager.requestSingleUpdate(criteria, locationListener, null)
     }

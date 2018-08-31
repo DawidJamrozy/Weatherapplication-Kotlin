@@ -24,7 +24,7 @@ import javax.inject.Singleton
 class ApiModule {
 
     /**
-     * Provides JSONObjectMapper
+     * Provides JSONObjectMapper instance
      */
     @Provides
     @Singleton
@@ -38,15 +38,15 @@ class ApiModule {
     }
 
     /**
-     * Provides OkHttpClient
+     * Provides OkHttpClient instance
      */
     @Provides
     @Singleton
     internal fun provideOkHttpClient(): OkHttpClient {
         val builder = OkHttpClient.Builder()
         builder.connectTimeout(30, TimeUnit.SECONDS)
-        builder.readTimeout(45, TimeUnit.SECONDS)
-        builder.writeTimeout(45, TimeUnit.SECONDS)
+        builder.readTimeout(20, TimeUnit.SECONDS)
+        builder.writeTimeout(20, TimeUnit.SECONDS)
 
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -87,7 +87,7 @@ class ApiModule {
     }
 
     /**
-     * Provides WeatherApi
+     * Provides WeatherApi instance
      */
     @Provides
     @Singleton
@@ -96,7 +96,7 @@ class ApiModule {
     }
 
     /**
-     * Provides GoogleApi
+     * Provides GoogleApi instance
      */
     @Provides
     @Singleton
@@ -104,11 +104,13 @@ class ApiModule {
         return retrofit.create<GoogleApi>(GoogleApi::class.java)
     }
 
+
+    /**
+     * Provides GoogleApi key
+     */
     @Provides
     @Singleton
     internal fun provideGoogleApiKey(context: Context): String {
         return context.getString(R.string.GOOGLE_API_KEY)
     }
-
-
 }
