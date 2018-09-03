@@ -2,7 +2,6 @@ package com.synexoit.weatherapplication.presentation.viewmodel.city
 
 import android.arch.lifecycle.MutableLiveData
 import com.synexoit.weatherapplication.data.entity.darksky.City
-import com.synexoit.weatherapplication.data.exceptions.Failure
 import com.synexoit.weatherapplication.presentation.data.entity.CityPlace
 import com.synexoit.weatherapplication.presentation.usecase.CityUseCase
 import com.synexoit.weatherapplication.presentation.usecase.WeatherUseCase

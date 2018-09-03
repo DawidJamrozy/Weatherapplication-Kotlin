@@ -180,4 +180,6 @@ dependencies {
     // JUnit
     androidTestImplementation mobileUiTestDependencies.junit
 
+    androidTestImplementation "android.arch.core:core-testing:1.1.1"
+
 }

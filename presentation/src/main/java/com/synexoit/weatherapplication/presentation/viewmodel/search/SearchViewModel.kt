@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(private val weatherUseCase: WeatherUseCase,
                                           private val cityPreviewUseCase: CityPreviewUseCase,
-                                          private val cityUseCase: CityUseCase,
+                                          private val cityUseCaseImpl: CityUseCase,
                                           private val geocodeUseCase: GeocodeUseCase) : BaseViewModel() {
 
     companion object {
@@ -107,7 +107,7 @@ class SearchViewModel @Inject constructor(private val weatherUseCase: WeatherUse
                 pairList.add(Pair(it.placeId, list.indexOf(it)))
             }
 
-            addDisposable(cityUseCase.swapPositionsAndUpdateDatabase(pairList)
+            addDisposable(cityUseCaseImpl.swapPositionsAndUpdateDatabase(pairList)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(

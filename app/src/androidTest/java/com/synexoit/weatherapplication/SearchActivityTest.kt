@@ -1,37 +1,41 @@
 package com.synexoit.weatherapplication
 
+import android.arch.core.executor.testing.InstantTaskExecutorRule
+import android.arch.lifecycle.Observer
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
-import com.nhaarman.mockito_kotlin.whenever
-import com.synexoit.weatherapplication.data.repository.CityPreviewRepository
-import com.synexoit.weatherapplication.data.repository.CityRepository
-import com.synexoit.weatherapplication.data.repository.GeocodeRepository
-import com.synexoit.weatherapplication.data.repository.WeatherRepository
+import com.nhaarman.mockito_kotlin.*
+import com.synexoit.weatherapplication.presentation.data.entity.MainState
+import com.synexoit.weatherapplication.presentation.usecase.CityUseCase
+import com.synexoit.weatherapplication.presentation.viewmodel.main.MainViewModel
 import com.synexoit.weatherapplication.ui.search.SearchActivity
-import com.synexoit.weatherapplication.presentation.viewmodel.search.SearchViewModel
 import io.reactivex.Maybe
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import javax.inject.Inject
+import org.mockito.Captor
+import org.mockito.Mock
+import org.mockito.Mockito.verify
 
 @RunWith(AndroidJUnit4::class)
 class SearchActivityTest : BaseAndroidTest<SearchActivity>(SearchActivity::class.java) {
 
-    @Inject
-    lateinit var weatherRepository: WeatherRepository
+    @get:Rule
+    var rule = InstantTaskExecutorRule()
 
-    @Inject
-    lateinit var cityPreviewRepository: CityPreviewRepository
-
-    @Inject
-    lateinit var cityRepository: CityRepository
-
-    @Inject
-    lateinit var geocodeRepository: GeocodeRepository
-
-    private lateinit var searchViewModel: SearchViewModel
     private lateinit var application: WeatherApplication
+    private val observerState = mock<Observer<MainState>>()
+
+    @Mock
+    lateinit var cityUseCase: CityUseCase
+
+  /*  @Inject
+    lateinit var cityRepository: CityRepository*/
+
+    @Captor
+    private lateinit var captor: KArgumentCaptor<List<String>>
+    private lateinit var mainViewModel: MainViewModel
 
     @Before
     fun initSetup() {
@@ -40,15 +44,29 @@ class SearchActivityTest : BaseAndroidTest<SearchActivity>(SearchActivity::class
         testApplicationComponent.inject(this)
         application.setApplicationComponent(testApplicationComponent)
 
-        /*    val app = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as WeatherApplication
-            searchViewModel = SearchViewModel(weatherRepository, cityPreviewRepository, cityRepository,
-                    geocodeRepository, app)*/
+        captor = argumentCaptor()
+        cityUseCase = mock()
+        mainViewModel = MainViewModel(cityUseCase)
     }
 
     @Test
-    fun testDupa() {
-        whenever(cityPreviewRepository.getCityPreviewList()).thenReturn(Maybe.just(listOf()))
-        searchViewModel = SearchViewModel(weatherRepository, cityPreviewRepository, cityRepository,
-                geocodeRepository, application)
+    fun viewModelExecutesUseCase() {
+        val response = MainState(listOf())
+        whenever(cityUseCase.dupa()).thenReturn(Maybe.just(response))
+
+        mainViewModel.loadCityIdListFromDatabase()
+
+        verify(cityUseCase, times(1)).dupa()
+    }
+
+    @Test
+    fun dupeczka() {
+        val response = MainState(listOf())
+        whenever(cityUseCase.dupa()).thenReturn(Maybe.just(response))
+
+        mainViewModel.cityIdList.observeForever(observerState)
+        mainViewModel.loadCityIdListFromDatabase()
+
+
     }
 }

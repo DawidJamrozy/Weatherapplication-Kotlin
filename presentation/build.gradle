@@ -30,6 +30,11 @@ android {
         }
     }
 
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 
     kapt {
         useBuildCache = true
@@ -47,27 +52,44 @@ dependencies {
     api project(":data")
 
     // Kotlin
-    implementation presentationDependences.kotlin
+    implementation presentationDependencies.kotlin
 
     // Multidex
-    implementation presentationDependences.multidex
+    implementation presentationDependencies.multidex
 
     // Support libraries
-    implementation presentationDependences.appcompatV7
+    implementation presentationDependencies.appcompatV7
 
     // RxJava
-    implementation presentationDependences.rxJava
-    implementation presentationDependences.rxAndroid
+    implementation presentationDependencies.rxJava
+    implementation presentationDependencies.rxAndroid
 
     // Dagger
-    implementation presentationDependences.dagger
-    implementation presentationDependences.daggerAndroid
-    implementation presentationDependences.daggerAndroidSupport
-    kapt presentationDependences.daggerCompiler
-    kapt presentationDependences.daggerProcessor
-    kaptAndroidTest presentationDependences.daggerCompiler
+    implementation presentationDependencies.dagger
+    implementation presentationDependencies.daggerAndroid
+    implementation presentationDependencies.daggerAndroidSupport
+    kapt presentationDependencies.daggerCompiler
+    kapt presentationDependencies.daggerProcessor
+    kaptAndroidTest presentationDependencies.daggerCompiler
 
     // Logging
-    implementation presentationDependences.timber
+    implementation presentationDependencies.timber
+
+    // Robolectric
+    testImplementation presentationTestDependencies.robolectric
+
+    // JUnit
+    testImplementation presentationTestDependencies.junit
+
+    // Test Mockito
+    testImplementation presentationTestDependencies.mockitoAndroid
+    testImplementation presentationTestDependencies.mockitoKotlin
+
+    // JUnit
+    androidTestImplementation presentationTestDependencies.junit
+
+    // Test Mockito
+    androidTestImplementation presentationTestDependencies.mockitoAndroid
+    androidTestImplementation presentationTestDependencies.mockitoKotlin
 
 }

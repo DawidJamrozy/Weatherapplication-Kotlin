@@ -9,6 +9,7 @@ import com.synexoit.weatherapplication.data.extensions.failure
 import com.synexoit.weatherapplication.data.extensions.getViewModel
 import com.synexoit.weatherapplication.data.extensions.observe
 import com.synexoit.weatherapplication.databinding.ActivityMainBinding
+import com.synexoit.weatherapplication.presentation.data.entity.MainState
 import com.synexoit.weatherapplication.presentation.viewmodel.main.MainViewModel
 import com.synexoit.weatherapplication.ui.base.BaseFragmentActivity
 import com.synexoit.weatherapplication.ui.city.CityFragmentBuilder
@@ -39,7 +40,11 @@ class MainActivity : BaseFragmentActivity<ActivityMainBinding>() {
         }
 
         binding.vm = viewModel
+
+        if(savedInstanceState == null)
+            viewModel.loadCityIdListFromDatabase()
     }
+
 
     private fun setUpViewPagerAdapter(cityIdList: List<String>) {
         val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
@@ -47,8 +52,8 @@ class MainActivity : BaseFragmentActivity<ActivityMainBinding>() {
         binding.viewPager.adapter = viewPagerAdapter
     }
 
-    private fun handleCityIdList(cityIdList: List<String>?) {
-        cityIdList?.let {list -> if(list.isEmpty()) finish() else setUpViewPagerAdapter(list) }
+    private fun handleCityIdList(mainState: MainState?) {
+        mainState?.let { if(it.idList.isEmpty()) finish() else setUpViewPagerAdapter(it.idList) }
     }
 
     private fun handleError(throwable: Throwable?) {
