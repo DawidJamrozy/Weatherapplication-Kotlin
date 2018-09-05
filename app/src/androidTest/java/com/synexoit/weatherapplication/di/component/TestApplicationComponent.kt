@@ -2,9 +2,10 @@ package com.synexoit.weatherapplication.di.component
 
 import android.app.Application
 import android.content.Context
-import com.synexoit.weatherapplication.SearchActivityTest
+import com.synexoit.weatherapplication.SplashActivityTest
 import com.synexoit.weatherapplication.di.module.ActivityModuleBuilder
 import com.synexoit.weatherapplication.di.module.TestApplicationModule
+import com.synexoit.weatherapplication.search.SearchActivityTest
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -30,5 +31,6 @@ interface TestApplicationComponent : ApplicationComponent {
         fun build(): TestApplicationComponent
     }
 
-    fun inject(testActivity: SearchActivityTest)
+    fun inject(searchActivity: SearchActivityTest)
+    fun inject(splashActivity: SplashActivityTest)
 }

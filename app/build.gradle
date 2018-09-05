@@ -15,7 +15,9 @@ android {
         targetSdkVersion globalConfiguration["android_target_sdk_version"]
         versionCode globalConfiguration["android_version_code"]
         versionName globalConfiguration["android_version_name"]
+
         testInstrumentationRunner "com.synexoit.weatherapplication.TestRunner"
+
         multiDexEnabled true
 
         javaCompileOptions {
@@ -181,5 +183,7 @@ dependencies {
     androidTestImplementation mobileUiTestDependencies.junit
 
     androidTestImplementation "android.arch.core:core-testing:1.1.1"
+
+    androidTestImplementation mobileUiTestDependencies.rx2Idler
 
 }

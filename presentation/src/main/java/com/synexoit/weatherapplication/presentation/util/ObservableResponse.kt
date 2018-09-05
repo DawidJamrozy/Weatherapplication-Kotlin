@@ -29,7 +29,11 @@ abstract class ObservableResponse<Result> {
         return loadFromDatabase()
                 .filter { !shouldFetchNewData(it) }
                 .map { Resource.success(it) }
-                .switchIfEmpty(createCall().map { saveResponseAndReturnResult(it.data!!) })
+                .switchIfEmpty(createCall().
+                        map {
+                            saveResponseAndReturnResult(it.data!!)
+                        }
+                )
                 .onErrorReturn { Resource.error(it.message ?: ERROR_MESSAGE) }
     }
 }

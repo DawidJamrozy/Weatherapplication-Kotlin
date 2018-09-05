@@ -149,8 +149,8 @@ ext {
     presentationTestDependencies = [
             robolectric             : "org.robolectric:robolectric:${robolectric_version}",
             junit                   : "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}",
-            mockitoAndroid  : "org.mockito:mockito-android:${mockito_android_version}",
-            mockitoKotlin   : "com.nhaarman:mockito-kotlin:${mockito_kotlin_version}"
+            mockitoAndroid          : "org.mockito:mockito-android:${mockito_android_version}",
+            mockitoKotlin           : "com.nhaarman:mockito-kotlin:${mockito_kotlin_version}"
     ]
 
     mobileDependencies = [

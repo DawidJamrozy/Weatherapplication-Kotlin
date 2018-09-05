@@ -92,4 +92,7 @@ dependencies {
     androidTestImplementation presentationTestDependencies.mockitoAndroid
     androidTestImplementation presentationTestDependencies.mockitoKotlin
 
+    testImplementation "android.arch.core:core-testing:1.1.1"
+
+
 }

@@ -1,10 +1,7 @@
 package com.synexoit.weatherapplication.di.module
 
 import com.nhaarman.mockito_kotlin.mock
-import com.synexoit.weatherapplication.data.repository.CityPreviewRepository
-import com.synexoit.weatherapplication.data.repository.CityRepository
-import com.synexoit.weatherapplication.data.repository.GeocodeRepository
-import com.synexoit.weatherapplication.data.repository.WeatherRepository
+import com.synexoit.weatherapplication.data.repository.*
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -27,5 +24,9 @@ class TestRepositoryModule {
     @Provides
     @Singleton
     fun provideGeocodeRepository(): GeocodeRepository = mock()
+
+    @Provides
+    @Singleton
+    fun provide(): LocationRepository = mock()
 
 }

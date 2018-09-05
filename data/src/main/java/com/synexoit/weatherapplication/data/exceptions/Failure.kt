@@ -6,9 +6,9 @@ package com.synexoit.weatherapplication.data.exceptions
 sealed class Failure : Throwable() {
     class NetworkConnection : Failure()
     class ServerError : Failure()
-    class CityAlreadyInDatabaseException : Failure()
-    class NoLocationAvailable: Failure()
-    class UnknownAppError(override val message: String? = null): Failure()
+    class CityAlreadyInDatabaseException() : Failure()
+    class NoLocationAvailable : Failure()
+    class UnknownAppError(override val message: String? = null) : Failure()
 
     /** * Extend this class for feature specific failures.*/
     abstract class FeatureFailure : Failure()

@@ -7,12 +7,14 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.os.HandlerThread
 import com.synexoit.weatherapplication.data.entity.CurrentLocation
 import com.synexoit.weatherapplication.data.exceptions.Failure
 import io.reactivex.Single
 import timber.log.Timber
+import javax.inject.Inject
 
-class LocationManager(context: Context) {
+class LocationManager @Inject constructor(context: Context) {
 
     private var locationManager: LocationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
@@ -26,9 +28,8 @@ class LocationManager(context: Context) {
         override fun onProviderDisabled(s: String) {}
     }
 
-    fun isLocationEnabled(): Boolean {
-        return locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-                || locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+    fun isLocationEnabled(): Single<Boolean> {
+        return Single.just(isEnabled())
     }
 
     @SuppressLint("MissingPermission")
@@ -56,11 +57,15 @@ class LocationManager(context: Context) {
     private fun updateLocationTracking() {
         val isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
 
+        val handlerThread = HandlerThread("asd")
+        handlerThread.start()
+
         if (isNetworkEnabled) {
             Timber.d("Using network provider.")
             locationManager.run {
                 removeUpdates(locationListener)
-                requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, locationListener)
+
+                requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, locationListener,handlerThread.looper)
                 getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
             }
         }
@@ -71,7 +76,7 @@ class LocationManager(context: Context) {
             Timber.d("Using GPS provider.")
             locationManager.run {
                 removeUpdates(locationListener)
-                requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
+                requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener,handlerThread.looper)
                 getLastKnownLocation(LocationManager.GPS_PROVIDER)
             }
         }
@@ -87,4 +92,7 @@ class LocationManager(context: Context) {
 
         locationManager.requestSingleUpdate(criteria, locationListener, null)
     }
+
+    private fun isEnabled(): Boolean = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+            || locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 }

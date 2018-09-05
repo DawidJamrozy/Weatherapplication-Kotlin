@@ -16,8 +16,6 @@ class GeocodeUseCase @Inject constructor(private val geocodeRepository: GeocodeR
     fun getGeocodeCityData(lat: Double, lng: Double): Single<CityPlace> {
         val language = sharedPreferencesManager.getString(LANGUAGE)
         return geocodeRepository.getGeocodeCityData(lat, lng, language)
-                .map {
-                    CityPlace(it.name, it.formattedAddress, lat, lng, it.placeId)
-                }
+                .map { CityPlace(it.name, it.formattedAddress, lat, lng, it.placeId) }
     }
 }

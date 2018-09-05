@@ -1,6 +1,7 @@
 package com.synexoit.weatherapplication.ui.search
 
 import android.Manifest
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -18,28 +19,23 @@ import com.google.android.gms.location.places.Place
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
 import com.google.android.gms.location.places.ui.PlaceSelectionListener
 import com.synexoit.weatherapplication.R
-import com.synexoit.weatherapplication.data.entity.CurrentLocation
-import com.synexoit.weatherapplication.data.exceptions.Failure
 import com.synexoit.weatherapplication.data.extensions.*
-import com.synexoit.weatherapplication.data.repository.LocationListener
-import com.synexoit.weatherapplication.data.repository.LocationRepository
 import com.synexoit.weatherapplication.databinding.ActivitySearchBinding
 import com.synexoit.weatherapplication.presentation.data.entity.CityPlace
 import com.synexoit.weatherapplication.presentation.data.entity.CityPreview
+import com.synexoit.weatherapplication.presentation.util.ListStatus
+import com.synexoit.weatherapplication.presentation.util.ListWrapper
 import com.synexoit.weatherapplication.presentation.viewmodel.search.SearchViewModel
 import com.synexoit.weatherapplication.ui.base.BaseActivity
 import com.synexoit.weatherapplication.ui.base.adapter.UniversalAdapter
 import com.synexoit.weatherapplication.ui.main.MainActivity
 import com.synexoit.weatherapplication.ui.search.adapter.CityPreviewDelegateAdapter
-import com.synexoit.weatherapplication.presentation.util.ListStatus
-import com.synexoit.weatherapplication.presentation.util.ListWrapper
 import com.synexoit.weatherapplication.util.RecyclerViewTouchHelper
 import kotlinx.android.synthetic.main.basic_custom_toolbar.*
-import javax.inject.Inject
 
 
 @HensonNavigable
-class SearchActivity : BaseActivity<ActivitySearchBinding>(), LocationListener {
+class SearchActivity : BaseActivity<ActivitySearchBinding>() {
 
     companion object {
         private const val LOCATION_PERMISSIONS_REQUEST_CODE = 1000
@@ -50,9 +46,6 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(), LocationListener {
     override val screenTitle: String
         get() = getString(R.string.fragment_search_toolbar_title)
 
-    @Inject
-    protected lateinit var locationProvider: LocationRepository
-
     private lateinit var viewModel: SearchViewModel
 
     private val recyclerAdapter = UniversalAdapter()
@@ -62,6 +55,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(), LocationListener {
         viewModel = getViewModel(viewModelFactory) {
             observe(cityList, ::handleCityPreviewList)
             observe(onClickEvent, ::handleOnClick)
+            observe(isLocationEnabled, ::handleLocationStatus)
             failure(failure, ::handleError)
         }
         binding.vm = viewModel
@@ -89,20 +83,17 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(), LocationListener {
 
     private fun getUserLocation() {
         if (isLocationPermissionGranted()) {
-            if (locationProvider.isLocationEnabled()) {
-                startLocatingUser()
-            } else {
-                showLocalizationOffDialog()
-            }
+            viewModel.getLocationStatus()
         } else {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSIONS_REQUEST_CODE)
+            ActivityCompat.requestPermissions(this, arrayOf(ACCESS_FINE_LOCATION),
+                    LOCATION_PERMISSIONS_REQUEST_CODE)
         }
     }
 
     private fun startLocatingUser() {
         if (!recyclerAdapter.isProgressVisible()) {
             recyclerAdapter.showProgressAtLastPosition()
-            locationProvider.getUserLocation()
+            viewModel.getCurrentLocation(recyclerAdapter.getListSize())
         } else {
             showToast(getString(R.string.operation_in_progress))
         }
@@ -119,13 +110,8 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(), LocationListener {
                 .show()
     }
 
-    override fun onLocationUpdate(currentLocation: CurrentLocation) {
-        viewModel.getGeocodeCity(currentLocation.lat, currentLocation.lng, recyclerAdapter.getListSize())
-    }
-
-    override fun onLocationError(error: Throwable) {
-        showToast(error.message)
-        recyclerAdapter.hideProgress()
+    private fun handleLocationStatus(isEnabled: Boolean?) {
+        isEnabled?.let { if (it) startLocatingUser() else showLocalizationOffDialog() }
     }
 
     private fun handleCityPreviewList(cityList: ListWrapper<CityPreview>?) {

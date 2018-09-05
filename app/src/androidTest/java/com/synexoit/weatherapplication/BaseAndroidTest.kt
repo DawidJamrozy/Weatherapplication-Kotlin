@@ -1,19 +1,37 @@
 package com.synexoit.weatherapplication
 
-import com.synexoit.weatherapplication.di.component.TestApplicationComponent
+import android.support.test.InstrumentationRegistry
+import android.support.test.espresso.intent.Intents
+import android.support.test.espresso.intent.matcher.IntentMatchers
+import android.support.test.rule.ActivityTestRule
 import com.synexoit.weatherapplication.ui.base.BaseActivity
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
 
 abstract class BaseAndroidTest<A : BaseActivity<*>>(clazz: Class<A>, initialTouchMode: Boolean = false,
                                                     launchActivity: Boolean = false) {
 
-    lateinit var testApplicationComponent: TestApplicationComponent
+    @get:Rule
+    var rule = ActivityTestRule<A>(clazz, initialTouchMode, launchActivity)
 
-    protected fun replaceApplicationTestComponent(application: WeatherApplication) {
-        testApplicationComponent = TestClient.obtainApplicationTestComponent(application)
-        testApplicationComponent.inject(application)
-        application.setApplicationComponent(testApplicationComponent)
+    protected val mContext = InstrumentationRegistry.getTargetContext()
+
+    protected val application: WeatherApplication = InstrumentationRegistry.getInstrumentation()
+            .targetContext.applicationContext as WeatherApplication
+
+    fun wasActivityLaunched(className: String) {
+        Intents.intended(IntentMatchers.hasComponent(className))
     }
 
+    @Before
+    open fun initSetup() {
+        Intents.init()
+    }
 
+    @After
+    fun clear() {
+        Intents.release()
+    }
 
 }
