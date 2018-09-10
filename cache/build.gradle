@@ -13,8 +13,6 @@ android {
         targetSdkVersion globalConfiguration["android_target_sdk_version"]
         versionCode globalConfiguration["android_version_code"]
         versionName globalConfiguration["android_version_name"]
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -37,9 +35,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    // Support libraries
-    implementation cacheDependencies.appcompatV7
 
     // Kotlin
     implementation cacheDependencies.kotlin

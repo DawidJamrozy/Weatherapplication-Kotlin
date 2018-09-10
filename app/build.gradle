@@ -116,16 +116,6 @@ dependencies {
     implementation mobileDependencies.rxJava
     implementation mobileDependencies.rxAndroid
 
-    // Jackson
-    implementation mobileDependencies.jacksonCore
-    implementation mobileDependencies.jacksonDatabind
-    implementation mobileDependencies.jacksonAnnotations
-    implementation mobileDependencies.jacksonKotlin
-    implementation mobileDependencies.jacksonDataFormat
-
-    // Keyboard visibility
-    implementation mobileDependencies.keyboardVisibility
-
     // Dart
     implementation mobileDependencies.dart
     kapt mobileDependencies.dartProcessor
@@ -142,29 +132,28 @@ dependencies {
     // Android Chart
     implementation mobileDependencies.androidChart
 
-    // Room
-    implementation mobileDependencies.room
-    implementation mobileDependencies.roomRxJava2
-    kapt mobileDependencies.roomCompiler
-    annotationProcessor mobileDependencies.roomCompiler
-
     // Lifecycle
     implementation mobileDependencies.lifecycle
     implementation mobileDependencies.lifecycleExtensions
     kapt mobileDependencies.lifecycleCompiler
 
-    // OkHttp
-    implementation mobileDependencies.okhttp
-    implementation mobileDependencies.okhttpInterceptor
-
     // Autocomplete
     implementation mobileDependencies.autocomplete
 
-    // Debug Database
-    implementation mobileDependencies.debugDatabase
+    // UI TEST
 
     // JUnit
-    testImplementation mobileTestDependencies.junit
+    androidTestImplementation mobileUiTestDependencies.junit
+
+    // Test Mockito
+    androidTestImplementation mobileUiTestDependencies.mockitoAndroid
+    androidTestImplementation mobileUiTestDependencies.mockitoKotlin
+
+    // Dagger
+    kaptAndroidTest mobileDependencies.daggerCompiler
+
+    // Test RxIdler
+    androidTestImplementation mobileUiTestDependencies.rx2Idler
 
     // Test Espresso Barista
     androidTestImplementation(mobileUiTestDependencies.barista) {
@@ -172,18 +161,7 @@ dependencies {
         exclude group: 'org.jetbrains.kotlin'
     }
 
-    // Test RxIdler
-    androidTestImplementation mobileUiTestDependencies.rx2Idler
-
-    // Test Mockito
-    androidTestImplementation mobileUiTestDependencies.mockitoAndroid
-    androidTestImplementation mobileUiTestDependencies.mockitoKotlin
-
-    // JUnit
-    androidTestImplementation mobileUiTestDependencies.junit
-
-    androidTestImplementation "android.arch.core:core-testing:1.1.1"
-
-    androidTestImplementation mobileUiTestDependencies.rx2Idler
+    // Arch core
+    androidTestImplementation mobileUiTestDependencies.archCore
 
 }

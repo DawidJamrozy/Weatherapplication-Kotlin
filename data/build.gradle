@@ -13,10 +13,6 @@ android {
         targetSdkVersion globalConfiguration["android_target_sdk_version"]
         versionCode globalConfiguration["android_version_code"]
         versionName globalConfiguration["android_version_name"]
-        multiDexEnabled true
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
@@ -40,14 +36,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    // Support libraries
-    implementation dataDependencies.appcompatV7
-
     api project(":remote")
     api project(":cache")
-
-    // Multidex
-    implementation dataDependencies.multidex
 
     // Kotlin
     implementation dataDependencies.kotlin

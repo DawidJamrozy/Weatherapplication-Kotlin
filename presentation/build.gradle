@@ -13,9 +13,6 @@ android {
         targetSdkVersion globalConfiguration["android_target_sdk_version"]
         versionCode globalConfiguration["android_version_code"]
         versionName globalConfiguration["android_version_name"]
-        multiDexEnabled true
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -30,18 +27,8 @@ android {
         }
     }
 
-    testOptions {
-        unitTests {
-            includeAndroidResources = true
-        }
-    }
-
     kapt {
         useBuildCache = true
-    }
-
-    dataBinding {
-        enabled = true
     }
 }
 
@@ -54,8 +41,8 @@ dependencies {
     // Kotlin
     implementation presentationDependencies.kotlin
 
-    // Multidex
-    implementation presentationDependencies.multidex
+    // Logging
+    implementation mobileDependencies.timber
 
     // Support libraries
     implementation presentationDependencies.appcompatV7
@@ -70,29 +57,5 @@ dependencies {
     implementation presentationDependencies.daggerAndroidSupport
     kapt presentationDependencies.daggerCompiler
     kapt presentationDependencies.daggerProcessor
-    kaptAndroidTest presentationDependencies.daggerCompiler
-
-    // Logging
-    implementation presentationDependencies.timber
-
-    // Robolectric
-    testImplementation presentationTestDependencies.robolectric
-
-    // JUnit
-    testImplementation presentationTestDependencies.junit
-
-    // Test Mockito
-    testImplementation presentationTestDependencies.mockitoAndroid
-    testImplementation presentationTestDependencies.mockitoKotlin
-
-    // JUnit
-    androidTestImplementation presentationTestDependencies.junit
-
-    // Test Mockito
-    androidTestImplementation presentationTestDependencies.mockitoAndroid
-    androidTestImplementation presentationTestDependencies.mockitoKotlin
-
-    testImplementation "android.arch.core:core-testing:1.1.1"
-
 
 }

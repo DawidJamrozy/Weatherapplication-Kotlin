@@ -13,8 +13,6 @@ android {
         targetSdkVersion globalConfiguration["android_target_sdk_version"]
         versionCode globalConfiguration["android_version_code"]
         versionName globalConfiguration["android_version_name"]
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -38,9 +36,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    // Support libraries
-    implementation remoteDependencies.appcompatV7
-
     // Kotlin
     implementation remoteDependencies.kotlin
 
@@ -50,7 +45,6 @@ dependencies {
     implementation remoteDependencies.daggerAndroidSupport
     kapt remoteDependencies.daggerCompiler
     kapt remoteDependencies.daggerProcessor
-    kaptAndroidTest remoteDependencies.daggerCompiler
 
     // Retrofit
     implementation remoteDependencies.retrofit
