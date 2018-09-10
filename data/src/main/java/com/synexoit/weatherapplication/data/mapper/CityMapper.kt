@@ -11,7 +11,7 @@ class CityMapper @Inject constructor(private val hourlyMapper: HourlyMapper,
 
     override fun fromCache(type: CityCache): City {
         return type.run {
-            City(id, placeId, name, address, addressDescription, refreshDate, sortPosition, latitude,
+            City(id, placeId, name, address, refreshDate, sortPosition, latitude,
                     longitude, timezone, currentlyMapper.fromCache(currentlyCache!!),
                     hourlyMapper.fromCache(hourlyCache!!), dailyMapper.fromCache(dailyCache!!))
         }
@@ -19,7 +19,7 @@ class CityMapper @Inject constructor(private val hourlyMapper: HourlyMapper,
 
     override fun toCache(type: City): CityCache {
         return type.run {
-            CityCache(id, placeId, name, address, addressDescription, refreshDate, sortPosition,
+            CityCache(id, placeId, name, address, refreshDate, sortPosition,
                     latitude, longitude, timezone, currentlyMapper.toCache(currently),
                     hourlyMapper.toCache(hourly), dailyMapper.toCache(daily))
         }
@@ -27,7 +27,7 @@ class CityMapper @Inject constructor(private val hourlyMapper: HourlyMapper,
 
     override fun fromRemote(type: CityRemote): City {
         return type.run {
-            City(0, placeId, name, address, addressDescription, refreshDate, sortPosition, latitude,
+            City(0, placeId, name, address, refreshDate, sortPosition, latitude,
                     longitude, timezone, currentlyMapper.fromRemote(currentlyCache),
                     hourlyMapper.fromRemote(hourlyCache), dailyMapper.fromRemote(dailyCache))
         }

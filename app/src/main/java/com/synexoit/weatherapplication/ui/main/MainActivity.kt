@@ -12,7 +12,7 @@ import com.synexoit.weatherapplication.databinding.ActivityMainBinding
 import com.synexoit.weatherapplication.presentation.viewmodel.main.MainViewModel
 import com.synexoit.weatherapplication.ui.base.BaseFragmentActivity
 import com.synexoit.weatherapplication.ui.city.CityFragmentBuilder
-import com.synexoit.weatherapplication.util.ViewPagerAdapter
+import com.synexoit.weatherapplication.util.CityPagerAdapter
 import timber.log.Timber
 
 @HensonNavigable
@@ -46,9 +46,9 @@ class MainActivity : BaseFragmentActivity<ActivityMainBinding>() {
 
 
     private fun setUpViewPagerAdapter(cityIdList: List<String>) {
-        val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
-        cityIdList.onEach { viewPagerAdapter.addFragment(CityFragmentBuilder.newCityFragment(it)) }
-        binding.viewPager.adapter = viewPagerAdapter
+        val cityPagerAdapter = CityPagerAdapter(supportFragmentManager)
+        cityIdList.onEach { cityPagerAdapter.addFragment(CityFragmentBuilder.newCityFragment(it)) }
+        binding.viewPager.adapter = cityPagerAdapter
     }
 
     private fun handleCityIdList(list: List<String>?) {

@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter
 /**
  * Created by dawidjamrozy on 09.05.2018.
  */
-class ViewPagerAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager) {
+class CityPagerAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager) {
 
     private val fragmentList = ArrayList<Fragment>()
 

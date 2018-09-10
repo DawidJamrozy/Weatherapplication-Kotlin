@@ -7,11 +7,9 @@ import javax.inject.Inject
 
 class LocationRepositoryImpl @Inject constructor(private val locationManager: LocationManager) : LocationRepository {
 
-    override fun isLocationEnabled(): Single<Boolean> =
-            locationManager.isLocationEnabled()
+    override fun isLocationEnabled(): Single<Boolean> = locationManager.isLocationEnabled()
 
-    override fun getUserLocation(): Single<CurrentLocation> =
-            locationManager.getLastKnownLocation()
+    override fun getUserLocation(): Single<CurrentLocation> = locationManager.getLastKnownLocation()
 
 }
 

@@ -15,7 +15,7 @@ class DatabaseModule {
 
     companion object {
         private const val SHARED_PREFERENCES = "com.synexoit.weatherapplication_preferences"
-        private const val DATABASE_NAME = "weatherapplication_database"
+        private const val DATABASE_NAME = "weatherapplication_database_2"
     }
 
     @Singleton

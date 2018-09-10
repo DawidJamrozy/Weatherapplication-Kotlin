@@ -12,7 +12,6 @@ data class CityCache(@PrimaryKey(autoGenerate = true)
                      var placeId: String = "",
                      var name: String = "",
                      var address: String = "",
-                     var addressDescription: String = "",
                      var refreshDate: String = "",
                      var sortPosition: Int = 0,
                      var latitude: Double = 0.0,
@@ -22,7 +21,7 @@ data class CityCache(@PrimaryKey(autoGenerate = true)
                      @Ignore var hourlyCache: HourlyCache?,
                      @Ignore var dailyCache: DailyCache?) {
 
-    constructor() : this(0, "", "", "", "", "",
+    constructor() : this(0, "", "", "", "",
             0, 0.0, 0.0, "", null,
             null, null)
 

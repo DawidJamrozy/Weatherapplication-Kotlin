@@ -15,7 +15,7 @@ abstract class BaseAndroidTest<A : BaseActivity<*>>(clazz: Class<A>, initialTouc
     @get:Rule
     var rule = ActivityTestRule<A>(clazz, initialTouchMode, launchActivity)
 
-    protected val mContext = InstrumentationRegistry.getTargetContext()
+    protected val context = InstrumentationRegistry.getTargetContext()
 
     protected val application: WeatherApplication = InstrumentationRegistry.getInstrumentation()
             .targetContext.applicationContext as WeatherApplication

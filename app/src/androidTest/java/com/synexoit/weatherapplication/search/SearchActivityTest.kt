@@ -96,14 +96,13 @@ class SearchActivityTest : BaseAndroidTest<SearchActivity>(SearchActivity::class
         whenever(cityPreviewRepository.getCityPreviewList()).thenReturn(Maybe.just(listOf()))
         whenever(locationRepository.isLocationEnabled()).thenReturn(Single.just(false))
 
-
         launchActivity()
 
         assertRecyclerViewItemCount(R.id.recycler_view, 0)
         assertNotDisplayed(R.id.start_main_activity)
         clickOn(R.id.extra_button)
 
-        assertDisplayed(mContext.getString(R.string.localization_dialog_title))
+        assertDisplayed(context.getString(R.string.localization_dialog_title))
     }
 
     @Test
@@ -179,6 +178,6 @@ class SearchActivityTest : BaseAndroidTest<SearchActivity>(SearchActivity::class
     }
 
     private fun launchActivity() {
-        rule.launchActivity(Intent(mContext, SearchActivity::class.java))
+        rule.launchActivity(Intent(context, SearchActivity::class.java))
     }
 }
