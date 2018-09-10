@@ -2,11 +2,11 @@
 
 Sample app fully written in kotlin which allows to download and present actual weather data from darksky API. Created with MVVM software architectural pattern. Automation test included. The application is divided into modules:
 
-app - ui
-presentation - view models and related staff
-data - connects remote and cache, displays connected data and functionality to presentation layer
-remote - network data layer
-cache - database layer
+    app - ui
+    presentation - view models and related staff
+    data - connects remote and cache, displays connected data and functionality to presentation layer
+    remote - network data layer
+    cache - database layer
 
 Libraries used to create application.
 
