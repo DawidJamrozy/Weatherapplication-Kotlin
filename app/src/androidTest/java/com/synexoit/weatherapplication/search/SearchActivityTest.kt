@@ -1,3 +1,4 @@
+@file:Suppress("IllegalIdentifier")
 package com.synexoit.weatherapplication.search
 
 import android.content.Intent
@@ -66,7 +67,7 @@ class SearchActivityTest : BaseAndroidTest<SearchActivity>(SearchActivity::class
     }
 
     @Test
-    fun shouldShowItemInList() {
+    fun shouldShowItemsInList() {
         whenever(cityPreviewRepository.getCityPreviewList())
                 .thenReturn(Maybe.just(CityPreviewCreator.createCityPreviewDataList(4)))
 
@@ -77,7 +78,7 @@ class SearchActivityTest : BaseAndroidTest<SearchActivity>(SearchActivity::class
     }
 
     @Test
-    fun shouldStartMainActivityOnButtonClick() {
+    fun shouldStartMainActivityOnBottomButtonClick() {
         whenever(cityPreviewRepository.getCityPreviewList())
                 .thenReturn(Maybe.just(CityPreviewCreator.createCityPreviewDataList(1)))
         whenever(cityRepository.getCityPlaceIdList()).thenReturn(Maybe.just(listOf()))
@@ -133,7 +134,7 @@ class SearchActivityTest : BaseAndroidTest<SearchActivity>(SearchActivity::class
     }
 
     @Test
-    fun shouldNotAddSameSecondCity() {
+    fun shouldPreventFromAddingSameCitySecondTime() {
         val language = "pl"
         val currentLocation = CurrentLocation(20.0, 20.0)
         val geocodeData = GeocodeData("","", "")

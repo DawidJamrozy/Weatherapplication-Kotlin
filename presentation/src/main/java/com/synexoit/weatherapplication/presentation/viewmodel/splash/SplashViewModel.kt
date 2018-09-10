@@ -15,11 +15,7 @@ class SplashViewModel @Inject constructor(private val cityPreviewUseCase: CityPr
 
     val isCityTableEmpty = MutableLiveData<Boolean>()
 
-    init {
-        checkCityTableState()
-    }
-
-    private fun checkCityTableState() {
+    fun checkCityTableState() {
         addDisposable(cityPreviewUseCase.isAnyCityInDatabase()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

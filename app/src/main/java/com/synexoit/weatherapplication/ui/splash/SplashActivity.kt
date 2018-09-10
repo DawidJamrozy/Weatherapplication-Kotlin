@@ -47,6 +47,8 @@ class SplashActivity : AppCompatActivity() {
         }
 
         setUnitAndLanguageSettings()
+        if(savedInstanceState == null)
+            viewModel.checkCityTableState()
     }
 
     private fun setUnitAndLanguageSettings() {

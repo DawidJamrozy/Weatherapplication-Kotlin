@@ -27,6 +27,6 @@ class TestRepositoryModule {
 
     @Provides
     @Singleton
-    fun provide(): LocationRepository = mock()
+    fun provideLocationRepository(): LocationRepository = mock()
 
 }

@@ -5,5 +5,5 @@ import com.synexoit.weatherapplication.presentation.module.ViewModelModule
 import com.synexoit.weatherapplication.remote.module.ApiModule
 import dagger.Module
 
-@Module(includes = [ApiModule::class, ViewModelModule::class, DatabaseModule::class, TestRepositoryModule::class])
+@Module(includes = [ApiModule::class, ViewModelModule::class, TestDatabaseModule::class, TestRepositoryModule::class])
 class TestApplicationModule

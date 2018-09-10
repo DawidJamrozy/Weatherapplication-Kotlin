@@ -1,4 +1,4 @@
-package com.synexoit.weatherapplication.cache.module
+package com.synexoit.weatherapplication.di.module
 
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
@@ -11,19 +11,19 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class DatabaseModule {
+class TestDatabaseModule {
 
     companion object {
         private const val SHARED_PREFERENCES = "com.synexoit.weatherapplication_preferences"
-        private const val DATABASE_NAME = "weatherapplication_database"
+        private const val DATABASE_NAME = "weatherapplication_database_test"
     }
 
     @Singleton
     @Provides
     fun provideDatabaseInstance(application: Context): AppDatabase {
         return Room.databaseBuilder(application, AppDatabase::class.java, DATABASE_NAME)
-                .setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
                 .fallbackToDestructiveMigration()
+                .allowMainThreadQueries()
                 .build()
     }
 

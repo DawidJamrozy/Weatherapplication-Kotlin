@@ -1,3 +1,4 @@
+@file:Suppress("IllegalIdentifier")
 package com.synexoit.weatherapplication.city
 
 import android.content.Intent
@@ -39,7 +40,7 @@ class MainActivityTest : BaseAndroidTest<MainActivity>(MainActivity::class.java)
     }
 
     @Test
-    fun testCityFragmentView() {
+    fun testMainActivityCityFragmentDisplayStatus() {
         val cracowPlaceId = "ChIJ0RhONcBEFkcRv4pHdrW2a7Q"
 
         val city = objectMapper.readValue<City>(context.resources.openRawResource(R.raw.city_test_object),

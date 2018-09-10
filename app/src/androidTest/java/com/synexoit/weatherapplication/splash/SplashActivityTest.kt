@@ -1,3 +1,5 @@
+@file:Suppress("IllegalIdentifier")
+
 package com.synexoit.weatherapplication.splash
 
 import android.content.Intent
@@ -17,22 +19,23 @@ import com.synexoit.weatherapplication.ui.search.SearchActivity
 import com.synexoit.weatherapplication.ui.splash.SplashActivity
 import io.reactivex.Maybe
 import io.reactivex.Single
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.MockitoAnnotations
 import javax.inject.Inject
 
 @RunWith(AndroidJUnit4::class)
 class SplashActivityTest {
 
     @get:Rule
-    var rule = ActivityTestRule<SplashActivity>(SplashActivity::class.java)
+    var rule = ActivityTestRule<SplashActivity>(SplashActivity::class.java,false ,false)
 
-    protected val mContext = InstrumentationRegistry.getTargetContext()
+    private  val application: WeatherApplication = InstrumentationRegistry.getInstrumentation()
+            .targetContext.applicationContext as WeatherApplication
 
-    private lateinit var application: WeatherApplication
+    private val context = InstrumentationRegistry.getTargetContext()
 
     @Inject
     lateinit var cityPreviewRepository: CityPreviewRepository
@@ -42,36 +45,34 @@ class SplashActivityTest {
 
     @Before
     fun initSetup() {
-        MockitoAnnotations.initMocks(this)
-
-        application = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as WeatherApplication
+        Intents.init()
         val testApplicationComponent = TestClient.obtainApplicationTestComponent(application)
         testApplicationComponent.inject(this)
-
         application.setApplicationComponent(testApplicationComponent)
     }
 
     @Test
     fun shouldStartSearchActivity() {
-        Intents.init()
         whenever(cityPreviewRepository.getCityPreviewList()).thenReturn(Maybe.just(listOf()))
         whenever(cityPreviewRepository.isAnyCityInDatabase()).thenReturn(Single.just(true))
 
-        rule.launchActivity(Intent(mContext, SplashActivity::class.java))
+        rule.launchActivity(Intent(context, SplashActivity::class.java))
 
         intended(hasComponent(SearchActivity::class.java.name))
-        Intents.release()
     }
 
     @Test
     fun shouldStartMainActivity() {
-        Intents.init()
         whenever(cityRepository.getCityPlaceIdList()).thenReturn(Maybe.just(listOf()))
         whenever(cityPreviewRepository.isAnyCityInDatabase()).thenReturn(Single.just(false))
 
-        rule.launchActivity(Intent(mContext, SplashActivity::class.java))
+        rule.launchActivity(Intent(context, SplashActivity::class.java))
 
         intended(hasComponent(MainActivity::class.java.name))
+    }
+
+    @After
+    fun clear() {
         Intents.release()
     }
 }
