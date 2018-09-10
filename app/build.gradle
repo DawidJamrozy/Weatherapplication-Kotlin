@@ -164,4 +164,6 @@ dependencies {
     // Arch core
     androidTestImplementation mobileUiTestDependencies.archCore
 
+    // Room
+    androidTestImplementation mobileUiTestDependencies.room
 }
